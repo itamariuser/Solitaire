@@ -36,4 +36,9 @@ private:
 	std::unordered_map<SDL_Keycode, std::function<void(void)>> map;
 	void inputLoop();
 	void init_keyBindings();
+
+	bool isMouseDown;
+	void handleMouseDown(Point clickPos);
+	void handleMouseUp(Point clickPos);
+	void handleMouseMove(Point clickPos);
 };

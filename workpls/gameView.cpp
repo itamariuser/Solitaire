@@ -8,7 +8,7 @@
 
 GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
 		title(ntitle),xPos(nxPos),yPos(nyPos),width(nwidth),height(nheight),
-		flags(nflags),timeFrame(newTimeFrame),
+		flags(nflags),timeFrame(newTimeFrame), isMouseDown(false),
 		mainWindow(SDL_CreateWindow(title, xPos, yPos, width, height, flags)),
 		ren(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)
 	{
@@ -50,7 +50,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		SDL_Quit();
 		exit(retVal);
 	}
-	bool f = false;
+	
 	void GameView::handleInput()
 	{
 		SDL_Event e;
@@ -61,17 +61,46 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			else if (map.find(e.key.keysym.sym) != map.end())
 				map[e.key.keysym.sym]();
 			handleMouseEvents(e);
-				
 		}
 		
 	}
 	void GameView::handleMouseEvents(SDL_Event& e)
 	{
-		if (e.type == SDL_MOUSEBUTTONUP)
+		Point clickPos(0, 0);
+		SDL_GetMouseState(&clickPos.x, &clickPos.y);
+
+		if (e.type == SDL_MOUSEBUTTONDOWN)
 		{
-			f = true;
+			//TODO: call appropriate object's button up function
+			handleMouseDown(clickPos);
+		}
+		else if (e.type == SDL_MOUSEBUTTONUP)
+		{
+			//TODO: call appropriate object's button down function
+			handleMouseUp(clickPos);
+		}
+		else if (e.type == SDL_MOUSEMOTION)
+		{
+			//TODO: call appropriate object's button up function
+			handleMouseMove(clickPos);
 		}
 	}
+
+	void GameView::handleMouseDown(Point clickPos)
+	{
+
+	}
+
+	void GameView::handleMouseUp(Point clickPos)
+	{
+
+	}
+
+	void GameView::handleMouseMove(Point clickPos)
+	{
+
+	}
+
 
 	void GameView::inputLoop()
 	{
@@ -110,7 +139,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::mainLoop()
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Graphic::Texture kingLeaf1({ 0,0 }, { 0,0 }, this, ren.getTexture("assets/KingLeaf.png"));
+		Graphic::Card kingLeaf1({ 0,0 }, { 0,0 }, this, ren.getTexture("assets/KingLeaf.png"));
 		
 		int i = 0;
 		while (i++<500)
@@ -119,7 +148,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			/*auto p = ren.getImageSize("assets/KingLeaf.png");
 			SDL_Rect texr = Shapes::Rect(0, 0, p.x, p.y);
 			SDL_RenderCopy(ren.renderer, ren.getTexture("assets/KingLeaf.png"), nullptr, &texr);*/
-			if(f) kingLeaf1.draw();
+			kingLeaf1.draw();
 			ren.present();
 			handleInput();
 		}

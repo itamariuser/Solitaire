@@ -15,7 +15,8 @@ namespace Graphic
 		Point speed;
 		GameView* gView;
 		float mass;
-		Graphic(Point center, Point speed, GameView* gView, float mass = 1.0) : center(center), speed(speed), gView(gView), mass(mass)
+		bool visible;
+		Graphic(Point center, Point speed, GameView* gView, float mass = 1.0,bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible)
 		{
 
 		}
@@ -37,8 +38,11 @@ namespace Graphic
 		virtual void draw(Color c = { 255, 165, 0, 255 })
 		{
 			next();
-			gView->brushColor = c;
-			gView->renderLineColored(center, end);
+			if (visible)
+			{
+				gView->brushColor = c;
+				gView->renderLineColored(center, end);
+			}
 		}
 
 		virtual ~SimpleLine() {  };
@@ -84,16 +88,19 @@ namespace Graphic
 		virtual void draw(Color c = { 255, 165, 0, 255 })
 		{
 			next();
-			gView->brushColor = c;
-			gView->renderLineColored(uEnd, rEnd);
-			gView->renderLineColored(rEnd, dEnd);
-			gView->renderLineColored(dEnd, lEnd);
-			gView->renderLineColored(lEnd, uEnd);
-			gView->brushColor = secondaryColor;
-			lu.draw(secondaryColor);
-			lr.draw(secondaryColor);
-			ld.draw(secondaryColor);
-			ll.draw(secondaryColor);
+			if (visible)
+			{
+				gView->brushColor = c;
+				gView->renderLineColored(uEnd, rEnd);
+				gView->renderLineColored(rEnd, dEnd);
+				gView->renderLineColored(dEnd, lEnd);
+				gView->renderLineColored(lEnd, uEnd);
+				gView->brushColor = secondaryColor;
+				lu.draw(secondaryColor);
+				lr.draw(secondaryColor);
+				ld.draw(secondaryColor);
+				ll.draw(secondaryColor);
+			}
 		}
 		virtual ~Diamond() {  };
 	private:
@@ -122,25 +129,28 @@ namespace Graphic
 		{
 			gView->brushColor = c;
 			next();
-			auto pointsNumber = 10;
-			if (pointsNumber == 0)
+			if (visible)
 			{
-				pointsNumber = int(M_PI * radius / 2);
-			}
+				auto pointsNumber = 10;
+				if (pointsNumber == 0)
+				{
+					pointsNumber = int(M_PI * radius / 2);
+				}
 
-			float d_a = M_PI / pointsNumber,
-				angle = d_a;
+				float d_a = M_PI / pointsNumber,
+					angle = d_a;
 
-			Point start, end(radius, 0.0f);
-			end += center;
-			for (auto i = 0; i < pointsNumber * 2; i++)
-			{
-				start = end;
-				end.x = cos(angle) * radius;
-				end.y = sin(angle) * radius;
+				Point start, end(radius, 0.0f);
 				end += center;
-				angle += d_a;
-				gView->renderLineColored(start, end);
+				for (auto i = 0; i < pointsNumber * 2; i++)
+				{
+					start = end;
+					end.x = cos(angle) * radius;
+					end.y = sin(angle) * radius;
+					end += center;
+					angle += d_a;
+					gView->renderLineColored(start, end);
+				}
 			}
 		}
 
@@ -171,14 +181,22 @@ namespace Graphic
 				height = sizes.y;
 			}
 			//renderRect = Shapes::Rect(center.x - width / 2, center.y - height / 2, width, height);
-			renderRect = Shapes::Rect(center.x , center.y , width, height);
+			center = { center.x +100, center.y +100};
+			renderRect = Shapes::Rect(center.x,center.y , width, height);
 		}
 
 		virtual void draw(Color c = { 0, 0, 0, 0 })
 		{
 			next();
-			gView->ren.renderImage(*this);
+			if(visible)
+				gView->ren.renderImage(*this);
 			
+		}
+
+		void updateCenter(Point centerPt)
+		{
+			center.x = centerPt.x - renderRect.w/2;
+			center.y = centerPt.y - renderRect.h/2;
 		}
 		virtual ~Texture() {  };
 		const Shapes::Rect& getRenderRect() const { return renderRect; }
@@ -189,14 +207,78 @@ namespace Graphic
 
 		virtual void next()
 		{
-			
 			Graphic::next();
-			renderRect.center = center;
-			if (center.x + renderRect.w / 2  > gView->width || center.x - renderRect.w / 2  < 0)
-				speed.x *= -1;
-			if (center.y - renderRect.h / 2 > gView->height || center.y + renderRect.h / 2  < 0)
-				speed.y *= -1;
 			
+			if (center.x  + renderRect.w > gView->width)
+				center.x = gView->width - 1 - renderRect.w;
+
+			else if (center.x < 0)
+				center.x = 1;
+
+			if (center.y + renderRect.h > gView->height )
+				center.y = gView->height - 1 - renderRect.h;
+
+			else if (center.y < 0)
+				center.y = 1;
+			renderRect.center = center;
+		}
+	};
+
+	class Card : public Texture
+	{
+	public:
+		Card(Point center, Point speed, GameView* gView, SDL_Texture* texture, int width = -1, int height = -1) :Texture(center,speed,gView,texture,width,height),renderRect(0, 0, 0, 0)
+		{
+
+			if (width == -1 && height == -1)
+			{
+				auto sizes = gView->ren.getImageSize(texture);
+				width = sizes.x;
+				height = sizes.y;
+			}
+			//renderRect = Shapes::Rect(center.x - width / 2, center.y - height / 2, width, height);
+			center = { center.x + 100, center.y + 100 };
+			renderRect = Shapes::Rect(center.x, center.y, width, height);
+		}
+
+		virtual void draw(Color c = { 0, 0, 0, 0 })
+		{
+			next();
+			if (visible)
+				gView->ren.renderImage(*this);
+
+		}
+
+		inline void updateCenter(Point centerPt)
+		{
+			center.x = centerPt.x - renderRect.w / 2;
+			center.y = centerPt.y - renderRect.h / 2;
+		}
+		virtual ~Card() {  };
+		const Shapes::Rect& getRenderRect() const { return renderRect; }
+		const SDL_Texture* const getTexture() const { return texture; }
+	protected:
+		SDL_Texture* texture;
+		Shapes::Rect renderRect;
+
+		virtual void next()
+		{
+			Graphic::next();
+
+			if (center.x + renderRect.w > gView->width)
+				center.x = gView->width - 1 - renderRect.w;
+
+			else if (center.x < 0)
+				center.x = 1;
+
+			if (center.y + renderRect.h > gView->height)
+				center.y = gView->height - 1 - renderRect.h;
+
+			else if (center.y < 0)
+				center.y = 1;
+			renderRect.center = center;
 		}
 	};
 }
+
+
