@@ -22,6 +22,7 @@
     <ClInclude Include="action.h" />
     <ClInclude Include="blorb.h" />
     <ClInclude Include="blorbConnector.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="classRenderer.h" />
     <ClInclude Include="color.h" />

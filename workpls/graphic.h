@@ -1,13 +1,14 @@
 #pragma once
+#ifndef GRAPHIC
+#define GRAPHIC
 #include "point.h"
 #include "color.h"
 #include "gameView.h"
 #include <SDL_image.h>
 #include "Shapes.h"
-
+#endif
 namespace Graphic
 {
-
 	class Graphic
 	{
 	public:

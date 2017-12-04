@@ -5,12 +5,21 @@
 #include <unordered_map>
 #include "point.h"
 
-namespace Graphic {
+namespace Graphic 
+{
+	class Graphic;
+	class Line;
+	class SimpleLine;
+	class Circle;
+	class Diamond;
 	class Texture;
+	class Card;
+	
 }
 
 namespace Shapes {
 	class Rect;
+	class Circle;
 }
 
 class ClassRenderer
