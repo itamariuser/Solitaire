@@ -3,16 +3,20 @@
 #include "gameView.h"
 #include "SDL_image.h"
 #include <thread>
-#include <algorithm>
-#include <iostream>
 #include "graphic.h"
-	GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
+#include "Shapes.h"
+
+GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
 		title(ntitle),xPos(nxPos),yPos(nyPos),width(nwidth),height(nheight),
-		flags(nflags),timeFrame(newTimeFrame)
+		flags(nflags),timeFrame(newTimeFrame),
+		mainWindow(SDL_CreateWindow(title, xPos, yPos, width, height, flags)),
+		ren(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)
 	{
 		stop = true;
 		canCont = true;
+
 		init_keyBindings();
+
 		
 	}
 
@@ -26,7 +30,7 @@
 	void GameView::displayOpeningScreen()
 	{
 		//Display opening screen
-		Circle circle(Point(100,height/2), Point(width/50,width/50),this,20.0f);	
+		Graphic::Circle circle(Point(100,height/2), Point(width/50,width/50),this,20.0f);	
 
 		int xspeed = width / 50;
 		int yspeed = width / 50;
@@ -41,9 +45,10 @@
 		SDL_Delay(1 * 1000); // Pause for 1 second
 	}
 
-	void GameView::shutdown()
+	void GameView::shutdown(int retVal)
 	{
 		SDL_Quit();
+		exit(retVal);
 	}
 
 	void GameView::handleInput()
@@ -52,7 +57,7 @@
 		if (SDL_PollEvent(&e) && !canCont) /* execution suspends here while waiting on an event */
 		{
 			if (e.type == SDL_QUIT)
-				shutdown();
+				shutdown(0);
 			else if (map.find(e.key.keysym.sym) != map.end())
 				map[e.key.keysym.sym]();
 		}
@@ -73,9 +78,7 @@
 		SDL_Surface* s = nullptr;
 		//SDL_Texture * texture = SDL_CreateTextureFromSurface(ren.renderer, s);
 		//!tests
-		mainWindow = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
 		
-		ren = ClassRenderer(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		brushColor = Color(255,165,0,255);//set brush color to ORANGE
 		ren.setRenderColor(backgroundColor);
 
@@ -92,16 +95,21 @@
 		canCont = false;
 		mainLoop();
 
-		shutdown();
+		shutdown(0);
 	}
 	void GameView::mainLoop()
 	{
-		SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		SDL_Texture* image = IMG_LoadTexture(ren.renderer, "E:/Projects/workpls/workpls/workpls/assets/smiley.png");
-		while (1)
+		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
+		Graphic::Texture kingLeaf1({ 0,0 }, { 20,10 }, this, ren.getTexture("assets/KingLeaf.png"),0,0);
+		
+		int i = 0;
+		while (i++<50)
 		{
 			SDL_RenderClear(ren.renderer);
-			SDL_RenderCopy(ren.renderer, image, NULL, &texr);
+			/*auto p = ren.getImageSize("assets/KingLeaf.png");
+			SDL_Rect texr = Shapes::Rect(0, 0, p.x, p.y);
+			SDL_RenderCopy(ren.renderer, ren.getTexture("assets/KingLeaf.png"), nullptr, &texr);*/
+			kingLeaf1.draw();
 			SDL_RenderPresent(ren.renderer);
 		}
 	}

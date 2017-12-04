@@ -30,7 +30,7 @@ private:
 	bool canCont;
 	void displayOpeningScreen();
 	void handleInput();
-	void shutdown();
+	void shutdown(int retVal);
 	void mainLoop();
 	std::unordered_map<SDL_Keycode, std::function<void(void)>> map;
 	void inputLoop();

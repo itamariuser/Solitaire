@@ -22,13 +22,14 @@
     <ClInclude Include="action.h" />
     <ClInclude Include="blorb.h" />
     <ClInclude Include="blorbConnector.h" />
-    <ClInclude Include="circle.h" />
+    <ClInclude Include="Shapes.h" />
     <ClInclude Include="classRenderer.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="gameView.h" />
     <ClInclude Include="graphic.h" />
+    <ClInclude Include="ImageLoader.h" />
     <ClInclude Include="moveAction.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="point.h" />
@@ -38,6 +39,7 @@
     <ClCompile Include="blorbConnector.cpp" />
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="gameView.cpp" />
+    <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="point.cpp" />
   </ItemGroup>
@@ -100,8 +102,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\Projects\workpls\workpls\workpls\SDL2-2.0.7\include;E:\Projects\workpls\workpls\workpls\SDL2_image-2.0.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Projects\workpls\workpls\workpls\SDL2-2.0.7\lib\x86;E:\Projects\workpls\workpls\workpls\SDL2_image-2.0.2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\workpls\SDL2-2.0.7\include;..\workpls\SDL2_image-2.0.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\workpls\SDL2-2.0.7\lib\x86;..\workpls\SDL2_image-2.0.2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

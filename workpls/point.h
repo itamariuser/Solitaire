@@ -5,11 +5,11 @@
 
 class Point {
 public:
-	float x;
-	float y;
+	int x;
+	int y;
 	virtual double distanceFromPoint(Point p);
 
-	Point(float x, float y);
+	Point(int x, int y);
 	Point() {}
 
 	Point operator+(const Point& other) { return Point(this->x + other.x,this->y+other.y); }
