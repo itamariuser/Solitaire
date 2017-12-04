@@ -70,35 +70,30 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		SDL_GetMouseState(&clickPos.x, &clickPos.y);
 
 		if (e.type == SDL_MOUSEBUTTONDOWN)
-		{
-			//TODO: call appropriate object's button up function
 			handleMouseDown(clickPos);
-		}
+
 		else if (e.type == SDL_MOUSEBUTTONUP)
-		{
-			//TODO: call appropriate object's button down function
 			handleMouseUp(clickPos);
-		}
+
 		else if (e.type == SDL_MOUSEMOTION)
-		{
-			//TODO: call appropriate object's button up function
 			handleMouseMove(clickPos);
-		}
 	}
 
 	void GameView::handleMouseDown(Point clickPos)
 	{
-
+		//TODO: call appropriate object's button down function
+		isMouseDown = true;
 	}
 
 	void GameView::handleMouseUp(Point clickPos)
 	{
-
+		//TODO: call appropriate object's button up function
+		isMouseDown = false;
 	}
 
 	void GameView::handleMouseMove(Point clickPos)
 	{
-
+		//TODO: call appropriate object's mouse move function
 	}
 
 
