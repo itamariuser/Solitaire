@@ -50,7 +50,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		SDL_Quit();
 		exit(retVal);
 	}
-
+	bool f = false;
 	void GameView::handleInput()
 	{
 		SDL_Event e;
@@ -60,9 +60,19 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 				shutdown(0);
 			else if (map.find(e.key.keysym.sym) != map.end())
 				map[e.key.keysym.sym]();
+			handleMouseEvents(e);
+				
 		}
 		
 	}
+	void GameView::handleMouseEvents(SDL_Event& e)
+	{
+		if (e.type == SDL_MOUSEBUTTONUP)
+		{
+			f = true;
+		}
+	}
+
 	void GameView::inputLoop()
 	{
 		while (!canCont && !stop)
@@ -87,9 +97,9 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		
 		stop = false;
 		canCont = false; //bool for the opening to signal the inputLoop to continue
-		std::thread tOpening(&GameView::displayOpeningScreen, this);
-		
+		std::thread tOpening(&GameView::displayOpeningScreen, this);	
 		inputLoop();
+
 		tOpening.join();
 		
 		canCont = false;
@@ -100,7 +110,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::mainLoop()
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Graphic::Texture kingLeaf1({ 0,0 }, { 40,10 }, this, ren.getTexture("assets/KingLeaf.png"));
+		Graphic::Texture kingLeaf1({ 0,0 }, { 0,0 }, this, ren.getTexture("assets/KingLeaf.png"));
 		
 		int i = 0;
 		while (i++<500)
@@ -109,8 +119,9 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			/*auto p = ren.getImageSize("assets/KingLeaf.png");
 			SDL_Rect texr = Shapes::Rect(0, 0, p.x, p.y);
 			SDL_RenderCopy(ren.renderer, ren.getTexture("assets/KingLeaf.png"), nullptr, &texr);*/
-			kingLeaf1.draw();
-			SDL_RenderPresent(ren.renderer);
+			if(f) kingLeaf1.draw();
+			ren.present();
+			handleInput();
 		}
 	}
 

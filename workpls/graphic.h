@@ -194,7 +194,7 @@ namespace Graphic
 			renderRect.center = center;
 			if (center.x + renderRect.w / 2  > gView->width || center.x - renderRect.w / 2  < 0)
 				speed.x *= -1;
-			if (center.y + renderRect.h / 2 > gView->height || center.y - renderRect.h / 2  < 0)
+			if (center.y - renderRect.h / 2 > gView->height || center.y + renderRect.h / 2  < 0)
 				speed.y *= -1;
 			
 		}
