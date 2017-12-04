@@ -100,10 +100,10 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::mainLoop()
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Graphic::Texture kingLeaf1({ 0,0 }, { 20,10 }, this, ren.getTexture("assets/KingLeaf.png"),0,0);
+		Graphic::Texture kingLeaf1({ 0,0 }, { 40,10 }, this, ren.getTexture("assets/KingLeaf.png"));
 		
 		int i = 0;
-		while (i++<50)
+		while (i++<500)
 		{
 			SDL_RenderClear(ren.renderer);
 			/*auto p = ren.getImageSize("assets/KingLeaf.png");

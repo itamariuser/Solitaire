@@ -161,10 +161,10 @@ namespace Graphic
 	class Texture : public Graphic
 	{
 	public:
-		Texture(Point center, Point speed, GameView* gView, SDL_Texture* texture, int width = 0, int height = 0) :Graphic(center, speed, gView), texture(texture),renderRect(0,0,0,0)
+		Texture(Point center, Point speed, GameView* gView, SDL_Texture* texture, int width = -1, int height = -1) :Graphic(center, speed, gView), texture(texture),renderRect(0,0,0,0)
 		{
 			
-			if(width == 0 && height == 0)
+			if(width == -1 && height == -1)
 			{
 				auto sizes = gView->ren.getImageSize(texture);
 				width = sizes.x;
@@ -176,8 +176,9 @@ namespace Graphic
 
 		virtual void draw(Color c = { 0, 0, 0, 0 })
 		{
-			gView->ren.renderImage(*this);
 			next();
+			gView->ren.renderImage(*this);
+			
 		}
 		virtual ~Texture() {  };
 		const Shapes::Rect& getRenderRect() const { return renderRect; }
@@ -188,8 +189,14 @@ namespace Graphic
 
 		virtual void next()
 		{
+			
 			Graphic::next();
 			renderRect.center = center;
+			if (center.x + renderRect.w / 2  > gView->width || center.x - renderRect.w / 2  < 0)
+				speed.x *= -1;
+			if (center.y + renderRect.h / 2 > gView->height || center.y - renderRect.h / 2  < 0)
+				speed.y *= -1;
+			
 		}
 	};
 }
