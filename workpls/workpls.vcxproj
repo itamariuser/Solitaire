@@ -42,7 +42,6 @@
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="gameView.cpp" />
     <ClCompile Include="Graphic.cpp" />
-    <ClCompile Include="ImageDisplayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="point.cpp" />

@@ -20,7 +20,7 @@
 
 		virtual void draw(Color c = { 0,0,0,0 }) = 0;
 
-		virtual void next() { center += speed; }
+		virtual void next() { center += speed; }//
 	protected:
 		Point center;
 		Point speed;
@@ -113,8 +113,6 @@
 				width = sizes.x;
 				height = sizes.y;
 			}
-
-			center = { center.x +100, center.y +100};
 			renderRect = Shapes::Rect(center.x,center.y , width, height);
 		}
 

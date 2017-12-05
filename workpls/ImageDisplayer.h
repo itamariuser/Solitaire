@@ -27,7 +27,7 @@
 //	void renderImage(const Texture texture);
 //	void renderImage(char* imagePath, Shapes::Rect* rect = nullptr);
 //private:
-//	static ImageDisplayer* instance;
+//	static ImageDisplayer* instance;//
 //	ClassRenderer* ren;
 //	std::vector<char*> imagePaths;
 //	std::unordered_map< char*, SDL_Texture*> loadedImages;

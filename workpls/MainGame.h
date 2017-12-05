@@ -21,5 +21,5 @@ public:
 	GameView init_window() throw (int);
 private:
 	 int screenWidth;
-	 int screenHeight;
+	 int screenHeight;//
 };

@@ -14,4 +14,4 @@ public:
 
 	Point operator+(const Point& other) { return Point(this->x + other.x,this->y+other.y); }
 	void operator+=(const Point& other){ this->x += other.x; this->y += other.y; }
-};
+};//

@@ -31,7 +31,7 @@ public:
 	Color getRenderColor();
 
 	void clear();
-	void present();
+	void present();//
 
 	Point ClassRenderer::getImageSize(char* imagePath, Uint32* format = nullptr, int* access = nullptr) const throw(int);
 	Point ClassRenderer::getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const throw(int);

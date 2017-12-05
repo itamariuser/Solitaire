@@ -10,4 +10,4 @@
 	{
 		Point::x = x;
 		Point::y = y;
-	}
+	}//
