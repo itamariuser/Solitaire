@@ -49,7 +49,7 @@ void Diamond::next()
 	ld.end = (ld.end.y > center.y) ? ld.end + Point(-slope, -slope) : dEnd;
 	ll.end = (ll.end.x < center.x) ? ll.end + Point(slope, -slope) : lEnd;
 }
-
+//
 void Circle::draw(Color c)
 {
 	gView->brushColor = c;

@@ -96,5 +96,6 @@ void ClassRenderer::renderImage( const Texture texture)
 
 void ClassRenderer::renderImage(char* imagePath, Shapes::Rect* rect)
 {
-
+	auto texture = getTexture(imagePath);
+	renderImage()
 }

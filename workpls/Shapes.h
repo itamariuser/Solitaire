@@ -19,4 +19,4 @@ namespace Shapes
 		Point center;
 		int w, h;
 	};
-}
+}//

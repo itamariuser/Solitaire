@@ -33,7 +33,7 @@ public:
 	Point getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const throw(int);
 	SDL_Texture* getTexture(char* imagePath);
 	void GameView::renderImage(const SDL_Texture* const texture, const Shapes::Rect* const rect);
-	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect);
+	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect);//
 private:
 	
 

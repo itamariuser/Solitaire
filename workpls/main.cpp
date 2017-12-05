@@ -8,5 +8,5 @@ int main(int, char**) {
 	
 	MainGame mainGame(SCREEN_WIDTH, SCREEN_HEIGHT);
 	mainGame.start();
-	return 0;
+	return 0;//
 }

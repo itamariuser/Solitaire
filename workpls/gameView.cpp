@@ -31,7 +31,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::displayOpeningScreen()
 	{
 		//Display opening screen
-		Circle circle(Point(100,height/2), Point(width/50,width/50),this,20.0f);	
+		Circle circle(Point(100,height/2), Point(width/50,width/50),this,20.0f);	//
 
 		int xspeed = width / 50;
 		int yspeed = width / 50;
