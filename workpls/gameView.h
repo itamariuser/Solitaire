@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <functional>
 #include "classRenderer.h"
-
+#include <SDL_ttf.h>
 
 class GameView
 {

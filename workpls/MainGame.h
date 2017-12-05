@@ -7,6 +7,7 @@
 #include "blorb.h"
 #include <SDL_image.h>
 #include <iostream>
+#include <SDL_ttf.h>
 class MainGame
 {
 public:
@@ -17,9 +18,12 @@ public:
 	 int setScreenHeight(const int newHeight) { screenHeight = newHeight; }
 	 void start();
 	 void init_img() throw (int);
+	 void init_fonts() throw (int);
 	 void init_video() throw (int);
-	GameView init_window() throw (int);
+	 GameView init_window() throw (int);
+
+	 ~MainGame();
 private:
 	 int screenWidth;
-	 int screenHeight;//
+	 int screenHeight;
 };

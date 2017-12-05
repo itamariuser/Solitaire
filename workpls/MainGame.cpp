@@ -4,6 +4,7 @@ void MainGame::start()
 {
 	init_video();
 	init_img();
+	init_fonts();
 	GameView mainView = init_window();
 	mainView.start();
 	SDL_Delay(2 * 1000);
@@ -32,3 +33,19 @@ GameView MainGame::init_window() throw (int)
 	return GameView("SDL Tutorial", screenWidth / 4, screenHeight / 4, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, 1000);
 }
 //
+
+void MainGame::init_fonts() throw (int)
+{
+	if (TTF_Init() == -1)
+	{
+		std::cerr << "Failed to init fonts\n";
+		throw - 1;
+	}
+}
+
+MainGame::~MainGame()
+{
+	SDL_Quit();
+	IMG_Quit();
+	TTF_Quit();
+}

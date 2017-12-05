@@ -136,7 +136,9 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
 		Card kingLeaf1({ 0,0 }, { 0,0 }, this, getTexture("assets/KingLeaf.png"));
-		
+		TTF_Font* arial = TTF_OpenFont("assets/arialFont.ttf", 14);
+		SDL_Surface* txt = TTF_RenderText_Solid(arial, "HELLO", { 255,0,0 });
+
 		int i = 0;
 		while (i++<500)
 		{
@@ -144,7 +146,11 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			/*auto p = ren.getImageSize("assets/KingLeaf.png");
 			SDL_Rect texr = Shapes::Rect(0, 0, p.x, p.y);
 			SDL_RenderCopy(ren.renderer, ren.getTexture("assets/KingLeaf.png"), nullptr, &texr);*/
-			kingLeaf1.draw();
+			//kingLeaf1.draw();
+			auto z = SDL_GetWindowSurface(mainWindow);
+			//TODO: Encapsulate this inside ren;
+			SDL_RenderCopy(ren.renderer, SDL_CreateTextureFromSurface(ren.renderer,txt), nullptr, new SDL_Rect{ 0,0,100,100 });
+
 			ren.present();
 			handleInput();
 		}
