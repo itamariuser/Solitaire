@@ -135,7 +135,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::mainLoop()
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Card kingLeaf1({ 0,0 }, { 0,0 }, this, ren.getTexture("assets/KingLeaf.png"));
+		Card kingLeaf1({ 0,0 }, { 0,0 }, this, getTexture("assets/KingLeaf.png"));
 		
 		int i = 0;
 		while (i++<500)

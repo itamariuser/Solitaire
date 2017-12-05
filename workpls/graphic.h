@@ -109,7 +109,7 @@
 			
 			if(width == -1 && height == -1)
 			{
-				auto sizes = gView->ren.getImageSize(texture);
+				auto sizes = gView->getImageSize(texture);
 				width = sizes.x;
 				height = sizes.y;
 			}
@@ -137,7 +137,7 @@
 
 			if (width == -1 && height == -1)
 			{
-				auto sizes = gView->ren.getImageSize(texture);
+				auto sizes = gView->getImageSize(texture);
 				width = sizes.x;
 				height = sizes.y;
 			}

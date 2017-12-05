@@ -33,14 +33,5 @@ public:
 	void clear();
 	void present();//
 
-	Point ClassRenderer::getImageSize(char* imagePath, Uint32* format = nullptr, int* access = nullptr) const throw(int);
-	Point ClassRenderer::getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const throw(int);
-	SDL_Texture* getTexture(char* imagePath);
-	void ClassRenderer::renderImage(const Texture texture);
-	void renderImage(char* imagePath, Shapes::Rect* rect = nullptr);
 private:
-	std::vector<char*> imagePaths;
-	std::unordered_map< char* , SDL_Texture*> loadedImages;
-	void ctor_init_imagePaths();
-	void loadImages();
 };
