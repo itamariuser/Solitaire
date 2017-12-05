@@ -1,0 +1,27 @@
+﻿     Creating library C:\Users\itama\Source\Repos\S\Solitaire\x64\Debug\Solitaire.lib and object C:\Users\itama\Source\Repos\S\Solitaire\x64\Debug\Solitaire.exp
+classRenderer.obj : error LNK2019: unresolved external symbol SDL_CreateRenderer referenced in function "public: __cdecl ClassRenderer::ClassRenderer(struct SDL_Window *,int,unsigned int)" (??0ClassRenderer@@QEAA@PEAUSDL_Window@@HI@Z)
+classRenderer.obj : error LNK2019: unresolved external symbol SDL_QueryTexture referenced in function "public: class Point __cdecl ClassRenderer::getImageSize(char *,unsigned int *,int *)const " (?getImageSize@ClassRenderer@@QEBA?AVPoint@@PEADPEAIPEAH@Z)
+classRenderer.obj : error LNK2019: unresolved external symbol SDL_SetRenderDrawColor referenced in function "public: class Color __cdecl ClassRenderer::setRenderColor(class Color)" (?setRenderColor@ClassRenderer@@QEAA?AVColor@@V2@@Z)
+classRenderer.obj : error LNK2019: unresolved external symbol SDL_RenderClear referenced in function "public: void __cdecl ClassRenderer::clear(void)" (?clear@ClassRenderer@@QEAAXXZ)
+gameView.obj : error LNK2001: unresolved external symbol SDL_RenderClear
+classRenderer.obj : error LNK2019: unresolved external symbol SDL_RenderCopy referenced in function "public: void __cdecl ClassRenderer::renderImage(class Graphic::Texture)" (?renderImage@ClassRenderer@@QEAAXVTexture@Graphic@@@Z)
+classRenderer.obj : error LNK2019: unresolved external symbol SDL_RenderPresent referenced in function "public: void __cdecl ClassRenderer::present(void)" (?present@ClassRenderer@@QEAAXXZ)
+classRenderer.obj : error LNK2019: unresolved external symbol IMG_LoadTexture referenced in function "private: void __cdecl ClassRenderer::loadImages(void)" (?loadImages@ClassRenderer@@AEAAXXZ)
+gameView.obj : error LNK2019: unresolved external symbol SDL_GetError referenced in function "public: bool __cdecl GameView::renderLineColored(class Point,class Point)" (?renderLineColored@GameView@@QEAA_NVPoint@@0@Z)
+gameView.obj : error LNK2019: unresolved external symbol SDL_ClearError referenced in function "public: bool __cdecl GameView::renderLineColored(class Point,class Point)" (?renderLineColored@GameView@@QEAA_NVPoint@@0@Z)
+gameView.obj : error LNK2019: unresolved external symbol SDL_CreateWindow referenced in function "public: __cdecl GameView::GameView(char *,int,int,int,int,unsigned int,int)" (??0GameView@@QEAA@PEADHHHHIH@Z)
+gameView.obj : error LNK2019: unresolved external symbol SDL_SetWindowTitle referenced in function "public: void __cdecl <lambda_1e3126c59edbb9e8f6d66d695212d8fc>::operator()(void)const " (??R<lambda_1e3126c59edbb9e8f6d66d695212d8fc>@@QEBAXXZ)
+gameView.obj : error LNK2019: unresolved external symbol SDL_PollEvent referenced in function "private: void __cdecl GameView::handleInput(void)" (?handleInput@GameView@@AEAAXXZ)
+gameView.obj : error LNK2019: unresolved external symbol SDL_LogError referenced in function "public: bool __cdecl GameView::renderLineColored(class Point,class Point)" (?renderLineColored@GameView@@QEAA_NVPoint@@0@Z)
+gameView.obj : error LNK2019: unresolved external symbol SDL_RenderDrawLine referenced in function "public: bool __cdecl GameView::renderLineColored(class Point,class Point)" (?renderLineColored@GameView@@QEAA_NVPoint@@0@Z)
+gameView.obj : error LNK2019: unresolved external symbol SDL_Delay referenced in function "private: void __cdecl GameView::displayOpeningScreen(void)" (?displayOpeningScreen@GameView@@AEAAXXZ)
+main.obj : error LNK2001: unresolved external symbol SDL_Delay
+gameView.obj : error LNK2019: unresolved external symbol SDL_Quit referenced in function "private: void __cdecl GameView::shutdown(int)" (?shutdown@GameView@@AEAAXH@Z)
+main.obj : error LNK2001: unresolved external symbol SDL_Quit
+main.obj : error LNK2019: unresolved external symbol SDL_Init referenced in function "void __cdecl init_video(void)" (?init_video@@YAXXZ)
+main.obj : error LNK2019: unresolved external symbol IMG_Init referenced in function "void __cdecl init_img(void)" (?init_img@@YAXXZ)
+MSVCRTD.lib(exe_winmain.obj) : error LNK2019: unresolved external symbol WinMain referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+..\workpls\SDL2-2.0.7\lib\x86\SDL2.lib : warning LNK4272: library machine type 'X86' conflicts with target machine type 'x64'
+..\workpls\SDL2-2.0.7\lib\x86\SDL2main.lib : warning LNK4272: library machine type 'X86' conflicts with target machine type 'x64'
+..\workpls\SDL2_image-2.0.2\lib\x86\SDL2_image.lib : warning LNK4272: library machine type 'X86' conflicts with target machine type 'x64'
+C:\Users\itama\Source\Repos\S\Solitaire\x64\Debug\Solitaire.exe : fatal error LNK1120: 19 unresolved externals

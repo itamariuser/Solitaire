@@ -5,6 +5,7 @@
 #include <thread>
 #include "graphic.h"
 #include "Shapes.h"
+#include <iostream>
 
 GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
 		title(ntitle),xPos(nxPos),yPos(nyPos),width(nwidth),height(nheight),
@@ -14,7 +15,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	{
 		stop = true;
 		canCont = true;
-
+		loadImages();
 		init_keyBindings();
 
 		
@@ -30,7 +31,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::displayOpeningScreen()
 	{
 		//Display opening screen
-		Graphic::Circle circle(Point(100,height/2), Point(width/50,width/50),this,20.0f);	
+		Circle circle(Point(100,height/2), Point(width/50,width/50),this,20.0f);	
 
 		int xspeed = width / 50;
 		int yspeed = width / 50;
@@ -38,7 +39,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		{
 			ren.clear();
 			circle.draw();
-			renderLineColored(Point(0, 0), circle.center);
+			renderLineColored(Point(0, 0), circle.getCenter());
 			ren.present();
 		}
 		canCont = true;// signal to the input handler that it should exit
@@ -134,7 +135,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::mainLoop()
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Graphic::Card kingLeaf1({ 0,0 }, { 0,0 }, this, ren.getTexture("assets/KingLeaf.png"));
+		Card kingLeaf1({ 0,0 }, { 0,0 }, this, ren.getTexture("assets/KingLeaf.png"));
 		
 		int i = 0;
 		while (i++<500)
@@ -176,4 +177,67 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		}
 		ren.setRenderColor(oldColor);
 		return true;
+	}
+
+
+
+	void GameView::loadImages()
+	{
+		ctor_init_imagePaths();
+		for (char* path : imagePaths)
+		{
+			auto z = IMG_LoadTexture(ren.renderer, path);
+			loadedImages[path] = IMG_LoadTexture(ren.renderer, path);
+		}
+	}
+
+	void GameView::ctor_init_imagePaths()
+	{
+		imagePaths.push_back("assets/KingLeaf.png");
+	}
+
+	Point GameView::getImageSize(char* imagePath, Uint32* format, int* access) const throw(int)
+	{
+		if (loadedImages.find(imagePath) == loadedImages.end())
+		{
+			std::cerr << "No such image loaded, add it to imagePaths.\n";
+			throw(-1);
+		}
+		Point retPt;
+		SDL_QueryTexture(loadedImages.at(imagePath), format, access, &retPt.x, &retPt.y);
+		return retPt;
+	}
+
+	Point GameView::getImageSize(SDL_Texture* image, Uint32* format, int* access) const throw(int)
+	{
+		if (!image)
+		{
+			std::cerr << "No image to load.\n";
+			throw(-1);
+		}
+		Point retPt;
+		SDL_QueryTexture(image, format, access, &retPt.x, &retPt.y);
+		return retPt;
+	}
+
+	SDL_Texture* GameView::getTexture(char* imagePath)
+	{
+		if (loadedImages.find(imagePath) == loadedImages.end())
+		{
+			std::cerr << "No such image loaded, add it to imagePaths.\n";
+			throw(-1);
+		}
+
+		return loadedImages[imagePath];
+	}
+
+	void GameView::renderImage(const SDL_Texture* const texture, const Shapes::Rect* const rect)
+	{
+		SDL_RenderCopy(ren.renderer, const_cast<SDL_Texture*>(texture), nullptr, &SDL_Rect(*rect));
+	}
+
+	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect)
+	{
+		auto texture = getTexture(imagePath);
+		renderImage(texture, rect);
 	}

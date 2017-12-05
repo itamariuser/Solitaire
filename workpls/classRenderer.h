@@ -5,8 +5,7 @@
 #include <unordered_map>
 #include "point.h"
 
-namespace Graphic 
-{
+
 	class Graphic;
 	class Line;
 	class SimpleLine;
@@ -14,8 +13,6 @@ namespace Graphic
 	class Diamond;
 	class Texture;
 	class Card;
-	
-}
 
 namespace Shapes {
 	class Rect;
@@ -39,7 +36,7 @@ public:
 	Point ClassRenderer::getImageSize(char* imagePath, Uint32* format = nullptr, int* access = nullptr) const throw(int);
 	Point ClassRenderer::getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const throw(int);
 	SDL_Texture* getTexture(char* imagePath);
-	void ClassRenderer::renderImage(const Graphic::Texture texture);
+	void ClassRenderer::renderImage(const Texture texture);
 	void renderImage(char* imagePath, Shapes::Rect* rect = nullptr);
 private:
 	std::vector<char*> imagePaths;

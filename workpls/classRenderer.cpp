@@ -87,7 +87,7 @@ SDL_Texture* ClassRenderer::getTexture(char* imagePath)
 	return loadedImages[imagePath];
 }
 
-void ClassRenderer::renderImage( const Graphic::Texture texture)
+void ClassRenderer::renderImage( const Texture texture)
 {
 	auto rect = SDL_Rect(texture.getRenderRect());
 	auto* texr = texture.getTexture();

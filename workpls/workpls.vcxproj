@@ -23,14 +23,15 @@
     <ClInclude Include="blorb.h" />
     <ClInclude Include="blorbConnector.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="MainGame.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="classRenderer.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="gameView.h" />
-    <ClInclude Include="graphic.h" />
-    <ClInclude Include="ImageLoader.h" />
+    <ClInclude Include="Graphic.h" />
+    <ClInclude Include="ImageDisplayer.h" />
     <ClInclude Include="moveAction.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="point.h" />
@@ -40,8 +41,10 @@
     <ClCompile Include="blorbConnector.cpp" />
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="gameView.cpp" />
-    <ClCompile Include="ImageLoader.cpp" />
+    <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="ImageDisplayer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="point.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

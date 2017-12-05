@@ -1,0 +1,14 @@
+﻿  gameView.cpp
+c:\users\itama\source\repos\s\solitaire\workpls\classrenderer.h(36): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\s\solitaire\workpls\classrenderer.h(37): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\s\solitaire\workpls\gameview.h(32): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\s\solitaire\workpls\gameview.h(33): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\s\solitaire\workpls\graphic.h(14): warning C4227: anachronism used: qualifiers on reference are ignored
+c:\users\itama\source\repos\s\solitaire\workpls\graphic.h(15): warning C4227: anachronism used: qualifiers on reference are ignored
+c:\users\itama\source\repos\s\solitaire\workpls\graphic.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\itama\source\repos\s\solitaire\workpls\graphic.h(92): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\itama\source\repos\s\solitaire\workpls\gameview.cpp(34): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\itama\source\repos\s\solitaire\workpls\gameview.cpp(199): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\s\solitaire\workpls\gameview.cpp(211): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+  workpls.vcxproj -> C:\Users\itama\Source\Repos\S\Solitaire\Debug\Solitaire.exe
+  workpls.vcxproj -> C:\Users\itama\Source\Repos\S\Solitaire\Debug\Solitaire.pdb (Full PDB)
