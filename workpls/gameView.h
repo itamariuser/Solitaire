@@ -42,7 +42,7 @@ private:
 	void inputLoop();//this is for handling input in the opening screen
 	void displayOpeningScreen();
 	void handleInput();
-
+	bool loopCondition();
 
 	//image, handling, loading and rendering
 public:

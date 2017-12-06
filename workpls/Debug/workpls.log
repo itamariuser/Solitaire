@@ -6,17 +6,13 @@ c:\users\shefferit\source\repos\solitaire\workpls\gameview.h(81): warning C4290:
 c:\users\shefferit\source\repos\solitaire\workpls\gameview.h(86): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
 c:\users\shefferit\source\repos\solitaire\workpls\graphic.h(14): warning C4227: anachronism used: qualifiers on reference are ignored
 c:\users\shefferit\source\repos\solitaire\workpls\graphic.h(15): warning C4227: anachronism used: qualifiers on reference are ignored
-c:\users\shefferit\source\repos\solitaire\workpls\graphic.h(72): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\shefferit\source\repos\solitaire\workpls\graphic.h(92): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\shefferit\source\repos\solitaire\workpls\graphic.h(77): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\shefferit\source\repos\solitaire\workpls\graphic.h(97): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(37): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(158): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(198): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(213): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(223): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(235): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  classRenderer.cpp
-  Graphic.cpp
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(162): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(201): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(216): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(226): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(238): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
   workpls.vcxproj -> C:\Users\shefferit\Source\Repos\Solitaire\Debug\Solitaire.exe
   workpls.vcxproj -> C:\Users\shefferit\Source\Repos\Solitaire\Debug\Solitaire.pdb (Full PDB)

@@ -104,16 +104,32 @@ void Texture::next()
 	Graphic::next();
 
 	if (center.x + renderRect.w > gView->width)
+	{
 		center.x = gView->width - 1 - renderRect.w;
+		flipSpeedX();
+		stopSizeSpeedBoth();
+	}
 
 	else if (center.x < 0)
+	{
 		center.x = 1;
+		flipSpeedX();
+		stopSizeSpeedBoth();
+	}
 
 	if (center.y + renderRect.h > gView->height)
+	{
 		center.y = gView->height - 1 - renderRect.h;
+		flipSpeedY();
+		stopSizeSpeedBoth();
+	}
 
 	else if (center.y < 0)
+	{
 		center.y = 1;
+		flipSpeedY();
+		stopSizeSpeedBoth();
+	}
 
 	renderRect.w += sizeSpeed.x;
 	renderRect.h += sizeSpeed.y;
@@ -129,18 +145,22 @@ void Card::next()
 {
 	Texture::next();
 
-	if (center.x + renderRect.w > gView->width)
+	/*if (center.x + renderRect.w > gView->width)
+	{
 		center.x = gView->width - 1 - renderRect.w;
+	}
 
 	else if (center.x < 0)
 		center.x = 1;
 
 	if (center.y + renderRect.h > gView->height)
+	{
 		center.y = gView->height - 1 - renderRect.h;
+	}
 
 	else if (center.y < 0)
 		center.y = 1;
-	renderRect.center = center;
+	renderRect.center = center;*/
 }
 
 
@@ -148,6 +168,24 @@ void Card::next()
  void Text::next()
 {
 	 Texture::next();
+	 //if (center.x + renderRect.w > gView->width)
+	 //{
+		// center.x = gView->width - 1 - renderRect.w;
+		// 
+	 //}
+
+	 //else if (center.x < 0)
+		// center.x = 1;
+
+	 //if (center.y + renderRect.h > gView->height)
+	 //{
+		// center.y = gView->height - 1 - renderRect.h;
+		///* speed = {speed.x, -speed.y};*/
+	 //}
+
+	 //else if (center.y < 0)
+		// center.y = 1;
+	 //renderRect.center = center;
 	 
 }
 

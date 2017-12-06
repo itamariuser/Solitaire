@@ -138,26 +138,29 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::mainLoop()
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Card kingLeaf1({ 0,0 }, {4,4 }, this, getTexture("assets/KingLeaf.png"),{1,1});
-		Text helloArial({ 0,0 }, { 2,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, 100, 100);
-		int x = 100;
-		int y = 100;
-		int i = 0;
-		while (i++<500)
+		Card kingLeaf1({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"),{ 1,1 });
+		Text helloArial({ 1,1 }, { 5,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, 100, 100);
+		while(loopCondition())
 		{
-			SDL_RenderClear(ren.renderer);
-			kingLeaf1.draw();
+			ren.clear();
 			helloArial.draw();
+			kingLeaf1.draw();
+			
 			
 			ren.present();
 			handleInput();
 		}
 	}
 
+	bool GameView::loopCondition()
+	{
+		static int i = 0;
+		return i++ < 500;
+	}
+
 	//void GameView::renderText(const char* const fontPath, const char* const text, Color color, Shapes::Rect const size_and_pos) throw (int)
 	void GameView::renderText(Text text) throw (int)
 	{
-		
 		SDL_RenderCopy(ren.renderer, const_cast<SDL_Texture*>(text.getTexture()), nullptr, new SDL_Rect(text.getRenderRect()));
 	}
 

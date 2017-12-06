@@ -24,6 +24,11 @@
 	protected:
 		Point center;
 		Point speed;
+		void flipSpeedY() { speed = { speed.x,-speed.y }; }
+		void flipSpeedX() { speed = { -speed.x,speed.y }; }
+		void stopSpeedX() { speed = { 0,speed.y }; }
+		void stopSpeedY() { speed = { speed.x,0 }; }
+		void stopSpeedBoth() { stopSpeedX(); stopSpeedY(); }
 	};
 
 	class SimpleLine : public Graphic
@@ -124,7 +129,11 @@
 		SDL_Texture* texture;
 		Shapes::Rect renderRect;
 		Point sizeSpeed;
-		
+		void flipSizeSpeedY() { sizeSpeed = { sizeSpeed.x,-sizeSpeed.y }; }
+		void flipSizeSpeedX() { sizeSpeed = { -sizeSpeed.x,sizeSpeed.y }; }
+		void stopSizeSpeedX() { sizeSpeed = { 0,sizeSpeed.y }; }
+		void stopSizeSpeedY() { sizeSpeed = { sizeSpeed.x,0 }; }
+		void stopSizeSpeedBoth() { stopSizeSpeedX(); stopSizeSpeedY(); }
 	};
 
 	class Card : public Texture
@@ -139,7 +148,7 @@
 				width = sizes.x;
 				height = sizes.y;
 			}
-			/*center = { center.x + 100, center.y + 100 };*/
+			//center = { center.x + 100, center.y + 100 };
 			renderRect = Shapes::Rect(center.x, center.y, width, height);
 		}
 
@@ -162,7 +171,7 @@
 	class Text : public Texture
 	{
 	public:
-		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed ,int width = -1, int height = -1) :Texture(center, speed, gView, nullptr, sizeSpeed, width, height)
+		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, int width = -1, int height = -1) :Texture(center, speed, gView, nullptr, sizeSpeed, width, height)
 		{
 			
 			texture = SDL_CreateTextureFromSurface(gView->ren.renderer,TTF_RenderText_Solid(const_cast<TTF_Font*>(gView->getFont(fontPath)), "HELLO", color));
@@ -172,7 +181,6 @@
 				width = sizes.x;
 				height = sizes.y;
 			}
-			//center = { center.x + 100, center.y + 100 };
 			renderRect = Shapes::Rect(center.x, center.y, width, height);
 
 			
