@@ -101,7 +101,7 @@ void Texture::draw(Color c)
 
 void Texture::next()
 {
-	//next();
+	Graphic::next();
 
 	if (center.x + renderRect.w > gView->width)
 		center.x = gView->width - 1 - renderRect.w;
@@ -114,6 +114,9 @@ void Texture::next()
 
 	else if (center.y < 0)
 		center.y = 1;
+
+	renderRect.w += sizeSpeed.x;
+	renderRect.h += sizeSpeed.y;
 	renderRect.center = center;
 }
 
@@ -140,3 +143,16 @@ void Card::next()
 	renderRect.center = center;
 }
 
+
+
+ void Text::next()
+{
+	 Texture::next();
+	 
+}
+
+ void Text::draw(Color c)
+{
+	 next();
+	 gView->renderText(*this);
+}

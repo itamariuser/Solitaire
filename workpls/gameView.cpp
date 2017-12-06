@@ -6,6 +6,8 @@
 #include "graphic.h"
 #include "Shapes.h"
 #include <iostream>
+#include <filesystem>
+
 
 GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
 		title(ntitle),xPos(nxPos),yPos(nyPos),width(nwidth),height(nheight),
@@ -16,6 +18,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		stop = true;
 		canCont = true;
 		loadImages();
+		loadFonts();
 		init_keyBindings();
 
 		
@@ -135,25 +138,27 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::mainLoop()
 	{
 		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Card kingLeaf1({ 0,0 }, { 0,0 }, this, getTexture("assets/KingLeaf.png"));
-		TTF_Font* arial = TTF_OpenFont("assets/arialFont.ttf", 14);
-		SDL_Surface* txt = TTF_RenderText_Solid(arial, "HELLO", { 255,0,0 });
-
+		Card kingLeaf1({ 0,0 }, {4,4 }, this, getTexture("assets/KingLeaf.png"),{1,1});
+		Text helloArial({ 0,0 }, { 2,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, 100, 100);
+		int x = 100;
+		int y = 100;
 		int i = 0;
 		while (i++<500)
 		{
 			SDL_RenderClear(ren.renderer);
-			/*auto p = ren.getImageSize("assets/KingLeaf.png");
-			SDL_Rect texr = Shapes::Rect(0, 0, p.x, p.y);
-			SDL_RenderCopy(ren.renderer, ren.getTexture("assets/KingLeaf.png"), nullptr, &texr);*/
-			//kingLeaf1.draw();
-			auto z = SDL_GetWindowSurface(mainWindow);
-			//TODO: Encapsulate this inside ren;
-			SDL_RenderCopy(ren.renderer, SDL_CreateTextureFromSurface(ren.renderer,txt), nullptr, new SDL_Rect{ 0,0,100,100 });
-
+			kingLeaf1.draw();
+			helloArial.draw();
+			
 			ren.present();
 			handleInput();
 		}
+	}
+
+	//void GameView::renderText(const char* const fontPath, const char* const text, Color color, Shapes::Rect const size_and_pos) throw (int)
+	void GameView::renderText(Text text) throw (int)
+	{
+		
+		SDL_RenderCopy(ren.renderer, const_cast<SDL_Texture*>(text.getTexture()), nullptr, new SDL_Rect(text.getRenderRect()));
 	}
 
 	bool GameView::renderLineColored(const Point start, const Point end)
@@ -185,9 +190,12 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		return true;
 	}
 
+	void GameView::ctor_init_imagePaths()
+	{
+		imagePaths.push_back("assets/KingLeaf.png");
+	}
 
-
-	void GameView::loadImages()
+	void GameView::loadImages() throw (int)
 	{
 		ctor_init_imagePaths();
 		for (char* path : imagePaths)
@@ -197,10 +205,20 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		}
 	}
 
-	void GameView::ctor_init_imagePaths()
+	void GameView::ctor_init_fontPaths() 
 	{
-		imagePaths.push_back("assets/KingLeaf.png");
+		fontsAndSizes.push_back({ "assets/arial.ttf", 14});
 	}
+
+	void GameView::loadFonts() throw (int)
+	{
+
+		ctor_init_fontPaths();
+		for (auto pair : fontsAndSizes)
+			loadedFonts[pair.first] = TTF_OpenFont(pair.first, pair.second);
+	}
+
+	
 
 	Point GameView::getImageSize(char* imagePath, Uint32* format, int* access) const throw(int)
 	{

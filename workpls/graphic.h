@@ -18,7 +18,7 @@
 		bool visible;
 		Graphic(Point center, Point speed, GameView* gView, float mass = 1.0, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible) {}
 
-		virtual void draw(Color c = { 0,0,0,0 }) = 0;
+		virtual void draw(Color c) = 0;
 
 		virtual void next() { center += speed; }//
 	protected:
@@ -104,15 +104,15 @@
 	class Texture : public Graphic
 	{
 	public:
-		Texture(Point center, Point speed, GameView* gView, SDL_Texture* texture, int width = -1, int height = -1) :Graphic(center, speed, gView), texture(texture),renderRect(0,0,0,0)
+		Texture(Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed ,int width = -1, int height = -1) :Graphic(center, speed, gView), texture(texture),renderRect(0,0,0,0),sizeSpeed(sizeSpeed)
 		{
 			
-			if(width == -1 && height == -1)
+			/*if(width == -1 && height == -1)
 			{
 				auto sizes = gView->getImageSize(texture);
 				width = sizes.x;
 				height = sizes.y;
-			}
+			}*/
 			renderRect = Shapes::Rect(center.x,center.y , width, height);
 		}
 
@@ -120,19 +120,17 @@
 
 		virtual void draw(Color c = { 0, 0, 0, 0 });
 		virtual ~Texture() {  };
-		const Shapes::Rect& getRenderRect() const { return renderRect; }
-		const SDL_Texture* const getTexture() const { return texture; }
 	protected:
 		SDL_Texture* texture;
 		Shapes::Rect renderRect;
-
+		Point sizeSpeed;
 		
 	};
 
 	class Card : public Texture
 	{
 	public:
-		Card(Point center, Point speed, GameView* gView, SDL_Texture* texture, int width = -1, int height = -1) :Texture(center,speed,gView,texture,width,height),renderRect(0, 0, 0, 0)
+		Card(Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed,int width = -1, int height = -1) :Texture(center,speed,gView,texture,sizeSpeed,width,height)
 		{
 
 			if (width == -1 && height == -1)
@@ -141,7 +139,7 @@
 				width = sizes.x;
 				height = sizes.y;
 			}
-			center = { center.x + 100, center.y + 100 };
+			/*center = { center.x + 100, center.y + 100 };*/
 			renderRect = Shapes::Rect(center.x, center.y, width, height);
 		}
 
@@ -155,11 +153,46 @@
 			center.y = centerPt.y - renderRect.h / 2;
 		}
 		virtual ~Card() {  };
-		const Shapes::Rect& getRenderRect() const { return renderRect; }
-		const SDL_Texture* const getTexture() const { return texture; }
+
 	protected:
-		SDL_Texture* texture;
-		Shapes::Rect renderRect;
 
 		
+	};
+
+	class Text : public Texture
+	{
+	public:
+		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed ,int width = -1, int height = -1) :Texture(center, speed, gView, nullptr, sizeSpeed, width, height)
+		{
+			
+			texture = SDL_CreateTextureFromSurface(gView->ren.renderer,TTF_RenderText_Solid(const_cast<TTF_Font*>(gView->getFont(fontPath)), "HELLO", color));
+			if (width == -1 && height == -1)
+			{
+				auto sizes = gView->getImageSize(texture);
+				width = sizes.x;
+				height = sizes.y;
+			}
+			//center = { center.x + 100, center.y + 100 };
+			renderRect = Shapes::Rect(center.x, center.y, width, height);
+
+			
+		}
+
+		virtual void next();
+
+		virtual void draw(Color c = { 0, 0, 0, 0 });
+
+		inline void setCenter(Point centerPt)
+		{
+			center.x = centerPt.x - renderRect.w / 2;
+			center.y = centerPt.y - renderRect.h / 2;
+		}
+		virtual ~Text() {  };
+		const Shapes::Rect& getRenderRect() const { return renderRect; }
+		const SDL_Texture* const getTexture() const { return texture; }
+
+	protected:
+		
+		
+
 	};

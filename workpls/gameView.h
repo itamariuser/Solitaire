@@ -6,6 +6,8 @@
 #include "classRenderer.h"
 #include <SDL_ttf.h>
 
+class Text;
+
 class GameView
 {
 public:
@@ -54,7 +56,7 @@ private:
 	std::vector<char*> imagePaths;
 	std::unordered_map< char*, SDL_Texture*> loadedImages;
 	void ctor_init_imagePaths();
-	void loadImages();
+	void loadImages() throw (int);
 
 
 	//handling mouse events
@@ -73,8 +75,15 @@ private:
 	std::unordered_map<SDL_Keycode, std::function<void(void)>> map;
 	void init_keyBindings();
 
+	//text rendering
+public:
+	const TTF_Font* const getFont(const char* const filePath) { return loadedFonts[const_cast<char*>(filePath)]; }
+	void renderText(Text text) throw (int);
 private:
-	
+	std::vector < std::pair< char*,int>> fontsAndSizes;
+	std::unordered_map<char*, TTF_Font*> loadedFonts;
+	void ctor_init_fontPaths();
+	void loadFonts() throw (int);
 	
 
 	
