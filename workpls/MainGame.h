@@ -11,7 +11,7 @@
 class MainGame
 {
 public:
-	MainGame(int screenWidth, int screenHeight) { this->screenWidth = screenWidth; this->screenHeight = screenHeight; }
+	MainGame(int screenWidth, int screenHeight, char* windowTitle = "Solitaire by Itamar Sheffer"): screenWidth(screenWidth), screenHeight(screenHeight), windowTitle(windowTitle){};
 	 int getScreenWidth() { return screenWidth; }
 	 int getScreenHeight() { return screenHeight; }
 	 int setScreenWidth(const int newWidth) { screenWidth = newWidth; }
@@ -26,4 +26,5 @@ public:
 private:
 	 int screenWidth;
 	 int screenHeight;
+	 char* windowTitle;
 };

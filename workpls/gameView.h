@@ -16,41 +16,50 @@ public:
 	int height;
 	Uint32 flags;
 	int timeFrame;
-
-
 	SDL_Window *mainWindow;
-	ClassRenderer ren;
-
-	Color backgroundColor;
-	Color brushColor;
-
 	GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int nnewTimeFrame);
 
-	void start();
-	bool renderLineColored(const Point start, const Point end);
 
+	//simple rendering
+public:
+	bool renderLineColored(const Point start, const Point end);
+	ClassRenderer ren;
+	Color backgroundColor;
+	Color brushColor;
+private:
+
+
+	//various control actions
+public:
+	void start();
+private:
+	bool stop;
+	bool canCont;
+	void shutdown(int retVal);
+	void mainLoop();
+	void inputLoop();//this is for handling input in the opening screen
+	void displayOpeningScreen();
+	void handleInput();
+
+
+	//image, handling, loading and rendering
+public:
 	Point getImageSize(char* imagePath, Uint32* format = nullptr, int* access = nullptr) const throw(int);
 	Point getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const throw(int);
 	SDL_Texture* getTexture(char* imagePath);
 	void GameView::renderImage(const SDL_Texture* const texture, const Shapes::Rect* const rect);
-	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect);//
+	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect);
+
 private:
-	
+	std::vector<char*> imagePaths;
+	std::unordered_map< char*, SDL_Texture*> loadedImages;
+	void ctor_init_imagePaths();
+	void loadImages();
 
 
-	bool stop;
-	bool canCont;
-
-	//ImageDisplayer* displayer;
-	void init_keyBindings();
-	void displayOpeningScreen();
-	void handleInput();
-	
-	void shutdown(int retVal);
-	void mainLoop();
-	void inputLoop();//this is for handling input in the opening screen
-
-	std::unordered_map<SDL_Keycode, std::function<void(void)>> map;
+	//handling mouse events
+public:
+private:
 	bool isMouseDown;
 	void handleMouseEvents(SDL_Event& e);
 	void handleMouseDown(Point clickPos);
@@ -58,10 +67,23 @@ private:
 	void handleMouseMove(Point clickPos);
 
 
-	std::vector<char*> imagePaths;
-	std::unordered_map< char*, SDL_Texture*> loadedImages;
-	void ctor_init_imagePaths();
-	void loadImages();
+	//handling keyboard events
+public:
+private:
+	std::unordered_map<SDL_Keycode, std::function<void(void)>> map;
+	void init_keyBindings();
+
+private:
+	
+	
+
+	
+	
+	
+	
+	
+
+	
 };
 
 

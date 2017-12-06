@@ -6,7 +6,7 @@
 
 int main(int, char**) {
 	
-	MainGame mainGame(SCREEN_WIDTH, SCREEN_HEIGHT);
+	MainGame mainGame(SCREEN_WIDTH, SCREEN_HEIGHT,"Solitaire by Itamar Sheffer");
 	mainGame.start();
 	return 0;//
 }

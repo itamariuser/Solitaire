@@ -30,7 +30,7 @@ void MainGame::init_video() throw (int)
 
 GameView MainGame::init_window() throw (int)
 {
-	return GameView("SDL Tutorial", screenWidth / 4, screenHeight / 4, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, 1000);
+	return GameView(windowTitle, screenWidth / 4, screenHeight / 4, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, 1000);
 }
 //
 

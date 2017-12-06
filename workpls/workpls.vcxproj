@@ -29,7 +29,7 @@
     <ClInclude Include="color.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="GameModel.h" />
-    <ClInclude Include="gameView.h" />
+    <ClInclude Include="GameView.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="ImageDisplayer.h" />
     <ClInclude Include="moveAction.h" />
