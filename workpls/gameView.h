@@ -5,8 +5,14 @@
 #include <functional>
 #include "classRenderer.h"
 #include <SDL_ttf.h>
+#include <unordered_set>
+#include <memory>
+#include <set>
 
 class Text;
+class Graphic;
+template<> struct std::hash<Graphic>;
+
 
 class GameView
 {
@@ -20,16 +26,7 @@ public:
 	int timeFrame;
 	SDL_Window *mainWindow;
 	GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int nnewTimeFrame);
-
-
-	//simple rendering
-public:
-	bool renderLineColored(const Point start, const Point end);
-	ClassRenderer ren;
-	Color backgroundColor;
-	Color brushColor;
-private:
-
+	
 
 	//various control actions
 public:
@@ -40,14 +37,41 @@ private:
 	void shutdown(int retVal);
 	void mainLoop();
 	void inputLoop();//this is for handling input in the opening screen
-	void displayOpeningScreen();
+	void openingScreen();
 	void handleInput();
 	bool loopCondition();
+	void displayOpeningScreen();
+
+
+	//graphic objects handling
+public:
+	void GameView::addTexture(std::string name, const Texture* gp);
+	void removeTexture(std::string name);
+	void addGraphic(std::string name, const Graphic* gp);
+	void removeGraphic(std::string name);
+private:
+	std::unordered_map<std::string, std::shared_ptr<Graphic>> objects;
+	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
+	void init_objects();
+	std::unordered_set<std::string> followingMouse;
+	std::shared_ptr<Graphic> getObject( const std::string& name);
+	
+
+	//simple rendering
+public:
+	bool renderLineColored(const Point start, const Point end);
+	ClassRenderer ren;
+	Color backgroundColor;
+	Color brushColor;
+private:
+
+
+
 
 	//image, handling, loading and rendering
 public:
-	Point getImageSize(char* imagePath, Uint32* format = nullptr, int* access = nullptr) const throw(int);
-	Point getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const throw(int);
+	Point getImageSize(char* imagePath, Uint32* format = nullptr, int* access = nullptr) const;
+	Point getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const ;
 	SDL_Texture* getTexture(char* imagePath);
 	void GameView::renderImage(const SDL_Texture* const texture, const Shapes::Rect* const rect);
 	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect);
@@ -56,7 +80,7 @@ private:
 	std::vector<char*> imagePaths;
 	std::unordered_map< char*, SDL_Texture*> loadedImages;
 	void ctor_init_imagePaths();
-	void loadImages() throw (int);
+	void loadImages();
 
 
 	//handling mouse events
@@ -66,8 +90,8 @@ private:
 	void handleMouseEvents(SDL_Event& e);
 	void handleMouseDown(Point clickPos);
 	void handleMouseUp(Point clickPos);
-	void handleMouseMove(Point clickPos);
-
+	void updateFollowingMouse();
+	Point lastMousePos;
 
 	//handling keyboard events
 public:
@@ -78,12 +102,12 @@ private:
 	//text rendering
 public:
 	const TTF_Font* const getFont(const char* const filePath) { return loadedFonts[const_cast<char*>(filePath)]; }
-	void renderText(Text text) throw (int);
+	void renderText(Text text);
 private:
 	std::vector < std::pair< char*,int>> fontsAndSizes;
 	std::unordered_map<char*, TTF_Font*> loadedFonts;
 	void ctor_init_fontPaths();
-	void loadFonts() throw (int);
+	void loadFonts();
 	
 
 	

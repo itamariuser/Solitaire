@@ -40,7 +40,7 @@
     <ClCompile Include="blorb.cpp" />
     <ClCompile Include="blorbConnector.cpp" />
     <ClCompile Include="classRenderer.cpp" />
-    <ClCompile Include="gameView.cpp" />
+    <ClCompile Include="GameView.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />

@@ -62,16 +62,15 @@ void Circle::draw(Color c)
 			pointsNumber = int(M_PI * radius / 2);
 		}
 
-		float d_a = M_PI / pointsNumber,
-			angle = d_a;
+		double d_a = M_PI / double(pointsNumber), angle = d_a;
 
-		Point start, end(radius, 0.0f);
+		Point start, end(radius, 0);
 		end += center;
 		for (auto i = 0; i < pointsNumber * 2; i++)
 		{
 			start = end;
-			end.x = cos(angle) * radius;
-			end.y = sin(angle) * radius;
+			end.x = int(cos(angle) * radius);
+			end.y = int(sin(angle) * radius);
 			end += center;
 			angle += d_a;
 			gView->renderLineColored(start, end);
@@ -192,5 +191,6 @@ void Card::next()
  void Text::draw(Color c)
 {
 	 next();
+	 //this->color = c;
 	 gView->renderText(*this);
 }

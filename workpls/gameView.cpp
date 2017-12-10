@@ -7,11 +7,12 @@
 #include "Shapes.h"
 #include <iostream>
 #include <filesystem>
+#include <vcruntime_exception.h>
 
 
 GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
 		title(ntitle),xPos(nxPos),yPos(nyPos),width(nwidth),height(nheight),
-		flags(nflags),timeFrame(newTimeFrame), isMouseDown(false),
+		flags(nflags),timeFrame(newTimeFrame), isMouseDown(false), lastMousePos{0,0},
 		mainWindow(SDL_CreateWindow(title, xPos, yPos, width, height, flags)),
 		ren(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)
 	{
@@ -20,7 +21,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		loadImages();
 		loadFonts();
 		init_keyBindings();
-
+		init_objects();
 		
 	}
 
@@ -30,11 +31,52 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			{ SDLK_w,[&]() { SDL_SetWindowTitle(mainWindow, "LEL"); } }
 		};
 	}
+	void GameView::init_objects()
+	{
+		addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 1,1 }, -1, -1, "kingLeaf1"));
+		//followingMouse.insert("kingLeaf1");
+		//addTexture("helloText1", new Text({ 1,1 }, { 5,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, "HELLO", 100, 100, "helloText1"));
+	}
+
+	void GameView::addGraphic(std::string name, const Graphic* gp)
+	{
+		std::shared_ptr<Graphic> shared;
+		shared.reset(const_cast<Graphic*>(gp));
+		objects[name] = shared;
+	}
+
+	void GameView::removeGraphic(std::string name)
+	{
+		objects.erase(name);
+	}
+
+	void GameView::removeTexture(std::string name)
+	{
+		textures.erase(name);
+		removeGraphic(name);
+	}
+
+	void GameView::addTexture(std::string name, const Texture* gp)
+	{
+		std::shared_ptr<Texture> shared;
+		shared.reset(const_cast<Texture*>(gp));
+		textures[name] = shared;
+		addGraphic(name, gp);
+	}
 
 	void GameView::displayOpeningScreen()
 	{
+		std::thread tOpening(&GameView::openingScreen, this);
+		inputLoop();
+		tOpening.join();
+	}
+
+
+	void GameView::openingScreen()
+	{
+		canCont = false; //bool for the opening to signal the inputLoop to continue
 		//Display opening screen
-		Circle circle(Point(100,height/2), Point(width/50,width/50),this,20.0f);	//
+		Circle circle(Point(100,height/2), Point(width/50,width/50),this,20);	//
 
 		int xspeed = width / 50;
 		int yspeed = width / 50;
@@ -64,40 +106,66 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 				shutdown(0);
 			else if (map.find(e.key.keysym.sym) != map.end())
 				map[e.key.keysym.sym]();
+			
 			handleMouseEvents(e);
+
 		}
 		
 	}
 	void GameView::handleMouseEvents(SDL_Event& e)
 	{
 		Point clickPos(0, 0);
-		SDL_GetMouseState(&clickPos.x, &clickPos.y);
-
+		
+		//lastMousePos = clickPos;
 		if (e.type == SDL_MOUSEBUTTONDOWN)
 			handleMouseDown(clickPos);
 
 		else if (e.type == SDL_MOUSEBUTTONUP)
 			handleMouseUp(clickPos);
-
-		else if (e.type == SDL_MOUSEMOTION)
-			handleMouseMove(clickPos);
+		
+		
+		
 	}
 
 	void GameView::handleMouseDown(Point clickPos)
 	{
 		//TODO: call appropriate object's button down function
 		isMouseDown = true;
+		for (auto pair : textures)
+		{
+			if (pair.second->getRenderRect().contains(lastMousePos))
+			{
+				followingMouse.insert(pair.first);
+			}
+		}
 	}
+
+	//void GameView::addTexture()
 
 	void GameView::handleMouseUp(Point clickPos)
 	{
 		//TODO: call appropriate object's button up function
 		isMouseDown = false;
+		//for (auto name : followingMouse)
+		for(auto itr = followingMouse.begin(); itr != followingMouse.end(); ++itr)
+		{
+			auto name = *itr;
+			if (textures[name]->getRenderRect().contains(lastMousePos))
+			{
+				if ((itr = followingMouse.erase(itr)) == followingMouse.end())
+					break;
+			}
+		}
 	}
 
-	void GameView::handleMouseMove(Point clickPos)
+	void GameView::updateFollowingMouse()
 	{
 		//TODO: call appropriate object's mouse move function
+		if(isMouseDown)
+			for (auto objectName : followingMouse)
+			{
+				objects[objectName]->setCenter(lastMousePos);
+			}
 	}
 
 
@@ -112,53 +180,51 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	
 	void GameView::start()
 	{
-		//tests
-		SDL_Surface* s = nullptr;
-		//SDL_Texture * texture = SDL_CreateTextureFromSurface(ren.renderer, s);
-		//!tests
-		
-		brushColor = Color(255,165,0,255);//set brush color to ORANGE
-		ren.setRenderColor(backgroundColor);
-
-		ren.clear();
-		ren.present();
-		
 		stop = false;
-		canCont = false; //bool for the opening to signal the inputLoop to continue
-		std::thread tOpening(&GameView::displayOpeningScreen, this);	
-		inputLoop();
 
-		tOpening.join();
-		
+		//displayOpeningScreen();
 		canCont = false;
 		mainLoop();
 
+
 		shutdown(0);
+	}
+
+	std::shared_ptr<Graphic> GameView::getObject(const std::string& name)
+	{
+		auto shared = objects[name];
+		if (!shared.get())
+			throw std::exception("No Graphic found\n");
+		return shared;
 	}
 	void GameView::mainLoop()
 	{
-		//SDL_Rect texr; texr.y = this->height / 2; texr.x = this->width / 2; texr.h = 200; texr.w = 200;
-		Card kingLeaf1({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"),{ 1,1 });
-		Text helloArial({ 1,1 }, { 5,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, 100, 100);
+		//auto helloText1 = getObject("helloText1");
+		auto kingLeaf1 = getObject("kingLeaf1");
+
 		while(loopCondition())
 		{
 			ren.clear();
-			helloArial.draw();
-			kingLeaf1.draw();
-			
-			
+			//helloText1->setColor(helloText1->getColor() + Color{1, 0, 6, 0});
+			//helloText1->draw();
+			kingLeaf1->draw();
+
+			SDL_GetMouseState(&lastMousePos.x, &lastMousePos.y);
 			ren.present();
+			
 			handleInput();
+			if(lastMousePos.x !=0 && isMouseDown)
+				updateFollowingMouse();
 		}
 	}
 
 	bool GameView::loopCondition()
 	{
 		static int i = 0;
-		return i++ < 500;
+		return true;//i++ < 500;
 	}
 
-	//void GameView::renderText(const char* const fontPath, const char* const text, Color color, Shapes::Rect const size_and_pos) throw (int)
+	
 	void GameView::renderText(Text text) throw (int)
 	{
 		SDL_RenderCopy(ren.renderer, const_cast<SDL_Texture*>(text.getTexture()), nullptr, new SDL_Rect(text.getRenderRect()));
@@ -173,11 +239,11 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		//--- 
 		int ret =
 			SDL_RenderDrawLine(
-				ren.renderer, // SDL_Renderer* renderer: the renderer in which draw 
-				start.x,               // int x1: x of the starting point 
-				start.y,          // int y1: y of the starting point 
-				end.x,                 // int x2: x of the end point 
-				end.y);           // int y2: y of the end point 
+				ren.renderer,
+				start.x,     
+				start.y,     
+				end.x,       
+				end.y);      
 		if (ret != 0)
 		{
 			const char *error = SDL_GetError();
@@ -210,7 +276,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 
 	void GameView::ctor_init_fontPaths() 
 	{
-		fontsAndSizes.push_back({ "assets/arial.ttf", 14});
+		fontsAndSizes.push_back({ "assets/arial.ttf", 16});
 	}
 
 	void GameView::loadFonts() throw (int)

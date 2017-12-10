@@ -18,5 +18,14 @@ namespace Shapes
 		operator SDL_Rect() const { SDL_Rect retRect; retRect.x = center.x; retRect.y = center.y; retRect.w = w; retRect.h = h; return retRect; }
 		Point center;
 		int w, h;
+		bool contains(const Point& p) const
+		{
+			auto x1 = center.x + w;
+			auto x2 = center.x - w;
+			auto y1 = center.y + h;
+			auto y2 = center.y - h;
+			return ((p.x <= x1 && p.x >= x2)
+					&& (p.y <= y1 && p.y >= y2));
+		}
 	};
 }//
