@@ -86,12 +86,14 @@ private:
 	//handling mouse events
 public:
 private:
+	Point lastMousePos;
 	bool isMouseDown;
 	void handleMouseEvents(SDL_Event& e);
 	void handleMouseDown(Point clickPos);
 	void handleMouseUp(Point clickPos);
 	void updateFollowingMouse();
-	Point lastMousePos;
+	void updateLastMousePos();
+	
 
 	//handling keyboard events
 public:

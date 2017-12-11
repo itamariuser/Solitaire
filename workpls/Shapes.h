@@ -21,9 +21,9 @@ namespace Shapes
 		bool contains(const Point& p) const
 		{
 			auto x1 = center.x + w;
-			auto x2 = center.x - w;
+			auto x2 = center.x;// -w;
 			auto y1 = center.y + h;
-			auto y2 = center.y - h;
+			auto y2 = center.y;// -h;
 			return ((p.x <= x1 && p.x >= x2)
 					&& (p.y <= y1 && p.y >= y2));
 		}

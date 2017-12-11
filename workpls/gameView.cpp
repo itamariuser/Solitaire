@@ -10,6 +10,41 @@
 #include <vcruntime_exception.h>
 
 
+void GameView::mainLoop()
+{
+	auto helloText1 = getObject("helloText1");
+	auto kingLeaf1 = getObject("kingLeaf1");
+
+	while (loopCondition())
+	{
+		ren.clear();
+		handleInput();
+
+		helloText1->setColor(helloText1->getColor() + Color{ 1, 3, 6, 0 });
+		helloText1->draw();
+		kingLeaf1->draw();
+
+
+		ren.present();
+
+
+	}
+}
+
+void GameView::ctor_init_fontPaths()
+{
+	fontsAndSizes.push_back({ "assets/arial.ttf", 150 });
+}
+
+void GameView::init_objects()
+{
+	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 1,1 }, -1, -1, "kingLeaf1"));
+	//followingMouse.insert("kingLeaf1");
+	addGraphic("helloText1", new Text({ width - 160,1 }, { -6,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"));
+
+}
+
+
 GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
 		title(ntitle),xPos(nxPos),yPos(nyPos),width(nwidth),height(nheight),
 		flags(nflags),timeFrame(newTimeFrame), isMouseDown(false), lastMousePos{0,0},
@@ -31,12 +66,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			{ SDLK_w,[&]() { SDL_SetWindowTitle(mainWindow, "LEL"); } }
 		};
 	}
-	void GameView::init_objects()
-	{
-		addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 1,1 }, -1, -1, "kingLeaf1"));
-		//followingMouse.insert("kingLeaf1");
-		//addTexture("helloText1", new Text({ 1,1 }, { 5,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, "HELLO", 100, 100, "helloText1"));
-	}
+	
 
 	void GameView::addGraphic(std::string name, const Graphic* gp)
 	{
@@ -97,8 +127,14 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		exit(retVal);
 	}
 	
+	void GameView::updateLastMousePos()
+	{
+		SDL_GetMouseState(&lastMousePos.x, &lastMousePos.y);
+	}
+
 	void GameView::handleInput()
 	{
+		updateLastMousePos();
 		SDL_Event e;
 		if (SDL_PollEvent(&e) && !canCont) /* execution suspends here while waiting on an event */
 		{
@@ -110,6 +146,8 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			handleMouseEvents(e);
 
 		}
+		if (!lastMousePos.isZero() && isMouseDown)
+			updateFollowingMouse();
 		
 	}
 	void GameView::handleMouseEvents(SDL_Event& e)
@@ -197,26 +235,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 			throw std::exception("No Graphic found\n");
 		return shared;
 	}
-	void GameView::mainLoop()
-	{
-		//auto helloText1 = getObject("helloText1");
-		auto kingLeaf1 = getObject("kingLeaf1");
-
-		while(loopCondition())
-		{
-			ren.clear();
-			//helloText1->setColor(helloText1->getColor() + Color{1, 0, 6, 0});
-			//helloText1->draw();
-			kingLeaf1->draw();
-
-			SDL_GetMouseState(&lastMousePos.x, &lastMousePos.y);
-			ren.present();
-			
-			handleInput();
-			if(lastMousePos.x !=0 && isMouseDown)
-				updateFollowingMouse();
-		}
-	}
+	
 
 	bool GameView::loopCondition()
 	{
@@ -274,10 +293,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		}
 	}
 
-	void GameView::ctor_init_fontPaths() 
-	{
-		fontsAndSizes.push_back({ "assets/arial.ttf", 16});
-	}
+	
 
 	void GameView::loadFonts() throw (int)
 	{
