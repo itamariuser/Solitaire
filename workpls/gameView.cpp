@@ -38,9 +38,10 @@ void GameView::ctor_init_fontPaths()
 
 void GameView::init_objects()
 {
-	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 1,1 }, -1, -1, "kingLeaf1"));
+	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 1,1 }, -1, -1, "kingLeaf1"),true);
 	//followingMouse.insert("kingLeaf1");
-	addGraphic("helloText1", new Text({ width - 160,1 }, { -6,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"));
+	addTexture("helloText1", new Text({ width - 160,1 }, { -6,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"),false);
+
 
 }
 
@@ -67,6 +68,18 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		};
 	}
 	
+	void GameView::changeFollow(std::string objectName, bool shouldFollow)
+	{
+		if (shouldFollow)
+		{
+			shouldFollowMouse.insert(objectName);
+		}
+		else
+		{
+			shouldFollowMouse.erase(objectName);
+		}
+	}
+
 
 	void GameView::addGraphic(std::string name, const Graphic* gp)
 	{
@@ -86,11 +99,12 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		removeGraphic(name);
 	}
 
-	void GameView::addTexture(std::string name, const Texture* gp)
+	void GameView::addTexture(std::string name, const Texture* gp, bool shouldFollowMs = false)
 	{
 		std::shared_ptr<Texture> shared;
 		shared.reset(const_cast<Texture*>(gp));
 		textures[name] = shared;
+		if (shouldFollowMs) shouldFollowMouse.insert(shared->getName());
 		addGraphic(name, gp);
 	}
 
@@ -200,8 +214,14 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	{
 		//TODO: call appropriate object's mouse move function
 		if(isMouseDown)
-			for (auto objectName : followingMouse)
+			for (auto itr = followingMouse.begin(); itr != followingMouse.end(); ++itr)
 			{
+				auto objectName = *itr;
+				if (shouldFollowMouse.find(objectName) == shouldFollowMouse.end())
+				{
+					if((itr = followingMouse.erase(itr)) == followingMouse.end()) break;
+					continue;
+				}
 				objects[objectName]->setCenter(lastMousePos);
 			}
 	}

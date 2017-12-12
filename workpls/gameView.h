@@ -45,7 +45,7 @@ private:
 
 	//graphic objects handling
 public:
-	void GameView::addTexture(std::string name, const Texture* gp);
+	void addTexture(std::string name, const Texture* gp, bool shouldFollowMs);
 	void removeTexture(std::string name);
 	void addGraphic(std::string name, const Graphic* gp);
 	void removeGraphic(std::string name);
@@ -54,7 +54,9 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
 	void init_objects();
 	std::unordered_set<std::string> followingMouse;
+	std::unordered_set<std::string> shouldFollowMouse;
 	std::shared_ptr<Graphic> getObject( const std::string& name);
+	void changeFollow(std::string objectName, bool shouldFollow);
 	
 
 	//simple rendering
