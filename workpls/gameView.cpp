@@ -38,7 +38,7 @@ void GameView::ctor_init_fontPaths()
 
 void GameView::init_objects()
 {
-	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 1,1 }, -1, -1, "kingLeaf1"),true);
+	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 0,0 }, 135,178, "kingLeaf1"),true);
 	//followingMouse.insert("kingLeaf1");
 	addTexture("helloText1", new Text({ width - 160,1 }, { -6,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"),false);
 

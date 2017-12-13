@@ -1,8 +1,13 @@
-﻿  GameView.cpp
-c:\users\itama\source\repos\solitairenew\solitaire\workpls\gameview.cpp(267): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitairenew\solitaire\workpls\gameview.cpp(306): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitairenew\solitaire\workpls\gameview.cpp(318): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitairenew\solitaire\workpls\gameview.cpp(328): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitairenew\solitaire\workpls\gameview.cpp(340): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+﻿  MainGame.cpp
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.h(20): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.h(21): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.h(22): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.h(23): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.cpp(14): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.cpp(23): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.cpp(31): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.cpp(41): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.cpp(42): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\itama\source\repos\solitairenew\solitaire\workpls\maingame.cpp(48): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
   workpls.vcxproj -> C:\Users\itama\Source\Repos\SolitaireNew\Solitaire\Debug\Solitaire.exe
   workpls.vcxproj -> C:\Users\itama\Source\Repos\SolitaireNew\Solitaire\Debug\Solitaire.pdb (Full PDB)

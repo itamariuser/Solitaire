@@ -30,7 +30,18 @@ void MainGame::init_video() throw (int)
 
 GameView MainGame::init_window() throw (int)
 {
-	return GameView(windowTitle, screenWidth / 4, screenHeight / 4, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, 1000);
+	if (screenWidth == -1 || screenHeight == -1)
+	{
+		SDL_DisplayMode dm;
+
+		if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
+		{
+			std::cerr<<"SDL_GetDesktopDisplayMode failed: "<<SDL_GetError()<<'\n';
+		}
+		screenWidth = dm.w*0.7;
+		screenHeight = dm.h*0.8;
+	}
+	return GameView(windowTitle, 200,60, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, 1000);
 }
 //
 
