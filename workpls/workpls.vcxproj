@@ -23,6 +23,7 @@
     <ClInclude Include="blorb.h" />
     <ClInclude Include="blorbConnector.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ImageLoader.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="classRenderer.h" />
@@ -42,6 +43,7 @@
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="point.cpp" />

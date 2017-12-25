@@ -8,6 +8,7 @@
 #include <iostream>
 #include <filesystem>
 #include <vcruntime_exception.h>
+#include "ImageLoader.h"
 
 
 void GameView::mainLoop()
@@ -54,7 +55,11 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	{
 		stop = true;
 		canCont = true;
-		loadImages();
+		SDL_Texture* z;
+		{
+			z = IMG_LoadTexture(ren.renderer, "./assets/images/smiley.png");
+		}
+		ImageLoader::loadImages("./assets/images", loadedImages, [&](const char* file) { return IMG_LoadTexture(ren.renderer,file); });
 		loadFonts();
 		init_keyBindings();
 		init_objects();
@@ -298,14 +303,14 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		return true;
 	}
 
-	void GameView::ctor_init_imagePaths()
+	void GameView::ctor_init_imagePaths(std::string locationsFile)
 	{
 		imagePaths.push_back("assets/KingLeaf.png");
 	}
 
-	void GameView::loadImages() throw (int)
+	void GameView::loadImages(std::string locationsFile) throw (int)
 	{
-		ctor_init_imagePaths();
+		ctor_init_imagePaths(locationsFile);
 		for (char* path : imagePaths)
 		{
 			auto z = IMG_LoadTexture(ren.renderer, path);
