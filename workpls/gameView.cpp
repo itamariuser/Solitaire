@@ -9,7 +9,7 @@
 #include <filesystem>
 #include <vcruntime_exception.h>
 #include "ImageLoader.h"
-
+#include <sstream>
 
 void GameView::mainLoop()
 {
@@ -55,11 +55,28 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	{
 		stop = true;
 		canCont = true;
-		SDL_Texture* z;
+
+
+		std::stringstream ss;
+		std::string s;
+		for (std::experimental::filesystem::directory_iterator itr("./assets/images"); itr != std::experimental::filesystem::end(itr); ++itr)
 		{
-			z = IMG_LoadTexture(ren.renderer, "./assets/images/smiley.png");
+			auto p = *itr;
+			if (!is_directory(p))
+			{
+				ss << p;
+				ss >> s;
+
+				auto sub = s.substr(s.find_last_of("\\") + 1);
+				auto name = const_cast<char*>(sub.c_str());
+				auto entry = const_cast<char*>(s.c_str());
+				
+				loadedImages[name] = IMG_LoadTexture(ren.renderer, entry);
+				//imagesMap[const_cast<char*>(s.c_str())] = loadFunction(s.c_str());
+				int i = 0;
+			}
 		}
-		ImageLoader::loadImages("./assets/images", loadedImages, [&](const char* file) { return IMG_LoadTexture(ren.renderer,file); });
+		ImageLoader::loadImages("./assets/images", loadedImages, [&](const char* file) { return IMG_LoadTexture(ren.renderer, file); });
 		loadFonts();
 		init_keyBindings();
 		init_objects();

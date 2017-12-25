@@ -1,8 +1,8 @@
 ﻿  GameView.cpp
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(272): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(311): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(323): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(333): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(345): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(289): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(328): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(340): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(350): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(362): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
   workpls.vcxproj -> C:\Users\shefferit\Source\Repos\Solitaire\Debug\Solitaire.exe
   workpls.vcxproj -> C:\Users\shefferit\Source\Repos\Solitaire\Debug\Solitaire.pdb (Full PDB)
