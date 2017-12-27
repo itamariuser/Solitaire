@@ -1,8 +1,11 @@
-﻿  GameView.cpp
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(289): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(328): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(340): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(350): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\shefferit\source\repos\solitaire\workpls\gameview.cpp(362): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-  workpls.vcxproj -> C:\Users\shefferit\Source\Repos\Solitaire\Debug\Solitaire.exe
-  workpls.vcxproj -> C:\Users\shefferit\Source\Repos\Solitaire\Debug\Solitaire.pdb (Full PDB)
+﻿  ImageLoader.cpp
+  GameView.cpp
+c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(290): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(329): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(341): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(351): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(363): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+  Generating Code...
+     Creating library C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.lib and object C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.exp
+  workpls.vcxproj -> C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.exe
+  workpls.vcxproj -> C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.pdb (Full PDB)

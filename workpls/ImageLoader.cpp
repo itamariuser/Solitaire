@@ -3,8 +3,9 @@
 #include <iostream>
 #include <sstream>
 using namespace std::experimental::filesystem;
-void ImageLoader::loadImages(const std::string& imageFolder, std::unordered_map<char*, SDL_Texture*>& imagesMap, std::function<SDL_Texture* (const char* path)> loadFunction)
+void ImageLoader::loadImages(const std::string& imageFolder, std::unordered_map < std::string, SDL_Texture* > & imagesMap, std::function<SDL_Texture* (const char* path)> loadFunction)
 {
+	int z = 0;
 	for(auto& p : directory_iterator(imageFolder))
 	{
 		if (!is_directory(p))
@@ -15,8 +16,8 @@ void ImageLoader::loadImages(const std::string& imageFolder, std::unordered_map<
 			ss >> s;
 			
 			auto sub = s.substr(s.find_last_of("\\")+1);
-			static auto name = const_cast<char*>(sub.c_str());
-			static auto entry = const_cast<char*>(s.c_str());
+			auto name = const_cast<char*>(sub.c_str());
+			auto entry = const_cast<char*>(s.c_str());
 			imagesMap[name] = loadFunction(entry);
 			//imagesMap[const_cast<char*>(s.c_str())] = loadFunction(s.c_str());
 			int i = 0;

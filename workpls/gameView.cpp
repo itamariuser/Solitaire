@@ -57,26 +57,27 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		canCont = true;
 
 
-		std::stringstream ss;
-		std::string s;
-		for (std::experimental::filesystem::directory_iterator itr("./assets/images"); itr != std::experimental::filesystem::end(itr); ++itr)
-		{
-			auto p = *itr;
-			if (!is_directory(p))
-			{
-				ss << p;
-				ss >> s;
+		//std::stringstream ss;
+		//std::string s;
+		//for (std::experimental::filesystem::directory_iterator itr("./assets/images"); itr != std::experimental::filesystem::end(itr); ++itr)
+		//{
+		//	auto p = *itr;
+		//	if (!is_directory(p))
+		//	{
+		//		ss << p;
+		//		ss >> s;
 
-				auto sub = s.substr(s.find_last_of("\\") + 1);
-				auto name = const_cast<char*>(sub.c_str());
-				auto entry = const_cast<char*>(s.c_str());
-				
-				loadedImages[name] = IMG_LoadTexture(ren.renderer, entry);
-				//imagesMap[const_cast<char*>(s.c_str())] = loadFunction(s.c_str());
-				int i = 0;
-			}
-		}
-		ImageLoader::loadImages("./assets/images", loadedImages, [&](const char* file) { return IMG_LoadTexture(ren.renderer, file); });
+		//		auto sub = s.substr(s.find_last_of("\\") + 1);
+		//		auto name = const_cast<char*>(sub.c_str());
+		//		auto entry = const_cast<char*>(s.c_str());
+		//		
+		//		loadedImages[name] = IMG_LoadTexture(ren.renderer, entry);
+		//		//imagesMap[const_cast<char*>(s.c_str())] = loadFunction(s.c_str());
+		//		int i = 0;
+		//	}
+		//}
+
+	ImageLoader::loadImages("./assets/images", loadedImages, [=](const char* file) { return IMG_LoadTexture(ren.renderer, file); });
 		loadFonts();
 		init_keyBindings();
 		init_objects();

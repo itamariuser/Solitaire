@@ -80,7 +80,7 @@ public:
 
 private:
 	std::vector<char*> imagePaths;
-	std::unordered_map< char*, SDL_Texture*> loadedImages;
+	std::unordered_map < std::string, SDL_Texture* > loadedImages;
 	void ctor_init_imagePaths(std::string locationsFile);
 	void loadImages(std::string locationsFile);
 
