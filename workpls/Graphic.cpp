@@ -15,7 +15,7 @@ void SimpleLine::draw(Color c)
 
 void SimpleLine::next()
 {
-	center += speed;
+	setCenter(center + speed);
 	end += endSpeed;
 }
 
@@ -39,6 +39,7 @@ void Diamond::draw(Color c)
 
 void Diamond::next()
 {
+	changed = true;
 	center += speed;
 	uEnd += speed;
 	rEnd += speed;
@@ -163,6 +164,6 @@ void Card::next()
  void ColorSwitchText::next()
  {
 	 setColor(color + colorSpeed);
-	 changed = true;
+	 
 	 Text::next();
  }

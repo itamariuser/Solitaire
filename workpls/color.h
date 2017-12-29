@@ -18,5 +18,10 @@ public:
 		Uint8 alpha = a + other.a;
 		return { red, green, blue, alpha }; 
 	}
+
+	bool operator!=(const Color& other) const
+	{
+		return r != other.r || g != other.g || b != other.b || a != other.a;
+	}
 };
 

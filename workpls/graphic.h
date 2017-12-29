@@ -16,55 +16,39 @@
 		GameView* gView;
 		float mass;
 		bool visible;
-		Graphic(Point center, Point speed, GameView* gView, std::string name = "DEFAULT", float mass = 1.0, Color c = { 255,0,0,0 }, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible), name(name), color(c) {}
-		/*virtual Graphic& withName(std::string name)
-		{
-			this->name = name;
-			return *this;
-		}*/
+		Graphic(Point center, Point speed, GameView* gView, std::string name = "DEFAULT", float mass = 1.0, Color c = { 255,0,0,0 }, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible), name(name), color(c),changed(true) {}
+
 		virtual void draw(Color c = { 0,0,0,0 }) = 0;
 
-		virtual void next() { center += speed; }//
-		virtual void setCenter(Point p) { center = p; }
+		virtual void next() { center += speed; }
+		virtual void setCenter(Point p) 
+		{ 
+			if (p != center)
+				changed = true;
+			center = p; 
+		}
 		virtual const std::string& getName() const { return name; }
-		void setColor(const Color& c) { color = c; }
+		void setColor(const Color& c) 
+		{
+			if (color != c)
+				changed = true;
+			color = c; 
+		}
 		const Color& getColor() const { return color; }
 
 
 	protected:
 		Point center;
 		Point speed;
-		virtual void flipSpeedY() { speed = { speed.x,-speed.y }; }
+		virtual void flipSpeedY() { speed = { speed.x,-speed.y }; }//TODO: setchanged
 		virtual void flipSpeedX() { speed = { -speed.x,speed.y }; }
 		virtual void stopSpeedX() { speed = { 0,speed.y }; }
 		virtual void stopSpeedY() { speed = { speed.x,0 }; }
 		virtual void stopSpeedBoth() { stopSpeedX(); stopSpeedY(); }
 		std::string name;
 		Color color;
-
-		//friend struct std::hash<Graphic>;
+		mutable bool changed;
 	};
-
-	namespace std {
-
-		template <>
-		struct hash<Graphic>
-		{
-			std::size_t operator()(const Graphic& g) const
-			{
-				using std::size_t;
-				using std::hash;
-				using std::string;
-
-				// Compute individual hash values for first,
-				// second and third and combine them using XOR
-				// and bit shifting:
-
-				return hash<string>()(g.getName());
-			}
-		};
-
-	}
 
 
 
@@ -163,8 +147,11 @@
 		virtual void draw(Color c = { 0, 0, 0, 0 });
 		inline void setCenter(Point centerPt)
 		{
+			auto prevCenter = center;
 			center.x = centerPt.x - renderRect.w / 2;
 			center.y = centerPt.y - renderRect.h / 2;
+			if (center != prevCenter)
+				changed = true;
 		}
 		const Shapes::Rect& getRenderRect() const { return renderRect; }
 		virtual ~Texture() {  };
@@ -200,7 +187,7 @@
 	class Text : public Texture
 	{
 	public:
-		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width = -1, int height = -1, std::string name="DEFAULT") :Texture(center, speed, gView, nullptr, sizeSpeed, name, width, height), text(text), changed(true)
+		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width = -1, int height = -1, std::string name="DEFAULT") :Texture(center, speed, gView, nullptr, sizeSpeed, name, width, height), text(text)
 		{
 			this->color = color;
 			font = const_cast<TTF_Font*>(gView->getFont(fontPath));
@@ -241,7 +228,7 @@
 		mutable SDL_Surface* sdlSurface;
 		mutable SDL_Texture* sdlTexture;
 		std::string text;
-		mutable bool changed;
+		//mutable bool changed;
 	};
 
 	class ColorSwitchText : public Text
