@@ -21,7 +21,7 @@ c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(655): warn
           [
               _Ux=SDL_Texture
           ]
-  c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.cpp(37): note: see reference to function template instantiation 'void ResourceLoader::load<SDL_Texture,std::shared_ptr<SDL_Texture>>(const std::string &,std::unordered_map<std::string,std::shared_ptr<SDL_Texture>,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &,std::function<SDL_Texture *(std::string)>)' being compiled
+  c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.cpp(38): note: see reference to function template instantiation 'void ResourceLoader::load<SDL_Texture,std::shared_ptr<SDL_Texture>>(const std::string &,std::unordered_map<std::string,std::shared_ptr<SDL_Texture>,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &,std::function<SDL_Texture *(std::string)>)' being compiled
           with
           [
               _Kty=std::string,
@@ -49,11 +49,5 @@ c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(153): warn
           [
               _Ux=SDL_Texture
           ]
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
-  classRenderer.cpp
-  MainGame.cpp
-  Graphic.cpp
   workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire\Solitaire\Debug\Solitaire.exe
   workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire\Solitaire\Debug\Solitaire.pdb (Full PDB)

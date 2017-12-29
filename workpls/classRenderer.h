@@ -4,7 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include "point.h"
-
+#include "Window.h"
 
 	class Graphic;
 	class Line;
@@ -25,10 +25,10 @@ public:
 	SDL_Renderer* renderer;
 	Color renderColor;
 
-	ClassRenderer(SDL_Window* win, Uint32 flags, int index = -1);
+	ClassRenderer(Window& win, Uint32 flags, int index = -1);
 
 	Color setRenderColor(Color color);
-	Color getRenderColor();
+	Color getRenderColor() const;
 
 	void clear();
 	void present();//

@@ -7,9 +7,9 @@
 #include "graphic.h"
 
 
-ClassRenderer::ClassRenderer(SDL_Window* win, Uint32 flags, int index):renderColor(0,0,0,0)
+ClassRenderer::ClassRenderer(Window& win, Uint32 flags, int index) : renderColor(0,0,0,0)
 {
-	renderer = SDL_CreateRenderer(win, index, flags);
+	renderer = SDL_CreateRenderer(win.getSDL_Window(), index, flags);
 }
 
 
@@ -21,7 +21,7 @@ Color ClassRenderer::setRenderColor(Color color)
 	return lastColor;
 }
 
-Color ClassRenderer::getRenderColor()
+Color ClassRenderer::getRenderColor() const
 {
 	return renderColor;
 }

@@ -42,7 +42,7 @@ GameView MainGame::init_window() throw (int)
 		screenHeight = dm.h*0.8;
 	}
 	Window window(windowTitle, { 200, 60 }, { screenWidth, screenHeight }, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	ClassRenderer renderer(window.getSDL_Window(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	ClassRenderer renderer(window, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	return GameView(window, renderer);
 }
 

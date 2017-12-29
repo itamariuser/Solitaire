@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <memory>
 #include <set>
+#include <map>
 #include <queue>
 #include "Window.h"
 class Text;
@@ -50,8 +51,9 @@ private:
 	void init_objects();
 	std::unordered_set<std::string> followingMouse;
 	std::unordered_set<std::string> shouldFollowMouse;//TODO: add priority rendering
-	std::priority_queue <std::weak_ptr<Graphic>> renderOrder;
-	std::unordered_map<std::shared_ptr<Graphic>, int> priorities;
+	std::vector<std::shared_ptr<Graphic>> drawOrder;
+	std::unordered_map<std::shared_ptr<Graphic>, int> drawPriorities;
+	void sortDrawPriorities();
 	std::shared_ptr<Graphic> getObject( const std::string& name);
 	void changeFollow(std::string objectName, bool shouldFollow);
 	void drawTextures();

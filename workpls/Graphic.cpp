@@ -143,23 +143,6 @@ void Card::draw(Color c)
 void Card::next()
 {
 	Texture::next();
-
-	/*if (center.x + renderRect.w > gView->width)
-	{
-		center.x = gView->width - 1 - renderRect.w;
-	}
-
-	else if (center.x < 0)
-		center.x = 1;
-
-	if (center.y + renderRect.h > gView->height)
-	{
-		center.y = gView->height - 1 - renderRect.h;
-	}
-
-	else if (center.y < 0)
-		center.y = 1;
-	renderRect.center = center;*/
 }
 
 
@@ -167,38 +150,17 @@ void Card::next()
  void Text::next()
 {
 	 Texture::next();
-	 //if (center.x + renderRect.w > gView->width)
-	 //{
-		// center.x = gView->width - 1 - renderRect.w;
-		// 
-	 //}
-
-	 //else if (center.x < 0)
-		// center.x = 1;
-
-	 //if (center.y + renderRect.h > gView->height)
-	 //{
-		// center.y = gView->height - 1 - renderRect.h;
-		///* speed = {speed.x, -speed.y};*/
-	 //}
-
-	 //else if (center.y < 0)
-		// center.y = 1;
-	 //renderRect.center = center;
-	 
 }
 
  void Text::draw(Color c)
 {
 	 next();
-	 //this->color = c;
 	 gView->renderText(*this);
 }
 
 
  void ColorSwitchText::next()
  {
-	 
 	 setColor(color + colorSpeed);
 	 Text::next();
  }

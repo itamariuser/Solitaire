@@ -20,6 +20,7 @@ void GameView::mainLoop()
 	{
 		ren.clear();
 		handleInput();
+		sortDrawPriorities();
 		drawTextures();
 		ren.present();
 	}
@@ -45,19 +46,26 @@ void GameView::init_objects()
 
 }
 
+void GameView::sortDrawPriorities()
+{
+	std::sort(drawOrder.begin(), drawOrder.end(), [&](auto texture1, auto texture2) {return drawPriorities[texture1] > drawPriorities[texture2]; });
+}
+
 void GameView::drawTextures()
 {
-	for (auto entry : textures)
+	for (auto texture : drawOrder)
 	{
-		entry.second->draw();
+		texture->draw();
 	}
 }
+
 
 GameView::GameView(Window& window, ClassRenderer& renderer) :
 	backgroundColor(0, 0, 0, 0), brushColor(0, 0, 0, 0), 
 	isMouseDown(false), lastMousePos(0,0), stop(true), canCont(true),
 	window(window), ren(renderer)
 	{
+	
 		loadTextures();
 		loadFonts();
 		init_keyBindings();
@@ -68,7 +76,7 @@ GameView::GameView(Window& window, ClassRenderer& renderer) :
 	{
 		map = 
 		{
-			{ SDLK_w,[&]() { window.setTitle("LEL"); } },
+			{ SDLK_w,[&]() { window.setTitle(" 'W' key pressed!"); } },
 		};
 	}
 	
@@ -110,7 +118,8 @@ GameView::GameView(Window& window, ClassRenderer& renderer) :
 		textures[name] = shared;
 		if (shouldFollowMs) shouldFollowMouse.insert(shared->getName());
 		addGraphic(name, gp);
-		priorities[shared] = priority;
+		drawPriorities[shared] = priority;
+		drawOrder.push_back(shared);
 	}
 
 	void GameView::displayOpeningScreen()
