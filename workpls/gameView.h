@@ -8,7 +8,8 @@
 #include <unordered_set>
 #include <memory>
 #include <set>
-
+#include <queue>
+#include "Window.h"
 class Text;
 class Graphic;
 template<> struct std::hash<Graphic>;
@@ -17,15 +18,9 @@ template<> struct std::hash<Graphic>;
 class GameView
 {
 public:
-	char* title;
-	int xPos;
-	int yPos;
-	int width;
-	int height;
-	Uint32 flags;
-	int timeFrame;
-	SDL_Window *mainWindow;
-	GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int nnewTimeFrame);
+	
+	Window window;
+	GameView(Window& window, ClassRenderer& renderer);
 	
 
 	//various control actions
@@ -45,7 +40,7 @@ private:
 
 	//graphic objects handling
 public:
-	void addTexture(std::string name, const Texture* gp, bool shouldFollowMs);
+	void addTexture(std::string name, const Texture* gp, int priority = 10, bool shouldFollowMs = false);
 	void removeTexture(std::string name);
 	void addGraphic(std::string name, const Graphic* gp);
 	void removeGraphic(std::string name);
@@ -54,10 +49,12 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
 	void init_objects();
 	std::unordered_set<std::string> followingMouse;
-	std::unordered_set<std::string> shouldFollowMouse;
+	std::unordered_set<std::string> shouldFollowMouse;//TODO: add priority rendering
+	std::priority_queue <std::weak_ptr<Graphic>> renderOrder;
+	std::unordered_map<std::shared_ptr<Graphic>, int> priorities;
 	std::shared_ptr<Graphic> getObject( const std::string& name);
 	void changeFollow(std::string objectName, bool shouldFollow);
-	
+	void drawTextures();
 
 	//simple rendering
 public:
@@ -72,17 +69,16 @@ private:
 
 	//image, handling, loading and rendering
 public:
-	Point getImageSize(char* imagePath, Uint32* format = nullptr, int* access = nullptr) const;
-	Point getImageSize(SDL_Texture* image, Uint32* format = nullptr, int* access = nullptr) const ;
-	SDL_Texture* getTexture(char* imagePath);
+	
+	std::shared_ptr<SDL_Texture> getTexture(char* imagePath);
 	void GameView::renderImage(const SDL_Texture* const texture, const Shapes::Rect* const rect);
 	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect);
 
 private:
 	std::vector<char*> imagePaths;
-	std::unordered_map < std::string, SDL_Texture* > loadedImages;
-	void ctor_init_imagePaths(std::string locationsFile);
-	void loadImages(std::string locationsFile);
+	std::unordered_map < std::string, std::shared_ptr<SDL_Texture> > loadedImages;
+	void loadTextures();
+	
 
 
 	//handling mouse events
@@ -109,18 +105,10 @@ public:
 	void renderText(Text text);
 private:
 	std::vector < std::pair< char*,int>> fontsAndSizes;
-	std::unordered_map<char*, TTF_Font*> loadedFonts;
-	void ctor_init_fontPaths();
+	std::unordered_map<std::string, TTF_Font*> loadedFonts;
 	void loadFonts();
 	
 
-	
-	
-	
-	
-	
-
-	
 };
 
 

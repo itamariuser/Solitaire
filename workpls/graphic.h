@@ -148,14 +148,14 @@
 	public:
 		Texture(Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, std::string name ,int width = -1, int height = -1) :Graphic(center, speed, gView, name), texture(texture),renderRect(0,0,0,0),sizeSpeed(sizeSpeed)
 		{
-			
-			/*if(width == -1 && height == -1)
+			if (width == -1 && height == -1)
 			{
-				auto sizes = gView->getImageSize(texture);
+				Point sizes;
+				SDL_QueryTexture(texture, nullptr, nullptr, &sizes.x, &sizes.y);
 				width = sizes.x;
 				height = sizes.y;
-			}*/
-			renderRect = Shapes::Rect(center.x,center.y , width, height);
+			}
+			renderRect = Shapes::Rect(center.x, center.y, width, height);
 		}
 
 		virtual void next();
@@ -182,24 +182,14 @@
 	class Card : public Texture
 	{
 	public:
-		Card(Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, int width = -1, int height = -1, std::string name = "DEFAULT") :Texture(center,speed,gView,texture,sizeSpeed,name,width,height)
+		Card(Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, int width = -1, int height = -1, std::string name = "DEFAULT")
+			: Texture(center,speed,gView,texture,sizeSpeed,name,width,height)
 		{
-
-			if (width == -1 && height == -1)
-			{
-				auto sizes = gView->getImageSize(texture);
-				width = sizes.x;
-				height = sizes.y;
-			}
-			//center = { center.x + 100, center.y + 100 };
-			renderRect = Shapes::Rect(center.x, center.y, width, height);
 		}
 		
 		virtual void next();
-
 		virtual void draw(Color c = { 0, 0, 0, 0 });
 
-		
 		virtual ~Card() {  };
 
 	protected:
@@ -212,21 +202,10 @@
 	public:
 		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width = -1, int height = -1, std::string name="DEFAULT") :Texture(center, speed, gView, nullptr, sizeSpeed, name, width, height), text(text)
 		{
-			
 			font = const_cast<TTF_Font*>(gView->getFont(fontPath));
-			if (width == -1 && height == -1)
-			{
-				auto sizes = gView->getImageSize(texture);
-				width = sizes.x;
-				height = sizes.y;
-			}
-			renderRect = Shapes::Rect(center.x, center.y, width, height);
-
-			
 		}
 
 		virtual void next();
-
 		virtual void draw(Color c = { 0, 0, 0, 0 });
 
 
@@ -242,4 +221,12 @@
 		//Color color;
 		TTF_Font* font;
 		char* text;
+	};
+
+	class ColorSwitchText : public Text
+	{
+		Color colorSpeed;
+	public:
+		ColorSwitchText(Text baseText, Color colorSpeed = {0,0,0,0}) : Text(baseText), colorSpeed(colorSpeed) {}
+		virtual void next();
 	};

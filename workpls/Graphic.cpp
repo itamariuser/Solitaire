@@ -80,9 +80,9 @@ void Circle::draw(Color c)
 
 void Circle::next()
 {
-	if (center.x + radius > gView->width || center.x - radius < 0)
+	if (center.x + radius > gView->window.getDimensions().x || center.x - radius < 0)
 		speed.x *= -1;
-	if (center.y + radius > gView->height || center.y - radius < 0)
+	if (center.y + radius > gView->window.getDimensions().y || center.y - radius < 0)
 		speed.y *= -1;
 
 	center += speed;
@@ -102,9 +102,9 @@ void Texture::next()
 {
 	Graphic::next();
 
-	if (center.x + renderRect.w > gView->width)
+	if (center.x + renderRect.w > gView->window.getDimensions().x)
 	{
-		center.x = gView->width - 1 - renderRect.w;
+		center.x = gView->window.getDimensions().x - 1 - renderRect.w;
 		flipSpeedX();
 		stopSizeSpeedBoth();
 	}
@@ -116,9 +116,9 @@ void Texture::next()
 		stopSizeSpeedBoth();
 	}
 
-	if (center.y + renderRect.h > gView->height)
+	if (center.y + renderRect.h > gView->window.getDimensions().y)
 	{
-		center.y = gView->height - 1 - renderRect.h;
+		center.y = gView->window.getDimensions().y - 1 - renderRect.h;
 		flipSpeedY();
 		stopSizeSpeedBoth();
 	}
@@ -194,3 +194,11 @@ void Card::next()
 	 //this->color = c;
 	 gView->renderText(*this);
 }
+
+
+ void ColorSwitchText::next()
+ {
+	 
+	 setColor(color + colorSpeed);
+	 Text::next();
+ }

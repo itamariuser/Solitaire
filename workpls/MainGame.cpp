@@ -24,7 +24,7 @@ void MainGame::init_video() throw (int)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) //|SDL_INIT_EVENTS
 	{
-		std::cerr << "Failed to init video\n";//
+		std::cerr << "Failed to init video\n";
 	}
 }
 
@@ -41,9 +41,11 @@ GameView MainGame::init_window() throw (int)
 		screenWidth = dm.w*0.7;
 		screenHeight = dm.h*0.8;
 	}
-	return GameView(windowTitle, 200,60, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, 1000);
+	Window window(windowTitle, { 200, 60 }, { screenWidth, screenHeight }, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	ClassRenderer renderer(window.getSDL_Window(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	return GameView(window, renderer);
 }
-//
+
 
 void MainGame::init_fonts() throw (int)
 {

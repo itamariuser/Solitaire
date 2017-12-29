@@ -8,10 +8,11 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <SDL_ttf.h>
+#include "Window.h"
 class MainGame
 {
 public:
-	MainGame(int screenWidth, int screenHeight, char* windowTitle = "Solitaire by Itamar Sheffer"): screenWidth(screenWidth), screenHeight(screenHeight), windowTitle(windowTitle){};
+	MainGame(int screenWidth, int screenHeight, std::string windowTitle = "Solitaire by Itamar Sheffer"): screenWidth(screenWidth), screenHeight(screenHeight), windowTitle(windowTitle){};
 	 int getScreenWidth() { return screenWidth; }
 	 int getScreenHeight() { return screenHeight; }
 	 int setScreenWidth(const int newWidth) { screenWidth = newWidth; }
@@ -26,5 +27,5 @@ public:
 private:
 	 int screenWidth;
 	 int screenHeight;
-	 char* windowTitle;
+	 std::string windowTitle;
 };

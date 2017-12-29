@@ -7,7 +7,7 @@
 #include "graphic.h"
 
 
-ClassRenderer::ClassRenderer(SDL_Window* win, int index, Uint32 flags):renderColor(0,0,0,0)
+ClassRenderer::ClassRenderer(SDL_Window* win, Uint32 flags, int index):renderColor(0,0,0,0)
 {
 	renderer = SDL_CreateRenderer(win, index, flags);
 }

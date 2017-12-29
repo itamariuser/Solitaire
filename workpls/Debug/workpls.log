@@ -1,11 +1,59 @@
-﻿  ImageLoader.cpp
-  GameView.cpp
-c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(290): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(329): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(341): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(351): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\natali.aviv162\source\repos\solitaire\workpls\gameview.cpp(363): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+﻿  GameView.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(655): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+  c:\users\itama\source\repos\solitaire\solitaire\workpls\sdl2-2.0.7\include\sdl_render.h(128): note: see declaration of 'SDL_Texture'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(451): note: see reference to function template instantiation 'void std::shared_ptr<SDL_Texture>::_Resetp<_Ux>(_Ux *)' being compiled
+          with
+          [
+              _Ux=SDL_Texture
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(451): note: see reference to function template instantiation 'void std::shared_ptr<SDL_Texture>::_Resetp<_Ux>(_Ux *)' being compiled
+          with
+          [
+              _Ux=SDL_Texture
+          ]
+  c:\users\itama\source\repos\solitaire\solitaire\workpls\resourceloader.h(30): note: see reference to function template instantiation 'std::shared_ptr<SDL_Texture>::shared_ptr<SDL_Texture>(_Ux *)' being compiled
+          with
+          [
+              _Ux=SDL_Texture
+          ]
+  c:\users\itama\source\repos\solitaire\solitaire\workpls\resourceloader.h(30): note: see reference to function template instantiation 'std::shared_ptr<SDL_Texture>::shared_ptr<SDL_Texture>(_Ux *)' being compiled
+          with
+          [
+              _Ux=SDL_Texture
+          ]
+  c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.cpp(37): note: see reference to function template instantiation 'void ResourceLoader::load<SDL_Texture,std::shared_ptr<SDL_Texture>>(const std::string &,std::unordered_map<std::string,std::shared_ptr<SDL_Texture>,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &,std::function<SDL_Texture *(std::string)>)' being compiled
+          with
+          [
+              _Kty=std::string,
+              _Ty=std::shared_ptr<SDL_Texture>
+          ]
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(153): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+  c:\users\itama\source\repos\solitaire\solitaire\workpls\sdl2-2.0.7\include\sdl_render.h(128): note: see declaration of 'SDL_Texture'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(152): note: while compiling class template member function 'void std::_Ref_count<_Ux>::_Destroy(void) noexcept'
+          with
+          [
+              _Ux=SDL_Texture
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(653): note: see reference to class template instantiation 'std::_Ref_count<_Ux>' being compiled
+          with
+          [
+              _Ux=SDL_Texture
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(451): note: see reference to function template instantiation 'void std::shared_ptr<SDL_Texture>::_Resetp<_Ux>(_Ux *)' being compiled
+          with
+          [
+              _Ux=SDL_Texture
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(451): note: see reference to function template instantiation 'void std::shared_ptr<SDL_Texture>::_Resetp<_Ux>(_Ux *)' being compiled
+          with
+          [
+              _Ux=SDL_Texture
+          ]
   Generating Code...
-     Creating library C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.lib and object C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.exp
-  workpls.vcxproj -> C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.exe
-  workpls.vcxproj -> C:\Users\natali.aviv162\Source\Repos\Solitaire\Debug\Solitaire.pdb (Full PDB)
+  Skipping... (no relevant changes detected)
+  main.cpp
+  classRenderer.cpp
+  MainGame.cpp
+  Graphic.cpp
+  workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire\Solitaire\Debug\Solitaire.exe
+  workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire\Solitaire\Debug\Solitaire.pdb (Full PDB)

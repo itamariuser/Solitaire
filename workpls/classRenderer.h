@@ -25,7 +25,7 @@ public:
 	SDL_Renderer* renderer;
 	Color renderColor;
 
-	ClassRenderer(SDL_Window* win, int index, Uint32 flags);
+	ClassRenderer(SDL_Window* win, Uint32 flags, int index = -1);
 
 	Color setRenderColor(Color color);
 	Color getRenderColor();

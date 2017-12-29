@@ -8,7 +8,7 @@
 #include <iostream>
 #include <filesystem>
 #include <vcruntime_exception.h>
-#include "ImageLoader.h"
+#include "ResourceLoader.h"
 #include <sstream>
 
 void GameView::mainLoop()
@@ -20,74 +20,55 @@ void GameView::mainLoop()
 	{
 		ren.clear();
 		handleInput();
-
-		helloText1->setColor(helloText1->getColor() + Color{ 1, 3, 6, 0 });
-		helloText1->draw();
-		kingLeaf1->draw();
-
-
+		drawTextures();
 		ren.present();
-
-
 	}
 }
 
-void GameView::ctor_init_fontPaths()
+
+
+void GameView::loadFonts()
 {
-	fontsAndSizes.push_back({ "assets/arial.ttf", 150 });
+	ResourceLoader::load<TTF_Font>("./assets/fonts", loadedFonts, [&](std::string file) { return TTF_OpenFont(file.c_str(), 150); });
+}
+
+void GameView::loadTextures()
+{
+	ResourceLoader::load<SDL_Texture>("./assets/images", loadedImages, [&](std::string file) { return IMG_LoadTexture(ren.renderer, file.c_str()); });
 }
 
 void GameView::init_objects()
 {
-	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("assets/KingLeaf.png"), { 0,0 }, 135,178, "kingLeaf1"),true);
-	//followingMouse.insert("kingLeaf1");
-	addTexture("helloText1", new Text({ width - 160,1 }, { -6,2 }, this, "assets/arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"),false);
-
+	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("KingLeaf.png").get(), { 0,0 }, 135,178, "kingLeaf1"),10,true);
+	
+	addTexture("helloText1", new ColorSwitchText(Text({ window.getDimensions().x - 160,1 }, { -6,2 }, this, "arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"), { 1, 3, 6, 0 }),11, false);
 
 }
 
-
-GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, Uint32 nflags, int newTimeFrame) : backgroundColor(Color(0, 0, 0, 0)), brushColor(Color(0, 0, 0, 0)), 
-		title(ntitle),xPos(nxPos),yPos(nyPos),width(nwidth),height(nheight),
-		flags(nflags),timeFrame(newTimeFrame), isMouseDown(false), lastMousePos{0,0},
-		mainWindow(SDL_CreateWindow(title, xPos, yPos, width, height, flags)),
-		ren(mainWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)
+void GameView::drawTextures()
+{
+	for (auto entry : textures)
 	{
-		stop = true;
-		canCont = true;
+		entry.second->draw();
+	}
+}
 
-
-		//std::stringstream ss;
-		//std::string s;
-		//for (std::experimental::filesystem::directory_iterator itr("./assets/images"); itr != std::experimental::filesystem::end(itr); ++itr)
-		//{
-		//	auto p = *itr;
-		//	if (!is_directory(p))
-		//	{
-		//		ss << p;
-		//		ss >> s;
-
-		//		auto sub = s.substr(s.find_last_of("\\") + 1);
-		//		auto name = const_cast<char*>(sub.c_str());
-		//		auto entry = const_cast<char*>(s.c_str());
-		//		
-		//		loadedImages[name] = IMG_LoadTexture(ren.renderer, entry);
-		//		//imagesMap[const_cast<char*>(s.c_str())] = loadFunction(s.c_str());
-		//		int i = 0;
-		//	}
-		//}
-
-	ImageLoader::loadImages("./assets/images", loadedImages, [=](const char* file) { return IMG_LoadTexture(ren.renderer, file); });
+GameView::GameView(Window& window, ClassRenderer& renderer) :
+	backgroundColor(0, 0, 0, 0), brushColor(0, 0, 0, 0), 
+	isMouseDown(false), lastMousePos(0,0), stop(true), canCont(true),
+	window(window), ren(renderer)
+	{
+		loadTextures();
 		loadFonts();
 		init_keyBindings();
 		init_objects();
-		
 	}
 
 	void GameView::init_keyBindings()
 	{
-		map = {
-			{ SDLK_w,[&]() { SDL_SetWindowTitle(mainWindow, "LEL"); } }
+		map = 
+		{
+			{ SDLK_w,[&]() { window.setTitle("LEL"); } },
 		};
 	}
 	
@@ -122,13 +103,14 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		removeGraphic(name);
 	}
 
-	void GameView::addTexture(std::string name, const Texture* gp, bool shouldFollowMs = false)
+	void GameView::addTexture(std::string name, const Texture* gp, int priority, bool shouldFollowMs)
 	{
 		std::shared_ptr<Texture> shared;
 		shared.reset(const_cast<Texture*>(gp));
 		textures[name] = shared;
 		if (shouldFollowMs) shouldFollowMouse.insert(shared->getName());
 		addGraphic(name, gp);
+		priorities[shared] = priority;
 	}
 
 	void GameView::displayOpeningScreen()
@@ -143,10 +125,10 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	{
 		canCont = false; //bool for the opening to signal the inputLoop to continue
 		//Display opening screen
-		Circle circle(Point(100,height/2), Point(width/50,width/50),this,20);	//
+		Circle circle(Point(100, window.getDimensions().y / 2), Point(window.getDimensions().x / 50, window.getDimensions().x / 50),this,20);	//
 
-		int xspeed = width / 50;
-		int yspeed = width / 50;
+		int xspeed = window.getDimensions().x / 50;
+		int yspeed = window.getDimensions().y / 50;
 		for (int i = 0; i++ < 100;)
 		{
 			ren.clear();
@@ -287,7 +269,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	}
 
 	
-	void GameView::renderText(Text text) throw (int)
+	void GameView::renderText(Text text)
 	{
 		SDL_RenderCopy(ren.renderer, const_cast<SDL_Texture*>(text.getTexture()), nullptr, new SDL_Rect(text.getRenderRect()));
 	}
@@ -321,58 +303,7 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 		return true;
 	}
 
-	void GameView::ctor_init_imagePaths(std::string locationsFile)
-	{
-		imagePaths.push_back("assets/KingLeaf.png");
-	}
-
-	void GameView::loadImages(std::string locationsFile) throw (int)
-	{
-		ctor_init_imagePaths(locationsFile);
-		for (char* path : imagePaths)
-		{
-			auto z = IMG_LoadTexture(ren.renderer, path);
-			loadedImages[path] = IMG_LoadTexture(ren.renderer, path);
-		}
-	}
-
-	
-
-	void GameView::loadFonts() throw (int)
-	{
-
-		ctor_init_fontPaths();
-		for (auto pair : fontsAndSizes)
-			loadedFonts[pair.first] = TTF_OpenFont(pair.first, pair.second);
-	}
-
-	
-
-	Point GameView::getImageSize(char* imagePath, Uint32* format, int* access) const throw(int)
-	{
-		if (loadedImages.find(imagePath) == loadedImages.end())
-		{
-			std::cerr << "No such image loaded, add it to imagePaths.\n";
-			throw(-1);
-		}
-		Point retPt;
-		SDL_QueryTexture(loadedImages.at(imagePath), format, access, &retPt.x, &retPt.y);
-		return retPt;
-	}
-
-	Point GameView::getImageSize(SDL_Texture* image, Uint32* format, int* access) const throw(int)
-	{
-		if (!image)
-		{
-			std::cerr << "No image to load.\n";
-			throw(-1);
-		}
-		Point retPt;
-		SDL_QueryTexture(image, format, access, &retPt.x, &retPt.y);
-		return retPt;
-	}
-
-	SDL_Texture* GameView::getTexture(char* imagePath)
+	std::shared_ptr<SDL_Texture> GameView::getTexture(char* imagePath)
 	{
 		if (loadedImages.find(imagePath) == loadedImages.end())
 		{
@@ -391,5 +322,5 @@ GameView::GameView(char* ntitle, int nxPos, int nyPos, int nwidth, int nheight, 
 	void GameView::renderImage(char* const imagePath, const Shapes::Rect* const rect)
 	{
 		auto texture = getTexture(imagePath);
-		renderImage(texture, rect);
+		renderImage(texture.get(), rect);
 	}
