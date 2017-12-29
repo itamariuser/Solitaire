@@ -155,6 +155,7 @@ void Card::next()
  void Text::draw(Color c)
 {
 	 next();
+	 //gView->brushColor = this->color;
 	 gView->renderText(*this);
 }
 
@@ -162,5 +163,6 @@ void Card::next()
  void ColorSwitchText::next()
  {
 	 setColor(color + colorSpeed);
+	 changed = true;
 	 Text::next();
  }

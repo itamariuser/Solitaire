@@ -200,9 +200,12 @@
 	class Text : public Texture
 	{
 	public:
-		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width = -1, int height = -1, std::string name="DEFAULT") :Texture(center, speed, gView, nullptr, sizeSpeed, name, width, height), text(text)
+		Text(Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width = -1, int height = -1, std::string name="DEFAULT") :Texture(center, speed, gView, nullptr, sizeSpeed, name, width, height), text(text), changed(true)
 		{
+			this->color = color;
 			font = const_cast<TTF_Font*>(gView->getFont(fontPath));
+			sdlSurface = TTF_RenderText_Solid(const_cast<TTF_Font*>(font), text, color);
+			sdlTexture = SDL_CreateTextureFromSurface(gView->ren.renderer, sdlSurface);
 		}
 
 		virtual void next();
@@ -213,14 +216,32 @@
 		
 		const SDL_Texture* const getTexture() const 
 		{
-			return SDL_CreateTextureFromSurface(gView->ren.renderer, TTF_RenderText_Solid(const_cast<TTF_Font*>(font), text, color));
+			if (changed)
+			{
+				if (sdlTexture)
+					SDL_DestroyTexture(sdlTexture);
+				SDL_FreeSurface(sdlSurface);
+				sdlSurface = TTF_RenderText_Solid(const_cast<TTF_Font*>(font), text.c_str(), color);
+				sdlTexture = SDL_CreateTextureFromSurface(gView->ren.renderer, sdlSurface);
+			}
+			changed = false;
+			return sdlTexture;
 		}
-		
+		std::string getText() const { 
+			return text; }
+		void setText(std::string newText) 
+		{ 
+			if(newText != text)
+				changed = true;
+			text = newText; 
+		}
 
 	protected:
-		//Color color;
 		TTF_Font* font;
-		char* text;
+		mutable SDL_Surface* sdlSurface;
+		mutable SDL_Texture* sdlTexture;
+		std::string text;
+		mutable bool changed;
 	};
 
 	class ColorSwitchText : public Text

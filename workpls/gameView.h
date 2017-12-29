@@ -91,6 +91,7 @@ private:
 	void handleMouseEvents(SDL_Event& e);
 	void handleMouseDown(Point clickPos);
 	void handleMouseUp(Point clickPos);
+	void handleMouseMove();
 	void updateFollowingMouse();
 	void updateLastMousePos();
 	
@@ -104,7 +105,7 @@ private:
 	//text rendering
 public:
 	const TTF_Font* const getFont(const char* const filePath) { return loadedFonts[const_cast<char*>(filePath)]; }
-	void renderText(Text text);
+	void renderText(Text& text);
 private:
 	std::vector < std::pair< char*,int>> fontsAndSizes;
 	std::unordered_map<std::string, TTF_Font*> loadedFonts;

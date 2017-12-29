@@ -41,7 +41,7 @@ void GameView::loadTextures()
 void GameView::init_objects()
 {
 	addTexture("kingLeaf1", new Card({ 1,1 }, { 4,4 }, this, getTexture("KingLeaf.png").get(), { 0,0 }, 135,178, "kingLeaf1"),10,true);
-	
+	addTexture("debugText", new Text({ 100,100 }, { 0,0 }, this, "arial.ttf", { 0,200,0,0 }, { 0,0 }, "DEBUG TEXT", 160, 100, "debugText"),0);
 	addTexture("helloText1", new ColorSwitchText(Text({ window.getDimensions().x - 160,1 }, { -6,2 }, this, "arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"), { 1, 3, 6, 0 }),11, false);
 
 }
@@ -107,6 +107,10 @@ GameView::GameView(Window& window, ClassRenderer& renderer) :
 
 	void GameView::removeTexture(std::string name)
 	{
+		auto itr = std::find(drawOrder.begin(), drawOrder.end(), getObject(name));
+		drawOrder.erase(itr);
+		drawPriorities.erase(getObject(name));
+
 		textures.erase(name);
 		removeGraphic(name);
 	}
@@ -185,10 +189,10 @@ GameView::GameView(Window& window, ClassRenderer& renderer) :
 		//lastMousePos = clickPos;
 		if (e.type == SDL_MOUSEBUTTONDOWN)
 			handleMouseDown(clickPos);
-
 		else if (e.type == SDL_MOUSEBUTTONUP)
 			handleMouseUp(clickPos);
-		
+		else if (e.type == SDL_MOUSEMOTION)
+			handleMouseMove();
 		
 		
 	}
@@ -222,6 +226,12 @@ GameView::GameView(Window& window, ClassRenderer& renderer) :
 					break;
 			}
 		}
+	}
+
+	void GameView::handleMouseMove()
+	{
+		std::string info = "X: " + std::to_string(lastMousePos.x) + ", Y: " + std::to_string(lastMousePos.y);
+		std::dynamic_pointer_cast<Text>(getObject("debugText"))->setText(info);
 	}
 
 	void GameView::updateFollowingMouse()
@@ -278,9 +288,12 @@ GameView::GameView(Window& window, ClassRenderer& renderer) :
 	}
 
 	
-	void GameView::renderText(Text text)
+	void GameView::renderText(Text& text)
 	{
+		auto oldColor = ren.getRenderColor();
+		ren.setRenderColor(text.getColor());
 		SDL_RenderCopy(ren.renderer, const_cast<SDL_Texture*>(text.getTexture()), nullptr, new SDL_Rect(text.getRenderRect()));
+		ren.setRenderColor(oldColor);
 	}
 
 	bool GameView::renderLineColored(const Point start, const Point end)
