@@ -10,44 +10,43 @@
 
 	class Graphic
 	{
+		friend class GameView;
 	public:
-		const Point& getCenter() { return center; }
-		const Point& getSpeed()  { return speed; }
+		Point getCenter() const { return center; }
+		Point getSpeed() const { return speed; }
 		GameView* gView;
 		float mass;
-		bool visible;
-		Graphic(Point center, Point speed, GameView* gView, std::string name = "DEFAULT", float mass = 1.0, Color c = { 255,0,0,0 }, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible), name(name), color(c),changed(true) {}
+		
+		Graphic(Point center, Point speed, GameView* gView, std::string name = "DEFAULT", float mass = 1.0, Color c = { 255,0,0,0 }, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible), name(name), color(c), updateDraw(true) {}
 
 		virtual void draw(Color c = { 0,0,0,0 }) = 0;
 
 		virtual void next() { center += speed; }
-		virtual void setCenter(Point p) 
-		{ 
-			if (p != center)
-				changed = true;
-			center = p; 
-		}
+		virtual void setCenter(Point p) { center = p; }
 		virtual const std::string& getName() const { return name; }
 		void setColor(const Color& c) 
 		{
 			if (color != c)
-				changed = true;
+				setUpdateDraw();
 			color = c; 
 		}
 		const Color& getColor() const { return color; }
 
 
+		bool isVisible() const { return visible; }
+		bool setVisible(const bool& isVisible) { visible = isVisible; }
+		void setUpdateDraw() { updateDraw = true; }
 	protected:
 		Point center;
 		Point speed;
-		virtual void flipSpeedY() { speed = { speed.x,-speed.y }; }//TODO: setchanged
+		virtual void flipSpeedY() { speed = { speed.x,-speed.y }; }
 		virtual void flipSpeedX() { speed = { -speed.x,speed.y }; }
 		virtual void stopSpeedX() { speed = { 0,speed.y }; }
 		virtual void stopSpeedY() { speed = { speed.x,0 }; }
-		virtual void stopSpeedBoth() { stopSpeedX(); stopSpeedY(); }
 		std::string name;
 		Color color;
-		mutable bool changed;
+		bool updateDraw;
+		bool visible;
 	};
 
 
@@ -65,7 +64,7 @@
 
 		virtual void draw(Color c = { 255, 165, 0, 255 });
 
-		virtual ~SimpleLine() {  };
+		virtual ~SimpleLine() { };
 	private:
 		
 	};
@@ -130,7 +129,7 @@
 	class Texture : public Graphic
 	{
 	public:
-		Texture(Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, std::string name ,int width = -1, int height = -1) :Graphic(center, speed, gView, name), texture(texture),renderRect(0,0,0,0),sizeSpeed(sizeSpeed)
+		Texture(Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, std::string name ,int width = -1, int height = -1) :Graphic(center, speed, gView, name), sdlTexture(texture),renderRect(0,0,0,0),sizeSpeed(sizeSpeed)
 		{
 			if (width == -1 && height == -1)
 			{
@@ -147,23 +146,30 @@
 		virtual void draw(Color c = { 0, 0, 0, 0 });
 		inline void setCenter(Point centerPt)
 		{
-			auto prevCenter = center;
 			center.x = centerPt.x - renderRect.w / 2;
 			center.y = centerPt.y - renderRect.h / 2;
-			if (center != prevCenter)
-				changed = true;
 		}
+
+		virtual void updateTexture() {}
+
+		virtual const SDL_Texture* const getTexture() const { return sdlTexture; }
+
 		const Shapes::Rect& getRenderRect() const { return renderRect; }
 		virtual ~Texture() {  };
+
+		
+		
 	protected:
-		SDL_Texture* texture;
 		Shapes::Rect renderRect;
 		Point sizeSpeed;
-		void flipSizeSpeedY() { sizeSpeed = { sizeSpeed.x,-sizeSpeed.y }; }
-		void flipSizeSpeedX() { sizeSpeed = { -sizeSpeed.x,sizeSpeed.y }; }
-		void stopSizeSpeedX() { sizeSpeed = { 0,sizeSpeed.y }; }
-		void stopSizeSpeedY() { sizeSpeed = { sizeSpeed.x,0 }; }
-		void stopSizeSpeedBoth() { stopSizeSpeedX(); stopSizeSpeedY(); }
+		mutable SDL_Surface* sdlSurface;
+		mutable SDL_Texture* sdlTexture;
+
+		virtual void flipSizeSpeedY() { sizeSpeed = { sizeSpeed.x,-sizeSpeed.y }; }
+		virtual void flipSizeSpeedX() { sizeSpeed = { -sizeSpeed.x,sizeSpeed.y }; }
+		virtual void stopSizeSpeedX() { sizeSpeed = { 0,sizeSpeed.y }; }
+		virtual void stopSizeSpeedY() { sizeSpeed = { sizeSpeed.x,0 }; }
+		virtual void stopSizeSpeedBoth() { stopSizeSpeedX(); stopSizeSpeedY(); }
 	};
 
 	class Card : public Texture
@@ -174,8 +180,6 @@
 		{
 		}
 		
-		virtual void next();
-		virtual void draw(Color c = { 0, 0, 0, 0 });
 
 		virtual ~Card() {  };
 
@@ -195,40 +199,24 @@
 			sdlTexture = SDL_CreateTextureFromSurface(gView->ren.renderer, sdlSurface);
 		}
 
-		virtual void next();
+
 		virtual void draw(Color c = { 0, 0, 0, 0 });
 
 
 		virtual ~Text() {  };
 		
-		const SDL_Texture* const getTexture() const 
-		{
-			if (changed)
-			{
-				if (sdlTexture)
-					SDL_DestroyTexture(sdlTexture);
-				SDL_FreeSurface(sdlSurface);
-				sdlSurface = TTF_RenderText_Solid(const_cast<TTF_Font*>(font), text.c_str(), color);
-				sdlTexture = SDL_CreateTextureFromSurface(gView->ren.renderer, sdlSurface);
-			}
-			changed = false;
-			return sdlTexture;
-		}
-		std::string getText() const { 
-			return text; }
+		virtual void updateTexture();
+		std::string getText() const { return text; }
 		void setText(std::string newText) 
 		{ 
-			if(newText != text)
-				changed = true;
+			if (newText != text)
+				setUpdateDraw();
 			text = newText; 
 		}
 
 	protected:
 		TTF_Font* font;
-		mutable SDL_Surface* sdlSurface;
-		mutable SDL_Texture* sdlTexture;
 		std::string text;
-		//mutable bool changed;
 	};
 
 	class ColorSwitchText : public Text

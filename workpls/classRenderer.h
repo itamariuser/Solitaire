@@ -23,15 +23,17 @@ class ClassRenderer
 {
 public:
 	SDL_Renderer* renderer;
-	Color renderColor;
-
+	
 	ClassRenderer(Window& win, Uint32 flags, int index = -1);
 
 	Color setRenderColor(Color color);
 	Color getRenderColor() const;
 
 	void clear();
-	void present();//
+	void present();
 
-private:
+	bool renderLineColored(const Point& start, const Point& end, const Color& c);
+	void renderImage(const SDL_Texture* const texture, const Shapes::Rect* const rect);
+protected:
+	Color renderColor;
 };

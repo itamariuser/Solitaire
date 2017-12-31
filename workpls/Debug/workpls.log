@@ -21,7 +21,7 @@ c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(655): warn
           [
               _Ux=SDL_Texture
           ]
-  c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.cpp(38): note: see reference to function template instantiation 'void ResourceLoader::load<SDL_Texture,std::shared_ptr<SDL_Texture>>(const std::string &,std::unordered_map<std::string,std::shared_ptr<SDL_Texture>,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &,std::function<SDL_Texture *(std::string)>)' being compiled
+  c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.cpp(34): note: see reference to function template instantiation 'void ResourceLoader::load<SDL_Texture,std::shared_ptr<SDL_Texture>>(const std::string &,std::unordered_map<std::string,std::shared_ptr<SDL_Texture>,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &,std::function<SDL_Texture *(std::string)>)' being compiled
           with
           [
               _Kty=std::string,
@@ -51,7 +51,23 @@ c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(153): warn
           ]
   Generating Code...
   Compiling...
+  main.cpp
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(21): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(22): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(23): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(24): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
   classRenderer.cpp
+  MainGame.cpp
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(21): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(22): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(23): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(24): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(14): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(23): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(31): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(41): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(42): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(50): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
   Graphic.cpp
   Generating Code...
   workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire\Solitaire\Debug\Solitaire.exe

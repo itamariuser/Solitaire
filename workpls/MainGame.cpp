@@ -6,7 +6,7 @@ void MainGame::start()
 	init_img();
 	init_fonts();
 	GameView mainView = init_window();
-	mainView.start();
+	mainView.start(true);
 	SDL_Delay(2 * 1000);
 	SDL_Quit();
 }
