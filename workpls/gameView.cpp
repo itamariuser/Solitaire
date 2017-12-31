@@ -13,7 +13,6 @@
 
 void GameView::mainLoop()
 {
-
 	while (loopCondition())
 	{
 		ren.clear();

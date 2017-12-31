@@ -15,15 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="action.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="blorb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="blorbConnector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="classRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -34,12 +25,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="moveAction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="point.h">
@@ -71,12 +56,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="blorb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="blorbConnector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="classRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

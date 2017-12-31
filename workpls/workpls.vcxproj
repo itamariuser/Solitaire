@@ -19,9 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="action.h" />
-    <ClInclude Include="blorb.h" />
-    <ClInclude Include="blorbConnector.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="MainGame.h" />
@@ -33,14 +30,10 @@
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="ImageDisplayer.h" />
-    <ClInclude Include="moveAction.h" />
-    <ClInclude Include="observer.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="blorb.cpp" />
-    <ClCompile Include="blorbConnector.cpp" />
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="Graphic.cpp" />
