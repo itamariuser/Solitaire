@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CardGenerator.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="MainGame.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CardGenerator.cpp" />
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="Graphic.cpp" />

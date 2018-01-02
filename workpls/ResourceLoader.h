@@ -13,7 +13,7 @@ class ResourceLoader
 {
 public:
 	template<class Resource, class ResourcePtr>
-	static void load(const std::string& imageFolder, std::unordered_map < std::string, ResourcePtr > & imagesMap, std::function<Resource* (std::string path)> loadFunction)
+	static void load(const std::string& imageFolder, std::unordered_map < std::string, ResourcePtr >& imagesMap, std::function<Resource* (std::string path)> loadFunction)
 	{
 		for (auto& p : directory_iterator(imageFolder))
 		{

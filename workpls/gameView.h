@@ -36,10 +36,12 @@ private:
 
 	//graphic objects handling
 public:
-	void addTexture(const std::string&, const Texture* gp, int priority = 10, bool shouldFollowMs = false);
+	void addTexture(const std::shared_ptr<Texture> const gp, int priority = 10, bool shouldFollowMs = false);
 	void removeTexture(const std::string& name);
-	void addGraphic(const std::string& name, const Graphic* gp);
+	void addGraphic(const std::shared_ptr<Graphic> const gp);
 	void removeGraphic(const std::string& name);
+	auto getLoadedCards() const { return std::make_shared<const std::unordered_map <std::string, std::shared_ptr<SDL_Texture>>>(loadedCards); };
+	Point getDefaultCardSize() const { return defaultCardSize; }
 private:
 	std::unordered_map<std::string, std::shared_ptr<Graphic>> objects;
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
@@ -52,6 +54,9 @@ private:
 	std::shared_ptr<Graphic> getObject( const std::string& name);
 	void changeFollow( const std::string& objectName, bool shouldFollow);
 	void drawTextures();
+	const Point defaultCardSize;
+	void putRandomCardAt(const Point& pt);
+	
 
 	//simple rendering
 public:
@@ -68,7 +73,10 @@ public:
 
 private:
 	std::unordered_map <std::string, std::shared_ptr<SDL_Texture>> loadedImages;
-	void loadTextures();
+	std::unordered_map <std::string, std::shared_ptr<SDL_Texture>> loadedCards;
+	void loadImages();
+	void loadCards();
+	void loadAssets();
 	
 	//handling mouse events
 private:

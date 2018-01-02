@@ -1,12 +1,14 @@
 #include "MainGame.h"
+#include <SDL_image.h>
+#include <iostream>
 
-void MainGame::start()
+void MainGame::start(bool displayOpeningScreen)
 {
 	init_video();
 	init_img();
 	init_fonts();
-	GameView mainView = init_window();
-	mainView.start(true);
+	GameView mainView = init_gameView();
+	mainView.start(displayOpeningScreen);
 	SDL_Delay(2 * 1000);
 	SDL_Quit();
 }
@@ -28,7 +30,7 @@ void MainGame::init_video() throw (int)
 	}
 }
 
-GameView MainGame::init_window() throw (int)
+GameView MainGame::init_gameView() throw (int)
 {
 	if (screenWidth == -1 || screenHeight == -1)
 	{

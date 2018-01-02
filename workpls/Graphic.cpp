@@ -3,6 +3,11 @@
 #include "gameView.h"
 #include "classRenderer.h"
 
+Graphic::~Graphic()
+{
+
+}
+
 
 void SimpleLine::draw(Color c)
 {
@@ -154,3 +159,4 @@ void Text::updateTexture()
 	 Text::next();
 	 setColor(color + colorSpeed);
  }
+
