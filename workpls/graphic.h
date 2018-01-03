@@ -176,14 +176,19 @@ class Card : public Texture
 {
 public:
 	Card(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, int width = -1, int height = -1)
-		: Texture(name, center, speed, gView, texture, sizeSpeed, width, height) {}
+		: Texture(name, center, speed, gView, texture, sizeSpeed, width, height) 
+	{
+		getInfoFromName(name,type,color,number);
+	}
 
-
-	virtual ~Card() {  };
-
+	virtual ~Card() { };
+	enum Type {clubs, diamonds, hearts, spades };
+	enum Color { red, black };
+	int number;
 protected:
-
-
+	static void getInfoFromName(const std::string& name, Type& type, Color& color, int& number);
+	Type type;
+	Color color;
 };
 
 class Text : public Texture
@@ -228,10 +233,18 @@ public:
 class Deck : public Texture
 {
 public:
-	Deck(std::string name, Point center, GameView* gView, SDL_Texture* texture, int width, int height, int spacing=20) : Texture(name, center, { 0,0 }, gView, texture, { 0,0 }, width, height), generator(*gView), spacing(spacing) {}
+	Deck(std::string name, Point center, GameView* gView, SDL_Texture* texture, int width, int height, int spacing=20) : Texture(name, center, { 0,0 }, gView, texture, { 0,0 }, width, height), generator(*gView), spacing(spacing)
+	{
+		currPos = center;
+	}
 	std::shared_ptr<Card> genCard(const Point& startPt) { return generator.genCard(startPt); }
-	std::shared_ptr<Card> genCard() { return generator.genCard(center +Point{gView->getDefaultCardSize().x + spacing,0}); }
+	std::shared_ptr<Card> genCard() 
+	{ 
+		currPos += Point{ gView->getDefaultCardSize().x + spacing,0 };
+		return generator.genCard(currPos);
+	}
 private:
 	CardGenerator generator;
 	int spacing;
+	Point currPos;
 };

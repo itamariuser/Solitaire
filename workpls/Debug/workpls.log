@@ -10,6 +10,10 @@ c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning 
   Graphic.cpp
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire\solitaire\workpls\graphic.cpp(165): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(453): note: see declaration of 'strtok'
+c:\users\itama\source\repos\solitaire\solitaire\workpls\graphic.cpp(171): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(453): note: see declaration of 'strtok'
   GameView.cpp
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
