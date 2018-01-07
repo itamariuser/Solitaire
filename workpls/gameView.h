@@ -56,7 +56,7 @@ private:
 	void drawTextures();
 	const Point defaultCardSize;
 	void putRandomCardAt(const Point& pt);
-	
+	int latestPriority;
 
 	//simple rendering
 public:

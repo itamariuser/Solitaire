@@ -13,7 +13,7 @@
 
 void GameView::mainLoop()
 {
-	init_objects();
+	//init_objects();
 	while (loopCondition())
 	{
 		ren.clear();
@@ -76,18 +76,18 @@ void GameView::drawTextures()
 void GameView::putRandomCardAt(const Point& pt)
 {
 	auto deck = std::dynamic_pointer_cast<Deck>(getObject("deck"));
-	addTexture(deck->genCard(),10,true);
+	addTexture(deck->genCard(),latestPriority,true);
 }
 
 GameView::GameView(Window& window, ClassRenderer& renderer) :
 	backgroundColor(0, 0, 0, 0), brushColor(0, 0, 0, 0),
 	isMouseDown(false), lastMousePos(0, 0), stop(true), canCont(true),
-	window(window), ren(renderer), defaultCardSize(135, 178)
+	window(window), ren(renderer), defaultCardSize(135, 178), latestPriority(0)
 {
 
 	loadAssets();
 	init_keyBindings();
-	//init_objects();
+	init_objects();
 }
 
 void GameView::init_keyBindings()
@@ -211,13 +211,19 @@ void GameView::handleMouseDown(Point clickPos)
 {
 	//TODO: call appropriate object's button down function
 	isMouseDown = true;
+	int bestPriority = INT_MAX;
+	std::string bestPriorityName;
 	for (auto pair : textures)
 	{
-		if (pair.second->getRenderRect().contains(lastMousePos))
+		auto sec = *(pair.second);
+		if (pair.second->getRenderRect().contains(lastMousePos) && drawPriorities[pair.second] <= bestPriority)
 		{
-			followingMouse.insert(pair.first);
+			//followingMouse.insert(pair.first);
+			bestPriority = drawPriorities[pair.second];
+			bestPriorityName = pair.first;
 		}
 	}
+	followingMouse.insert(bestPriorityName);
 }
 
 void GameView::handleMouseUp(Point clickPos)
