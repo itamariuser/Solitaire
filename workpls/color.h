@@ -1,6 +1,5 @@
 #pragma once
-
-#include "SDL.h"//
+#include "SDL.h"
 
 
 class Color : public SDL_Color

@@ -1,7 +1,4 @@
 #pragma once
-#include <math.h>
-
-
 
 class Point {
 public:

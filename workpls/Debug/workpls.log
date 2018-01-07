@@ -1,12 +1,26 @@
-﻿  CardGenerator.cpp
+﻿  main.cpp
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire\solitaire\workpls\cardgenerator.cpp(27): warning C4244: '=': conversion from 'std::chrono::system_clock::rep' to 'unsigned int', possible loss of data
-  Generating Code...
-  Compiling...
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(13): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(14): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(15): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(16): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
   classRenderer.cpp
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
+  MainGame.cpp
+c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(13): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(14): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(15): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.h(16): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(16): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(25): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(33): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(44): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire\solitaire\workpls\maingame.cpp(52): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
   Graphic.cpp
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
 c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
@@ -69,6 +83,10 @@ c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(153): warn
           [
               _Ux=SDL_Texture
           ]
+  CardGenerator.cpp
+c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire\solitaire\workpls\cardgenerator.cpp(27): warning C4244: '=': conversion from 'std::chrono::system_clock::rep' to 'unsigned int', possible loss of data
   Generating Code...
   workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire\Solitaire\Debug\Solitaire.exe
   workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire\Solitaire\Debug\Solitaire.pdb (Full PDB)

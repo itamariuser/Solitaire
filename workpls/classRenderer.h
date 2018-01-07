@@ -1,10 +1,9 @@
 #pragma once
 #include <SDL.h>
 #include "color.h"
-#include <vector>
-#include <unordered_map>
 #include "point.h"
 #include "Window.h"
+
 
 	class Graphic;
 	class Line;

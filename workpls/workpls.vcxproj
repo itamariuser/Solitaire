@@ -20,17 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CardGenerator.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="classRenderer.h" />
     <ClInclude Include="color.h" />
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="GameModel.h" />
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Graphic.h" />
-    <ClInclude Include="ImageDisplayer.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
