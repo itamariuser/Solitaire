@@ -17,8 +17,6 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -287,5 +285,3 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-
-SDL2_ttf-2.0.14/lib/hello.text
