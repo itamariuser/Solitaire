@@ -42,6 +42,7 @@ public:
 	void removeGraphic(const std::string& name);
 	auto getLoadedCards() const { return std::make_shared<const std::unordered_map <std::string, std::shared_ptr<SDL_Texture>>>(loadedCards); };
 	Point getDefaultCardSize() const { return defaultCardSize; }
+	bool isFollowingMouse(std::shared_ptr<Texture> texture);
 private:
 	std::unordered_map<std::string, std::shared_ptr<Graphic>> objects;
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
@@ -57,6 +58,7 @@ private:
 	const Point defaultCardSize;
 	void putRandomCardAt(const Point& pt);
 	int latestPriority;
+	
 
 	//simple rendering
 public:

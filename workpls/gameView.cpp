@@ -49,11 +49,23 @@ void GameView::loadAssets()
 
 void GameView::init_objects()
 {
-	addTexture(std::shared_ptr<Card>(new Card(std::string("king_of_spades"), { 0,0 }, { 0,0 }, this, getTexture("king_of_hearts.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y)), 10, true);
+	auto card0 = std::shared_ptr<Card>(new Card(std::string("king_of_spades"), { 0,0 }, { 0,0 }, this, getTexture("king_of_spades.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
+	auto card1 = std::shared_ptr<Card>(new Card(std::string("queen_of_hearts"), { 0,0 }, { 0,0 }, this, getTexture("queen_of_hearts.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
+	auto card2 = std::shared_ptr<Card>(new Card(std::string("jack_of_clubs"), { 0,0 }, { 0,0 }, this, getTexture("jack_of_clubs.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
+	std::vector<std::shared_ptr<Card>> cards{ card0, card1, card2 };
+	addTexture(card0, 12, true);
+	addTexture(card1, 11, true);
+	addTexture(card2, 10, true);
 	addTexture(std::shared_ptr<Text>(new Text("debugText", { 700,100 }, { 0,0 }, this, "arial.ttf", { 0,200,0,0 }, { 0,0 }, "DEBUG TEXT", 160, 100)), 0);
-	addTexture(std::shared_ptr<Deck>(new Deck("deck", { 150,60 }, this, getTexture("king_of_spades.png").get(), defaultCardSize.x, defaultCardSize.y,10)), 12);
-	putRandomCardAt({ 500,500 }); putRandomCardAt({ 500,500 });
-	//putRandomCardAt({ 100,500 });
+
+	CardGenerator generator(*this);
+	addTexture(std::shared_ptr<Deck>(new Deck("deck", { 150,60 }, this, getTexture("king_of_spades.png").get(), defaultCardSize.x, defaultCardSize.y, generator, 10)), 12);
+	auto stack = new Stack("stack0", { 30,280 }, this, nullptr, defaultCardSize.x, defaultCardSize.y);
+	stack->addCards(cards);
+	addTexture(std::shared_ptr<Stack>(stack),20);
+
+	/*putRandomCardAt({ 500,500 }); putRandomCardAt({ 500,500 });
+	putRandomCardAt({ 100,500 });*/
 	//addTexture("helloText1", new ColorSwitchText(Text({ window.getDimensions().x - 160,1 }, { -6,2 }, this, "arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"), { 1, 3, 6, 0 }),11, false);
 }
 
@@ -263,6 +275,11 @@ void GameView::updateFollowingMouse()
 			objects[objectName]->setCenter(lastMousePos);
 		}
 	}
+}
+
+bool GameView::isFollowingMouse(std::shared_ptr<Texture> texture)
+{
+	return followingMouse.find(texture->name) != followingMouse.end();
 }
 
 

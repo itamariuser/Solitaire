@@ -221,3 +221,50 @@ void Text::updateTexture()
 		type = spades;
 	}
  }
+
+ bool Card::canPutOnTop(const Card& existing, const Card& wantToPut)
+ {
+	 return (existing.color != wantToPut.color && existing.number > wantToPut.number);
+ }
+
+ bool Stack::addCards(const std::vector<std::shared_ptr<Card>>& cardsToAdd)
+ {
+	 if (cards.empty() && openCards.empty())
+	 {
+		 cards.insert(cards.begin(), cardsToAdd.begin(), cardsToAdd.end());
+		 openCards.insert(openCards.begin(), cardsToAdd.begin(), cardsToAdd.end());
+		 return true;
+	 }
+	 auto topCard = openCards.back();
+	 if (cardsToAdd.empty() || !Card::canPutOnTop(*topCard, *cardsToAdd.back())) return false;
+
+
+
+	 return true;
+ }
+
+ void Stack::next()
+ {
+	 auto distance = 0;
+	 for (auto itr = cards.begin(); itr != cards.end(); ++itr, ++distance)
+	 {
+		 auto card = *itr;
+		 if (gView->isFollowingMouse(card))
+		 {
+			 //remove card from both openCards and cards
+			 openCards.erase(openCards.begin() + distance);
+			 itr = cards.erase(itr);
+			 if (itr == cards.end()) break;
+			 continue;
+		 }
+		 else
+		 {
+			 auto offset = this->getCenter().y + (distance *  spacing);
+			 card->setCenter({this->getCenter().x , offset});
+		 }
+	 }
+ }
+ void Stack::draw()
+ {
+	 next();
+ }

@@ -14,3 +14,7 @@ private:
 	void shuffleCards();
 };
 
+class StackGenerator
+{
+
+};

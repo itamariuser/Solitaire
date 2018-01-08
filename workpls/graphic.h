@@ -21,7 +21,7 @@ public:
 	virtual void draw(Color c = { 0,0,0,0 }) = 0;
 
 	virtual void next() { center += speed; }
-	virtual void setCenter(Point p) { center = p; }
+	virtual void setCenter(const Point& p) { center = p; }
 	virtual const std::string& getName() const { return name; }
 	void setColor(const Color& c)
 	{
@@ -87,13 +87,13 @@ public:
 	int slope;
 	Color secondaryColor;
 
-	Diamond(std::string name, Point center, GameView* gView, Point speed, int halfHeight, int animationSpeed, Color secondaryColor) : Graphic(name, center, speed, gView), lu(name,gView), lr(name,gView), ld(name, gView), ll(name,gView), halfHeight(halfHeight), animationSpeed(animationSpeed), secondaryColor(secondaryColor)
+	Diamond(std::string name, Point center, GameView* gView, Point speed, int halfHeight, int animationSpeed, Color secondaryColor) : Graphic(name, center, speed, gView), lu(name, gView), lr(name, gView), ld(name, gView), ll(name, gView), halfHeight(halfHeight), animationSpeed(animationSpeed), secondaryColor(secondaryColor)
 	{
 
-		lu = SimpleLine(name,center, Point(center.x, center.y - halfHeight), gView, speed, speed);
-		lr = SimpleLine(name,center, Point(center.x + halfHeight, center.y), gView, speed, speed);
-		ld = SimpleLine(name,center, Point(center.x, center.y + halfHeight), gView, speed, speed);
-		ll = SimpleLine(name,center, Point(center.x - halfHeight, center.y), gView, speed, speed);
+		lu = SimpleLine(name, center, Point(center.x, center.y - halfHeight), gView, speed, speed);
+		lr = SimpleLine(name, center, Point(center.x + halfHeight, center.y), gView, speed, speed);
+		ld = SimpleLine(name, center, Point(center.x, center.y + halfHeight), gView, speed, speed);
+		ll = SimpleLine(name, center, Point(center.x - halfHeight, center.y), gView, speed, speed);
 		slope = int((lr.end.y - lu.end.y) / float(lr.end.x - lu.end.x) * float(animationSpeed));
 		uEnd = lu.end;
 		rEnd = lr.end;
@@ -144,7 +144,12 @@ public:
 	virtual void next();
 
 	virtual void draw(Color c = { 0, 0, 0, 0 });
-	inline void setCenter(Point centerPt)
+
+	virtual Point getCenter() const
+	{
+		return { center.x - renderRect.w / 2 , center.y - renderRect.h / 2 };
+	}
+	inline void setCenter(const Point& centerPt)
 	{
 		center.x = centerPt.x - renderRect.w / 2;
 		center.y = centerPt.y - renderRect.h / 2;
@@ -176,16 +181,18 @@ class Card : public Texture
 {
 public:
 	Card(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, int width = -1, int height = -1)
-		: Texture(name, center, speed, gView, texture, sizeSpeed, width, height) 
+		: Texture(name, center, speed, gView, texture, sizeSpeed, width, height)
 	{
-		getInfoFromName(name,type,color,number);
+		getInfoFromName(name, type, color, number);
 	}
 
 	virtual ~Card() { };
-	enum Type {clubs, diamonds, hearts, spades };
-	enum Color { red, black };
+	
 	int number;
+	static bool canPutOnTop(const Card& existing, const Card& wantToPut);
 protected:
+	enum Type { clubs, diamonds, hearts, spades };
+	enum Color { red, black };
 	static void getInfoFromName(const std::string& name, Type& type, Color& color, int& number);
 	Type type;
 	Color color;
@@ -233,13 +240,13 @@ public:
 class Deck : public Texture
 {
 public:
-	Deck(std::string name, Point center, GameView* gView, SDL_Texture* texture, int width, int height, int spacing=20) : Texture(name, center, { 0,0 }, gView, texture, { 0,0 }, width, height), generator(*gView), spacing(spacing)
+	Deck(std::string name, Point center, GameView* gView, SDL_Texture* texture, int width, int height, CardGenerator& generator, int spacing = 20 ) : Texture(name, center, { 0,0 }, gView, texture, { 0,0 }, width, height), generator(generator), spacing(spacing), currPos(center)
 	{
-		currPos = center;
+
 	}
 	std::shared_ptr<Card> genCard(const Point& startPt) { return generator.genCard(startPt); }
-	std::shared_ptr<Card> genCard() 
-	{ 
+	std::shared_ptr<Card> genCard()
+	{
 		currPos += Point{ gView->getDefaultCardSize().x + spacing,0 };
 		return generator.genCard(currPos);
 	}
@@ -247,4 +254,26 @@ private:
 	CardGenerator generator;
 	int spacing;
 	Point currPos;
+};
+
+class Stack : public Texture
+{
+public:
+	Stack(std::string name, Point center, GameView* gView, SDL_Texture* texture, int width, int height, int spacing = 35) : Texture(name, center, { 0,0 }, gView, texture, { 0,0 }, width, height), spacing(spacing)
+	{
+	}
+
+	auto getOpenCards()
+	{
+		return std::make_shared<std::vector<std::shared_ptr<Card>>>(openCards);
+	}
+
+	bool addCards(const std::vector<std::shared_ptr<Card>>& cardsToAdd);
+
+	virtual void next();
+	virtual void draw();
+private:
+	std::vector<std::shared_ptr<Card>> cards;
+	std::vector<std::shared_ptr<Card>> openCards;
+	int spacing;
 };
