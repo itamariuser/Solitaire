@@ -58,7 +58,7 @@ private:
 	const Point defaultCardSize;
 	void putRandomCardAt(const Point& pt);
 	int latestPriority;
-	
+	bool collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2);
 
 	//simple rendering
 public:

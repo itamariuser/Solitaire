@@ -264,7 +264,3 @@ void Text::updateTexture()
 		 }
 	 }
  }
- void Stack::draw()
- {
-	 next();
- }

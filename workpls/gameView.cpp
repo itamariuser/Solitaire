@@ -352,3 +352,8 @@ void GameView::renderImage(const std::string& imagePath, const Shapes::Rect* con
 	auto texture = getTexture(imagePath);
 	renderImage(texture.get(), rect);
 }
+
+bool GameView::collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2)
+{
+	return g1->getRenderRect().contains(g2->center) || g2->getRenderRect().contains(g1->center);
+}

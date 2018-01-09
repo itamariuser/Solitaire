@@ -271,7 +271,6 @@ public:
 	bool addCards(const std::vector<std::shared_ptr<Card>>& cardsToAdd);
 
 	virtual void next();
-	virtual void draw();
 private:
 	std::vector<std::shared_ptr<Card>> cards;
 	std::vector<std::shared_ptr<Card>> openCards;
