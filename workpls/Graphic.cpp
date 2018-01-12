@@ -238,15 +238,15 @@ void Text::updateTexture()
 	 auto topCard = openCards.back();
 	 if (cardsToAdd.empty() || !Card::canPutOnTop(*topCard, *cardsToAdd.back())) return false;
 
-
-
 	 return true;
  }
 
  void Stack::next()
  {
 	 auto distance = 0;
-	 for (auto itr = cards.begin(); itr != cards.end(); ++itr, ++distance)
+	 auto highestPriority = 11;
+	 auto prio = highestPriority + cards.size();
+	 for (auto itr = cards.begin(); itr != cards.end(); ++itr, ++distance, --prio)
 	 {
 		 auto card = *itr;
 		 if (gView->isFollowingMouse(card))
@@ -261,6 +261,7 @@ void Text::updateTexture()
 		 {
 			 auto offset = this->getCenter().y + (distance *  spacing);
 			 card->setCenter({this->getCenter().x , offset});
+			 gView->getDrawPriorities()[card] = prio;
 		 }
 	 }
  }

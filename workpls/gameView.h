@@ -43,6 +43,7 @@ public:
 	auto getLoadedCards() const { return std::make_shared<const std::unordered_map <std::string, std::shared_ptr<SDL_Texture>>>(loadedCards); };
 	Point getDefaultCardSize() const { return defaultCardSize; }
 	bool isFollowingMouse(std::shared_ptr<Texture> texture);
+	auto getDrawPriorities() const { return drawPriorities; }
 private:
 	std::unordered_map<std::string, std::shared_ptr<Graphic>> objects;
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
@@ -59,6 +60,7 @@ private:
 	void putRandomCardAt(const Point& pt);
 	int latestPriority;
 	bool collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2);
+	
 
 	//simple rendering
 public:
