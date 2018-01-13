@@ -49,9 +49,14 @@ void GameView::loadAssets()
 
 void GameView::init_objects()
 {
-	auto card0 = std::shared_ptr<Card>(new Card(std::string("king_of_spades"), { 0,0 }, { 0,0 }, this, getTexture("king_of_spades.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
-	auto card1 = std::shared_ptr<Card>(new Card(std::string("queen_of_hearts"), { 0,0 }, { 0,0 }, this, getTexture("queen_of_hearts.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
-	auto card2 = std::shared_ptr<Card>(new Card(std::string("jack_of_clubs"), { 0,0 }, { 0,0 }, this, getTexture("jack_of_clubs.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
+	auto card0 = std::shared_ptr<Card>(new Card(std::string("king_of_spades"), { 30,280 }, { 0,0 }, this, getTexture("king_of_spades.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
+	auto card1 = std::shared_ptr<Card>(new Card(std::string("queen_of_hearts"), {}, { 0,0 }, this, getTexture("queen_of_hearts.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
+	
+	auto card2 = std::shared_ptr<Card>(new Card(std::string("jack_of_clubs"), {}, { 0,0 }, this, getTexture("jack_of_clubs.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
+	card0->addCard(card1);
+	card0->addCard(card2);
+	
+	
 	std::vector<std::shared_ptr<Card>> cards{ card0, card1, card2 };
 	addTexture(card0, 12, true);
 	addTexture(card1, 11, true);
@@ -61,7 +66,7 @@ void GameView::init_objects()
 	CardGenerator generator(*this);
 	addTexture(std::shared_ptr<Deck>(new Deck("deck", { 150,60 }, this, getTexture("king_of_spades.png").get(), defaultCardSize.x, defaultCardSize.y, generator, 10)), 12);
 	auto stack = new Stack("stack0", { 30,280 }, this, nullptr, defaultCardSize.x, defaultCardSize.y);
-	stack->addCards(cards);
+	//stack->addCards(cards);
 	addTexture(std::shared_ptr<Stack>(stack),20);
 
 	/*putRandomCardAt({ 500,500 }); putRandomCardAt({ 500,500 });
@@ -221,6 +226,22 @@ void GameView::handleMouseEvents(SDL_Event& e)
 
 void GameView::handleMouseDown(Point clickPos)
 {
+	////TODO: call appropriate object's button down function
+	//isMouseDown = true;
+	//int bestPriority = INT_MAX;
+	//std::string bestPriorityName;
+	//for (auto pair : textures)
+	//{
+	//	auto sec = *(pair.second);
+	//	if (pair.second->getRenderRect().contains(lastMousePos) && drawPriorities[pair.second] <= bestPriority)
+	//	{
+	//		//followingMouse.insert(pair.first);
+	//		bestPriority = drawPriorities[pair.second];
+	//		bestPriorityName = pair.first;
+	//	}
+	//}
+	//followingMouse.insert(bestPriorityName);
+
 	//TODO: call appropriate object's button down function
 	isMouseDown = true;
 	int bestPriority = INT_MAX;
@@ -228,14 +249,14 @@ void GameView::handleMouseDown(Point clickPos)
 	for (auto pair : textures)
 	{
 		auto sec = *(pair.second);
-		if (pair.second->getRenderRect().contains(lastMousePos) && drawPriorities[pair.second] <= bestPriority)
+		if (pair.second->getRenderRect().contains(lastMousePos))// && drawPriorities[pair.second] <= bestPriority)
 		{
-			//followingMouse.insert(pair.first);
-			bestPriority = drawPriorities[pair.second];
-			bestPriorityName = pair.first;
+			followingMouse.insert(pair.first);
+			/*bestPriority = drawPriorities[pair.second];
+			bestPriorityName = pair.first;*/
 		}
 	}
-	followingMouse.insert(bestPriorityName);
+	//followingMouse.insert(bestPriorityName);
 }
 
 void GameView::handleMouseUp(Point clickPos)

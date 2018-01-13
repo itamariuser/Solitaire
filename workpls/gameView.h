@@ -60,7 +60,7 @@ private:
 	void putRandomCardAt(const Point& pt);
 	int latestPriority;
 	bool collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2);
-	
+	//std::shared_ptr<Texture> 
 
 	//simple rendering
 public:

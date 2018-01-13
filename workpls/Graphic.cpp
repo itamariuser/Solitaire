@@ -103,29 +103,29 @@ void Texture::next()
 	if (center.x + renderRect.w > gView->window.getDimensions().x)
 	{
 		center.x = gView->window.getDimensions().x - 1 - renderRect.w;
-		flipSpeedX();
-		stopSizeSpeedBoth();
+		//flipSpeedX();
+		//stopSizeSpeedBoth();
 	}
 
 	else if (center.x < 0)
 	{
 		center.x = 1;
-		flipSpeedX();
-		stopSizeSpeedBoth();
+		/*flipSpeedX();
+		stopSizeSpeedBoth();*/
 	}
 
 	if (center.y + renderRect.h > gView->window.getDimensions().y)
 	{
 		center.y = gView->window.getDimensions().y - 1 - renderRect.h;
-		flipSpeedY();
-		stopSizeSpeedBoth();
+		/*flipSpeedY();
+		stopSizeSpeedBoth();*/
 	}
 
 	else if (center.y < 0)
 	{
 		center.y = 1;
-		flipSpeedY();
-		stopSizeSpeedBoth();
+		/*flipSpeedY();
+		stopSizeSpeedBoth();*/
 	}
 
 	renderRect.w += sizeSpeed.x;
@@ -224,7 +224,45 @@ void Text::updateTexture()
 
  bool Card::canPutOnTop(const Card& existing, const Card& wantToPut)
  {
-	 return (existing.color != wantToPut.color && existing.number > wantToPut.number);
+	 return (existing.color != wantToPut.color && existing.number == wantToPut.number + 1);
+ }
+
+ void Card::next()
+ {
+	 Texture::next();
+	 if (!gView->isFollowingMouse(std::make_shared<Texture>(*this)))
+	 {
+		 isRest ? lastRestPoint = center : center = lastRestPoint;
+	 }
+	 setResting(false);
+
+	 auto putPoint = center;
+	 for (auto& card : cardsHolding)
+	 {
+		 putPoint.y += spacing;
+		 card->center = putPoint;
+	 }
+
+ }
+
+ bool Card::addCard(const std::shared_ptr<Card>& cardToAdd)
+ {
+	 if (!cardToAdd.get())
+		 return false;
+
+	 if (cardsHolding.empty())
+	 {
+		 if (!canPutOnTop(*this, *cardToAdd))
+			 return false;
+	 }
+	 else
+	 {
+		 if (!canPutOnTop(*cardsHolding.back(), *cardToAdd))
+			 return false;
+	 }
+
+	 cardsHolding.push_back(cardToAdd);
+	 return true;
  }
 
  bool Stack::addCards(const std::vector<std::shared_ptr<Card>>& cardsToAdd)
@@ -245,7 +283,7 @@ void Text::updateTexture()
  {
 	 auto distance = 0;
 	 auto highestPriority = 11;
-	 auto prio = highestPriority + cards.size();
+	 auto prio = highestPriority + cards.size();//65 255
 	 for (auto itr = cards.begin(); itr != cards.end(); ++itr, ++distance, --prio)
 	 {
 		 auto card = *itr;
@@ -261,6 +299,7 @@ void Text::updateTexture()
 		 {
 			 auto offset = this->getCenter().y + (distance *  spacing);
 			 card->setCenter({this->getCenter().x , offset});
+			 card->setResting(true);
 			 gView->getDrawPriorities()[card] = prio;
 		 }
 	 }

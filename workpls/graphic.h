@@ -181,21 +181,28 @@ class Card : public Texture
 {
 public:
 	Card(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, int width = -1, int height = -1)
-		: Texture(name, center, speed, gView, texture, sizeSpeed, width, height)
+		: Texture(name, center, speed, gView, texture, sizeSpeed, width, height), isRest(false), lastRestPoint(center), spacing(40)
 	{
 		getInfoFromName(name, type, color, number);
 	}
 
-	virtual ~Card() { };
-	
-	int number;
+	bool addCard(const std::shared_ptr<Card>& cardToAdd);
+	void setResting(const bool& isResting) { isRest = isResting; }
+	bool isResting() const { return isRest; }
 	static bool canPutOnTop(const Card& existing, const Card& wantToPut);
+	virtual void next();
+	virtual ~Card() { };
 protected:
 	enum Type { clubs, diamonds, hearts, spades };
 	enum Color { red, black };
 	static void getInfoFromName(const std::string& name, Type& type, Color& color, int& number);
+	int number;
 	Type type;
 	Color color;
+	std::vector<std::shared_ptr<Card>> cardsHolding;
+	bool isRest;
+	Point lastRestPoint;
+	int spacing;
 };
 
 class Text : public Texture
@@ -255,6 +262,13 @@ private:
 	int spacing;
 	Point currPos;
 };
+//template<class T>
+//class Container
+//{
+//
+//protected:
+//	std::vector<std::shared_ptr<T>> container;
+//};
 
 class Stack : public Texture
 {
