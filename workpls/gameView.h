@@ -37,9 +37,9 @@ private:
 	//graphic objects handling
 public:
 	void addTexture(const std::shared_ptr<Texture> const gp, int priority = 10, bool shouldFollowMs = false);
-	void removeTexture(const std::string& name);
+	auto removeTexture(const std::string& name);
 	void addGraphic(const std::shared_ptr<Graphic> const gp);
-	void removeGraphic(const std::string& name);
+	auto removeGraphic(const std::string& name);
 	auto getLoadedCards() const { return std::make_shared<const std::unordered_map <std::string, std::shared_ptr<SDL_Texture>>>(loadedCards); };
 	Point getDefaultCardSize() const { return defaultCardSize; }
 	bool isFollowingMouse(std::shared_ptr<Texture> texture);
@@ -60,7 +60,7 @@ private:
 	void putRandomCardAt(const Point& pt);
 	int latestPriority;
 	bool collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2);
-	//std::shared_ptr<Texture> 
+	void handleDestroyObjects();
 
 	//simple rendering
 public:
@@ -68,6 +68,8 @@ public:
 	ClassRenderer ren;
 	Color backgroundColor;
 	Color brushColor;
+private:
+	void playClickAnimation(const Point& atPoint);
 	
 	//image, handling, loading and rendering
 public:
@@ -106,6 +108,10 @@ private:
 	std::unordered_map<std::string, TTF_Font*> loadedFonts;
 	void loadFonts();
 
+
+	//debug
+private:
+	std::shared_ptr<Text> debugText;
 };
 
 

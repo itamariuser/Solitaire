@@ -9,13 +9,14 @@
 #include <filesystem>
 #include <vcruntime_exception.h>
 #include "ResourceLoader.h"
-
+#include "CardsRendering.h"
 
 void GameView::mainLoop()
 {
 	//init_objects();
 	while (loopCondition())
 	{
+		handleDestroyObjects();
 		ren.clear();
 		handleInput();
 		sortDrawPriorities();
@@ -61,7 +62,8 @@ void GameView::init_objects()
 	addTexture(card0, 12, true);
 	addTexture(card1, 11, true);
 	addTexture(card2, 10, true);
-	addTexture(std::shared_ptr<Text>(new Text("debugText", { 700,100 }, { 0,0 }, this, "arial.ttf", { 0,200,0,0 }, { 0,0 }, "DEBUG TEXT", 160, 100)), 0);
+	debugText = std::shared_ptr<Text>(new Text("debugText", { 700,100 }, { 0,0 }, this, "arial.ttf", { 0,200,0,0 }, { 0,0 }, "DEBUG TEXT", 160, 100));
+	addTexture(debugText, 0);
 
 	CardGenerator generator(*this);
 	addTexture(std::shared_ptr<Deck>(new Deck("deck", { 150,60 }, this, getTexture("king_of_spades.png").get(), defaultCardSize.x, defaultCardSize.y, generator, 10)), 12);
@@ -73,7 +75,6 @@ void GameView::init_objects()
 	putRandomCardAt({ 100,500 });*/
 	//addTexture("helloText1", new ColorSwitchText(Text({ window.getDimensions().x - 160,1 }, { -6,2 }, this, "arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"), { 1, 3, 6, 0 }),11, false);
 }
-
 
 
 void GameView::sortDrawPriorities()
@@ -141,22 +142,39 @@ void GameView::addTexture(const std::shared_ptr<Texture> const gp, int priority,
 	drawOrder.push_back(gp);
 }
 
-void GameView::removeGraphic(const std::string& name)
+auto GameView::removeGraphic(const std::string& name)
 {
-	objects.erase(name);
+	auto itr = objects.find(name);
+	return objects.erase(itr);
 }
 
-void GameView::removeTexture(const std::string& name)
+auto GameView::removeTexture(const std::string& name)
 {
-	auto itr = std::find(drawOrder.begin(), drawOrder.end(), getObject(name));
+	auto textr = textures[name];
+	auto itr = std::find(drawOrder.begin(), drawOrder.end(), textr);
 	drawOrder.erase(itr);
-	drawPriorities.erase(getObject(name));
-
-	textures.erase(name);
-	removeGraphic(name);
+	drawPriorities.erase(textr);
+	auto textrItr = textures.find(name);
+	
+	
+	return textures.erase(textrItr);
 }
 
-
+void GameView::handleDestroyObjects()
+{
+	for (auto itr = objects.begin(); itr != objects.end(); ++itr)
+	{
+		auto graphic = *itr;
+		auto name = graphic.first;
+		if (graphic.second->getShouldBeDestroyed())
+		{
+			itr = removeGraphic(name);
+			removeTexture(name);
+			graphic.second.reset();
+			continue;
+		}
+	}
+}
 
 void GameView::displayOpeningScreen()
 {
@@ -256,6 +274,7 @@ void GameView::handleMouseDown(Point clickPos)
 			bestPriorityName = pair.first;*/
 		}
 	}
+	playClickAnimation(lastMousePos);
 	//followingMouse.insert(bestPriorityName);
 }
 
@@ -377,4 +396,13 @@ void GameView::renderImage(const std::string& imagePath, const Shapes::Rect* con
 bool GameView::collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2)
 {
 	return g1->getRenderRect().contains(g2->center) || g2->getRenderRect().contains(g1->center);
+}
+
+void GameView::playClickAnimation(const Point& atPoint)
+{
+	static int times = 0;
+	auto animation = std::make_shared<ClickAnimation>(ClickAnimation("clickAnimation_"+std::to_string(times),atPoint, { 255,0,0,0 }, 3,25, this));
+	addTexture(animation,0);
+	//debugText->setText(std::string("CLICK: x: ") + std::to_string(atPoint.x) + std::string(", y: ") + std::to_string(atPoint.y));
+
 }

@@ -153,154 +153,54 @@ void Text::updateTexture()
 	}
 }
 
+void ColorSwitchText::next()
+{
+	Text::next();
+	setColor(color + colorSpeed);
+}
 
- void ColorSwitchText::next()
- {
-	 Text::next();
-	 setColor(color + colorSpeed);
- }
+void ClickAnimation::next()
+{
 
- void Card::getInfoFromName(const std::string& name, Type& type, Color& color, int& number)
- {
-	auto token = strtok(const_cast<char*>(name.c_str()), "_");
-	std::vector<std::string> attributes;
-	//split into tokens and put into attributes
-	while (token)
-	{
-		attributes.push_back(token);
-		token = strtok(nullptr, "_");
-	}
-	if (attributes.size() < 3)
-		throw std::exception("Card name not in format : \"[number]_of_[type] \"");
+}
 
-	// check card's number
-	auto firstChar = attributes[0][0];
-	if (attributes[0] == "10")
-	{
-		//handle 2 digit number
-		number = 10;
-	}
-	else if (firstChar> '9' || firstChar < '1')
-	{
-		//card's number is royal / ace
-		auto royalNumber = attributes[0];
-		std::transform(royalNumber.begin(), royalNumber.end(), royalNumber.begin(), ::tolower); // tolower(royalNumber)
-		if (royalNumber == "jack")
-			number = 11;
-		else if (royalNumber == "queen")
-			number = 12;
-		else if (royalNumber == "king")
-			number = 13;
-		else //if (royalNumber == "ace")
-			number = 1;
-	}
+void ClickAnimation::draw(Color c)
+{
+	next();
+	gView->brushColor = this->color;
+	if (!stop_upper_right)
+		upper_right += {length, -length};
 	else
-	{
-		//card's number is normal
-		number = firstChar - '0';
-	}
+		upper_right_start += {length, -length};
+	if (upper_right_start == upper_right)
+		shouldBeDestroyed = true;
+	
+	auto yDist = abs(center.y - upper_right.y);
+	auto xDist = abs(center.x - upper_right.x);
 
-	//check card's type
-	auto typeToken = attributes[2];
-	color = black;
 
-	if (typeToken == "diamonds")
-	{
-		type = diamonds;
-		color = red;
-	}
-	else if (typeToken == "hearts")
-	{
-		type = hearts;
-		color = red;
-	}
-	else if (typeToken == "clubs")
-		type = clubs;
-	else //if (typeToken == "spades")
-	{
-		type = spades;
-	}
- }
+	upper_left = { center.x - xDist, center.y - yDist };
 
- bool Card::canPutOnTop(const Card& existing, const Card& wantToPut)
- {
-	 return (existing.color != wantToPut.color && existing.number == wantToPut.number + 1);
- }
+	middle_right = { center.x + int(xDist*1.2), center.y };
+	middle_left = { center.x - int(xDist*1.2), center.y };
 
- void Card::next()
- {
-	 Texture::next();
-	 if (!gView->isFollowingMouse(std::make_shared<Texture>(*this)))
-	 {
-		 isRest ? lastRestPoint = center : center = lastRestPoint;
-	 }
-	 setResting(false);
+	lower_right = { center.x + xDist, center.y + yDist };
+	lower_left = { center.x - xDist, center.y + yDist };
 
-	 auto putPoint = center;
-	 for (auto& card : cardsHolding)
-	 {
-		 putPoint.y += spacing;
-		 card->center = putPoint;
-	 }
+	up = { center.x, center.y - int(yDist*1.2) };
+	down = { center.x, center.y + int(yDist*1.2) };
 
- }
+	gView->renderLineColored(lower_right_start, lower_right);//lower_right
+	gView->renderLineColored(lower_left_start, lower_left);//lower_left
 
- bool Card::addCard(const std::shared_ptr<Card>& cardToAdd)
- {
-	 if (!cardToAdd.get())
-		 return false;
+	gView->renderLineColored(upper_right_start, upper_right);//upper_right
+	gView->renderLineColored(upper_left_start, upper_left);//upper_left
 
-	 if (cardsHolding.empty())
-	 {
-		 if (!canPutOnTop(*this, *cardToAdd))
-			 return false;
-	 }
-	 else
-	 {
-		 if (!canPutOnTop(*cardsHolding.back(), *cardToAdd))
-			 return false;
-	 }
+	gView->renderLineColored(down_start, down);//down
+	gView->renderLineColored(up_start, up);//up
 
-	 cardsHolding.push_back(cardToAdd);
-	 return true;
- }
-
- bool Stack::addCards(const std::vector<std::shared_ptr<Card>>& cardsToAdd)
- {
-	 if (cards.empty() && openCards.empty())
-	 {
-		 cards.insert(cards.begin(), cardsToAdd.begin(), cardsToAdd.end());
-		 openCards.insert(openCards.begin(), cardsToAdd.begin(), cardsToAdd.end());
-		 return true;
-	 }
-	 auto topCard = openCards.back();
-	 if (cardsToAdd.empty() || !Card::canPutOnTop(*topCard, *cardsToAdd.back())) return false;
-
-	 return true;
- }
-
- void Stack::next()
- {
-	 auto distance = 0;
-	 auto highestPriority = 11;
-	 auto prio = highestPriority + cards.size();//65 255
-	 for (auto itr = cards.begin(); itr != cards.end(); ++itr, ++distance, --prio)
-	 {
-		 auto card = *itr;
-		 if (gView->isFollowingMouse(card))
-		 {
-			 //remove card from both openCards and cards
-			 openCards.erase(openCards.begin() + distance);
-			 itr = cards.erase(itr);
-			 if (itr == cards.end()) break;
-			 continue;
-		 }
-		 else
-		 {
-			 auto offset = this->getCenter().y + (distance *  spacing);
-			 card->setCenter({this->getCenter().x , offset});
-			 card->setResting(true);
-			 gView->getDrawPriorities()[card] = prio;
-		 }
-	 }
- }
+	gView->renderLineColored(middle_left_start, middle_left);//left
+	gView->renderLineColored(middle_right_start, middle_right);//right
+	if (timesLeft-- <= 0)
+		stop_upper_right = true;
+}

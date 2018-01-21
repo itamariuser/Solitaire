@@ -16,7 +16,7 @@ public:
 	GameView* gView;
 	float mass;
 
-	Graphic(std::string name, Point center, Point speed, GameView* gView, float mass = 1.0, Color c = { 255,0,0,0 }, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible), name(name), color(c), updateDraw(true) {}
+	Graphic(std::string name, Point center, Point speed, GameView* gView, float mass = 1.0, Color c = { 255,0,0,0 }, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible), name(name), color(c), updateDraw(true), shouldBeDestroyed(false) {}
 
 	virtual void draw(Color c = { 0,0,0,0 }) = 0;
 
@@ -34,7 +34,7 @@ public:
 	bool isVisible() const { return visible; }
 	void setVisible(const bool& isVisible) { visible = isVisible; }
 	void setUpdateDraw() { updateDraw = true; }
-
+	bool getShouldBeDestroyed() const { return shouldBeDestroyed; }
 	virtual ~Graphic() = 0;
 protected:
 	Point center;
@@ -47,6 +47,7 @@ protected:
 	Color color;
 	bool updateDraw;
 	bool visible;
+	bool shouldBeDestroyed;
 };
 
 
@@ -129,7 +130,7 @@ private:
 class Texture : public Graphic
 {
 public:
-	Texture(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, int width = -1, int height = -1) :Graphic(name, center, speed, gView), sdlTexture(texture), renderRect(0, 0, 0, 0), sizeSpeed(sizeSpeed)
+	Texture(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture = nullptr, Point sizeSpeed = { 0,0 }, int width = -1, int height = -1) :Graphic(name, center, speed, gView), sdlTexture(texture), renderRect(0, 0, 0, 0), sizeSpeed(sizeSpeed)
 	{
 		if (width == -1 && height == -1)
 		{
@@ -177,34 +178,6 @@ protected:
 	virtual void stopSizeSpeedBoth() { stopSizeSpeedX(); stopSizeSpeedY(); }
 };
 
-class Card : public Texture
-{
-public:
-	Card(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture, Point sizeSpeed, int width = -1, int height = -1)
-		: Texture(name, center, speed, gView, texture, sizeSpeed, width, height), isRest(false), lastRestPoint(center), spacing(40)
-	{
-		getInfoFromName(name, type, color, number);
-	}
-
-	bool addCard(const std::shared_ptr<Card>& cardToAdd);
-	void setResting(const bool& isResting) { isRest = isResting; }
-	bool isResting() const { return isRest; }
-	static bool canPutOnTop(const Card& existing, const Card& wantToPut);
-	virtual void next();
-	virtual ~Card() { };
-protected:
-	enum Type { clubs, diamonds, hearts, spades };
-	enum Color { red, black };
-	static void getInfoFromName(const std::string& name, Type& type, Color& color, int& number);
-	int number;
-	Type type;
-	Color color;
-	std::vector<std::shared_ptr<Card>> cardsHolding;
-	bool isRest;
-	Point lastRestPoint;
-	int spacing;
-};
-
 class Text : public Texture
 {
 public:
@@ -244,49 +217,54 @@ public:
 	virtual void next();
 };
 
-class Deck : public Texture
+class ClickAnimation : public Texture
 {
 public:
-	Deck(std::string name, Point center, GameView* gView, SDL_Texture* texture, int width, int height, CardGenerator& generator, int spacing = 20 ) : Texture(name, center, { 0,0 }, gView, texture, { 0,0 }, width, height), generator(generator), spacing(spacing), currPos(center)
+	ClickAnimation(const std::string& name, const Point& center, const Color& drawColor, int length, int times, GameView* gView) : Texture(name, center, { 0,0 },gView),
+		length(length), timesLeft(times),stop_upper_right(false),
+		upper_right_start(center), upper_right(center),
+		upper_left_start(center), upper_left(center),
+
+		middle_right_start(center), middle_right(center),
+		middle_left_start(center), middle_left(center),
+
+		lower_right_start(center), lower_right(center),
+		lower_left_start(center), lower_left(center),
+
+		up_start(center), up(center),
+		down_start(center), down(center)
 	{
-
+		color = drawColor;
 	}
-	std::shared_ptr<Card> genCard(const Point& startPt) { return generator.genCard(startPt); }
-	std::shared_ptr<Card> genCard()
-	{
-		currPos += Point{ gView->getDefaultCardSize().x + spacing,0 };
-		return generator.genCard(currPos);
-	}
-private:
-	CardGenerator generator;
-	int spacing;
-	Point currPos;
-};
-//template<class T>
-//class Container
-//{
-//
-//protected:
-//	std::vector<std::shared_ptr<T>> container;
-//};
-
-class Stack : public Texture
-{
-public:
-	Stack(std::string name, Point center, GameView* gView, SDL_Texture* texture, int width, int height, int spacing = 35) : Texture(name, center, { 0,0 }, gView, texture, { 0,0 }, width, height), spacing(spacing)
-	{
-	}
-
-	auto getOpenCards()
-	{
-		return std::make_shared<std::vector<std::shared_ptr<Card>>>(openCards);
-	}
-
-	bool addCards(const std::vector<std::shared_ptr<Card>>& cardsToAdd);
-
+	virtual void draw(Color c = { 0,0,0,0 });
 	virtual void next();
+
 private:
-	std::vector<std::shared_ptr<Card>> cards;
-	std::vector<std::shared_ptr<Card>> openCards;
-	int spacing;
+	Point upper_right_start;
+	Point upper_right;
+
+	Point upper_left_start;
+	Point upper_left;
+	
+	Point middle_right_start;
+	Point middle_right;
+
+	Point middle_left_start;
+	Point middle_left;
+
+	Point lower_right_start;
+	Point lower_right;
+
+	Point lower_left_start;
+	Point lower_left;
+
+	Point up_start;
+	Point up;
+	
+	Point down_start;
+	Point down;
+
+	int length;
+	int timesLeft;
+	bool stop_upper_right;
 };

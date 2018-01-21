@@ -1,8 +1,7 @@
 #include "CardGenerator.h"
 #include <chrono>
 #include <random>
-#include "Graphic.h"
-
+#include "CardsRendering.h"
 CardGenerator::CardGenerator(GameView& gView) : view(&gView)
 {
 	shuffleCards();
