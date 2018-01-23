@@ -36,13 +36,14 @@ void ClassRenderer::present()
 	SDL_RenderPresent(renderer);
 }
 
-bool ClassRenderer::renderLineColored(const Point& start, const Point& end, const Color& c)
+bool ClassRenderer::renderLineColored(const Point& start, const Point& end, const Color& c, int thickness)
 {
 	Color oldColor = getRenderColor();
 	
 	setRenderColor(c);
 	// Draw a line 
 	//--- 
+	//while(thickness)
 	int ret =
 		SDL_RenderDrawLine(
 			renderer,

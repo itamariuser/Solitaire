@@ -162,7 +162,7 @@ auto GameView::removeTexture(const std::string& name)
 
 void GameView::handleDestroyObjects()
 {
-	for (auto itr = objects.begin(); itr != objects.end(); ++itr)
+	for (auto itr = objects.begin(); itr != objects.end();)
 	{
 		auto graphic = *itr;
 		auto name = graphic.first;
@@ -173,6 +173,8 @@ void GameView::handleDestroyObjects()
 			graphic.second.reset();
 			continue;
 		}
+		else
+			++itr;
 	}
 }
 
@@ -367,9 +369,9 @@ void GameView::renderText(Text& text)
 	ren.setRenderColor(oldColor);
 }
 
-bool GameView::renderLineColored(const Point& start, const Point& end)
+bool GameView::renderLineColored(const Point& start, const Point& end, int thickness)
 {
-	return ren.renderLineColored(start, end, brushColor);
+	return ren.renderLineColored(start, end, brushColor, thickness);
 }
 
 std::shared_ptr<SDL_Texture> GameView::getTexture(const std::string& imagePath)
@@ -401,7 +403,7 @@ bool GameView::collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2)
 void GameView::playClickAnimation(const Point& atPoint)
 {
 	static int times = 0;
-	auto animation = std::make_shared<ClickAnimation>(ClickAnimation("clickAnimation_"+std::to_string(times),atPoint, { 255,0,0,0 }, 3,25, this));
+	auto animation = std::make_shared<ClickAnimation>(ClickAnimation("clickAnimation_"+std::to_string(times++),atPoint, { 255,0,0,0 }, 2,4, this));
 	addTexture(animation,0);
 	//debugText->setText(std::string("CLICK: x: ") + std::to_string(atPoint.x) + std::string(", y: ") + std::to_string(atPoint.y));
 

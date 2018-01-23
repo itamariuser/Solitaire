@@ -166,41 +166,57 @@ void ClickAnimation::next()
 
 void ClickAnimation::draw(Color c)
 {
-	next();
-	gView->brushColor = this->color;
-	if (!stop_upper_right)
-		upper_right += {length, -length};
-	else
-		upper_right_start += {length, -length};
-	if (upper_right_start == upper_right)
-		shouldBeDestroyed = true;
-	
-	auto yDist = abs(center.y - upper_right.y);
-	auto xDist = abs(center.x - upper_right.x);
+	if (!shouldBeDestroyed)
+	{
+		next();
+		gView->brushColor = this->color;
+		auto yDist = abs(center.y - upper_right.y);
+		auto xDist = abs(center.x - upper_right.x);
+		static int length = this->length *1.2;
+		if (!stop_upper_right)
+		{
+			upper_right += {length, -length};
+			upper_left = { center.x - xDist, center.y - yDist };
 
+			middle_right = { center.x + int(xDist*1.2), center.y };
+			middle_left = { center.x - int(xDist*1.2), center.y };
 
-	upper_left = { center.x - xDist, center.y - yDist };
+			lower_right = { center.x + xDist, center.y + yDist };
+			lower_left = { center.x - xDist, center.y + yDist };
 
-	middle_right = { center.x + int(xDist*1.2), center.y };
-	middle_left = { center.x - int(xDist*1.2), center.y };
+			up = { center.x, center.y - int(yDist*1.2) };
+			down = { center.x, center.y + int(yDist*1.2) };
+		}
+		else
+		{
+			upper_right_start += {length, -length};
+			upper_left_start += {-length, -length};
 
-	lower_right = { center.x + xDist, center.y + yDist };
-	lower_left = { center.x - xDist, center.y + yDist };
+			middle_right_start += {  length, 0 };
+			middle_left_start += { -length, 0 };
 
-	up = { center.x, center.y - int(yDist*1.2) };
-	down = { center.x, center.y + int(yDist*1.2) };
+			lower_right_start += { length, length };
+			lower_left_start += { -length, length };
 
-	gView->renderLineColored(lower_right_start, lower_right);//lower_right
-	gView->renderLineColored(lower_left_start, lower_left);//lower_left
+			up_start += { 0, -length };
+			down_start += { 0, length };
+		}
+		if (upper_right_start == upper_right)
+			shouldBeDestroyed = true;
+		//SDL_RenderSetScale(gView->ren.renderer, 1.3,1.3);
+		gView->renderLineColored(lower_right_start, lower_right);//lower_right
+		gView->renderLineColored(lower_left_start, lower_left);//lower_left
 
-	gView->renderLineColored(upper_right_start, upper_right);//upper_right
-	gView->renderLineColored(upper_left_start, upper_left);//upper_left
+		gView->renderLineColored(upper_right_start, upper_right);//upper_right
+		gView->renderLineColored(upper_left_start, upper_left);//upper_left
 
-	gView->renderLineColored(down_start, down);//down
-	gView->renderLineColored(up_start, up);//up
+		gView->renderLineColored(down_start, down);//down
+		gView->renderLineColored(up_start, up);//up
 
-	gView->renderLineColored(middle_left_start, middle_left);//left
-	gView->renderLineColored(middle_right_start, middle_right);//right
-	if (timesLeft-- <= 0)
-		stop_upper_right = true;
+		gView->renderLineColored(middle_left_start, middle_left);//left
+		gView->renderLineColored(middle_right_start, middle_right);//right
+		//SDL_RenderSetScale(gView->ren.renderer, 1.0, 1.0);
+		if (timesLeft-- <= 0)
+			stop_upper_right = true;
+	}
 }

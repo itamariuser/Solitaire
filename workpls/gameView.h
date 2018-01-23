@@ -64,7 +64,7 @@ private:
 
 	//simple rendering
 public:
-	bool renderLineColored(const Point& start, const Point& end);
+	bool renderLineColored(const Point& start, const Point& end, int thickness = 1);
 	ClassRenderer ren;
 	Color backgroundColor;
 	Color brushColor;

@@ -217,7 +217,7 @@ public:
 	virtual void next();
 };
 
-class ClickAnimation : public Texture
+class ClickAnimation : public Texture// can also be fireworks!
 {
 public:
 	ClickAnimation(const std::string& name, const Point& center, const Color& drawColor, int length, int times, GameView* gView) : Texture(name, center, { 0,0 },gView),

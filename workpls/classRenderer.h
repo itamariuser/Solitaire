@@ -31,7 +31,7 @@ public:
 	void clear();
 	void present();
 
-	bool renderLineColored(const Point& start, const Point& end, const Color& c);
+	bool renderLineColored(const Point& start, const Point& end, const Color& c, int thickness = 1);
 	void renderImage(const SDL_Texture* const texture, const Shapes::Rect* const rect);
 protected:
 	Color renderColor;
