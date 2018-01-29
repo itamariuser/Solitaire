@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CardGenerator.h" />
-    <ClInclude Include="CardsRendering.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Shapes.h" />
@@ -33,7 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CardGenerator.cpp" />
-    <ClCompile Include="CardsRendering.cpp" />
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="Graphic.cpp" />

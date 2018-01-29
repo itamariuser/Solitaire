@@ -45,9 +45,6 @@
     <ClInclude Include="CardGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CardsRendering.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classRenderer.cpp">
@@ -72,9 +69,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CardGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CardsRendering.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
