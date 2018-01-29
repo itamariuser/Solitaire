@@ -1,11 +1,7 @@
 #include <SDL.h>
 #include "classRenderer.h"
-#include <SDL_image.h>
-#include <iostream>
-#include <string>
 #include "Shapes.h"
 #include "graphic.h"
-
 
 ClassRenderer::ClassRenderer(Window& win, Uint32 flags, int index) : renderColor(0,0,0,0)
 {

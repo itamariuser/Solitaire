@@ -3,10 +3,7 @@
 #include "color.h"
 #include "gameView.h"
 #include "Shapes.h"
-#include <time.h>
-#include <chrono>
-#include <random>
-#include "CardGenerator.h"
+
 class Graphic
 {
 	friend class GameView;

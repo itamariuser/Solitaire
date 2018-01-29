@@ -3,20 +3,8 @@
 #include "color.h"
 #include "point.h"
 #include "Window.h"
-
-
-	class Graphic;
-	class Line;
-	class SimpleLine;
-	class Circle;
-	class Diamond;
-	class Texture;
-	class Card;
-
-namespace Shapes {
-	class Rect;
-	class Circle;
-}
+#include "Shapes.h"
+class Texture;
 
 class ClassRenderer
 {

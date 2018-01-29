@@ -1,4 +1,7 @@
+#pragma once
 #include "Graphic.h"
+#include "CardGenerator.h"
+class CardGenerator;
 class Card : public Texture
 {
 public:

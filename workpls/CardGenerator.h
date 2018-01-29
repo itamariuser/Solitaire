@@ -1,6 +1,7 @@
 #pragma once
 #include "GameView.h"
 
+class Card;
 class CardGenerator
 {
 public:
