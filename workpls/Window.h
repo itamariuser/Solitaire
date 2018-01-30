@@ -5,7 +5,7 @@
 class Window
 {
 public:
-	Window(std::string title, Point position, Point dimensions, Uint32 flags) : title(title), position(position), dimensions(dimensions), flags(flags)
+	Window(std::string title, const Point& position, const Point& dimensions, Uint32 flags) : title(title), position(position), dimensions(dimensions), flags(flags)
 	{
 		baseWindow = SDL_CreateWindow(title.c_str(), position.x, position.y,dimensions.x,dimensions.y,flags);
 	}

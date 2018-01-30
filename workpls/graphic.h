@@ -4,16 +4,37 @@
 #include "gameView.h"
 #include "Shapes.h"
 
-class Graphic
+
+
+class Mover
+{
+public:
+	Mover(const Point& speed) : speed(speed)
+ 	{
+	}
+
+	void setSpeed(const Point& speed) { this->speed = speed; }
+	Point getSpeed() const { return speed; }
+	virtual void flipSpeedY() { speed = { speed.x,-speed.y }; }
+	virtual void flipSpeedX() { speed = { -speed.x,speed.y }; }
+	virtual void stopSpeedX() { speed = { 0,speed.y }; }
+	virtual void stopSpeedY() { speed = { speed.x,0 }; }
+	virtual ~Mover() = 0;
+protected:
+	Point speed;
+	
+};
+
+class Graphic : public Mover
 {
 	friend class GameView;
 public:
 	Point getCenter() const { return center; }
 	Point getSpeed() const { return speed; }
 	GameView* gView;
-	float mass;
+	
 
-	Graphic(std::string name, Point center, Point speed, GameView* gView, float mass = 1.0, Color c = { 255,0,0,0 }, bool visible = true) : center(center), speed(speed), gView(gView), mass(mass), visible(visible), name(name), color(c), updateDraw(true), shouldBeDestroyed(false) {}
+	Graphic(std::string name, Point center, Point speed, GameView* gView, Color c = { 255,0,0,0 }, bool visible = true) : center(center), Mover(speed), gView(gView), visible(visible), name(name), color(c), updateDraw(true), shouldBeDestroyed(false) {}
 
 	virtual void draw(Color c = { 0,0,0,0 }) = 0;
 
@@ -35,11 +56,7 @@ public:
 	virtual ~Graphic() = 0;
 protected:
 	Point center;
-	Point speed;
-	virtual void flipSpeedY() { speed = { speed.x,-speed.y }; }
-	virtual void flipSpeedX() { speed = { -speed.x,speed.y }; }
-	virtual void stopSpeedX() { speed = { 0,speed.y }; }
-	virtual void stopSpeedY() { speed = { speed.x,0 }; }
+	
 	std::string name;
 	Color color;
 	bool updateDraw;
@@ -123,18 +140,33 @@ private:
 
 };
 
-
-class Texture : public Graphic
+class SizeChanger
 {
 public:
-	Texture(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture = nullptr, Point sizeSpeed = { 0,0 }, int width = -1, int height = -1) :Graphic(name, center, speed, gView), sdlTexture(texture), renderRect(0, 0, 0, 0), sizeSpeed(sizeSpeed)
+	SizeChanger(const Point& sizeSpeed) : sizeSpeed(sizeSpeed) {}
+
+	virtual void flipSizeSpeedY() { sizeSpeed = { sizeSpeed.x,-sizeSpeed.y }; }
+	virtual void flipSizeSpeedX() { sizeSpeed = { -sizeSpeed.x,sizeSpeed.y }; }
+	virtual void stopSizeSpeedX() { sizeSpeed = { 0,sizeSpeed.y }; }
+	virtual void stopSizeSpeedY() { sizeSpeed = { sizeSpeed.x,0 }; }
+	virtual void stopSizeSpeedBoth() { stopSizeSpeedX(); stopSizeSpeedY(); }
+
+	virtual void setSizeSpeed(const Point& p) { sizeSpeed = p; }
+	Point getSizeSpeed() const { return sizeSpeed; }
+	virtual ~SizeChanger() = 0;
+	
+protected:
+	Point sizeSpeed;
+};
+
+class Texture : public Graphic , public SizeChanger
+{
+public:
+	Texture(std::string name, Point center, Point speed, GameView* gView, SDL_Texture* texture = nullptr, Point sizeSpeed = { 0,0 }, int width = -1, int height = -1) :Graphic(name, center, speed, gView), sdlTexture(texture), renderRect(0, 0, 0, 0), SizeChanger(sizeSpeed)
 	{
 		if (width == -1 && height == -1)
 		{
-			Point sizes;
-			SDL_QueryTexture(texture, nullptr, nullptr, &sizes.x, &sizes.y);
-			width = sizes.x;
-			height = sizes.y;
+			SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 		}
 		renderRect = Shapes::Rect(center.x, center.y, width, height);
 	}
@@ -147,7 +179,7 @@ public:
 	{
 		return { center.x - renderRect.w / 2 , center.y - renderRect.h / 2 };
 	}
-	inline void setCenter(const Point& centerPt)
+	void setCenter(const Point& centerPt)
 	{
 		center.x = centerPt.x - renderRect.w / 2;
 		center.y = centerPt.y - renderRect.h / 2;
@@ -164,27 +196,17 @@ public:
 
 protected:
 	Shapes::Rect renderRect;
-	Point sizeSpeed;
+	
 	mutable SDL_Surface* sdlSurface;
 	mutable SDL_Texture* sdlTexture;
 
-	virtual void flipSizeSpeedY() { sizeSpeed = { sizeSpeed.x,-sizeSpeed.y }; }
-	virtual void flipSizeSpeedX() { sizeSpeed = { -sizeSpeed.x,sizeSpeed.y }; }
-	virtual void stopSizeSpeedX() { sizeSpeed = { 0,sizeSpeed.y }; }
-	virtual void stopSizeSpeedY() { sizeSpeed = { sizeSpeed.x,0 }; }
-	virtual void stopSizeSpeedBoth() { stopSizeSpeedX(); stopSizeSpeedY(); }
+	
 };
 
 class Text : public Texture
 {
 public:
-	Text(std::string name, Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width = -1, int height = -1) :Texture(name, center, speed, gView, nullptr, sizeSpeed, width, height), text(text)
-	{
-		this->color = color;
-		font = const_cast<TTF_Font*>(gView->getFont(fontPath));
-		sdlSurface = TTF_RenderText_Solid(const_cast<TTF_Font*>(font), text, color);
-		sdlTexture = SDL_CreateTextureFromSurface(gView->ren.renderer, sdlSurface);
-	}
+	Text(std::string name, Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width = -1, int height = -1);
 
 
 	virtual void draw(Color c = { 0, 0, 0, 0 });

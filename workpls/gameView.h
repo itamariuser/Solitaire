@@ -7,19 +7,21 @@
 #include <SDL_ttf.h>
 #include <unordered_set>
 #include <memory>
-#include <set>
-#include <map>
+#include "PhysicsEngine.h"
 #include <queue>
 #include "Window.h"
 class Graphic;
 class Text;
-
+class PhysicsEngine;
+class Physical;
 class GameView
 {
 public:
 	Window window;
 	GameView(Window& window, ClassRenderer& renderer);
-	
+
+
+
 	//various control actions
 public:
 	void start(bool displayOpeningScreen = false);
@@ -40,6 +42,8 @@ public:
 	auto removeTexture(const std::string& name);
 	void addGraphic(const std::shared_ptr<Graphic> const gp);
 	auto removeGraphic(const std::string& name);
+	void addPhysical(const std::shared_ptr<Physical> const gp, int priority = 10, bool shouldFollowMs = false);
+	auto removePhysical(const std::string& name);
 	auto getLoadedCards() const { return std::make_shared<const std::unordered_map <std::string, std::shared_ptr<SDL_Texture>>>(loadedCards); };
 	Point getDefaultCardSize() const { return defaultCardSize; }
 	bool isFollowingMouse(std::shared_ptr<Texture> texture);
@@ -47,6 +51,7 @@ public:
 private:
 	std::unordered_map<std::string, std::shared_ptr<Graphic>> objects;
 	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
+	std::unordered_map<std::string, std::shared_ptr<Physical>> physicals;
 	void init_objects();
 	std::unordered_set<std::string> followingMouse;
 	std::unordered_set<std::string> shouldFollowMouse;//TODO: add priority rendering
@@ -57,9 +62,8 @@ private:
 	void changeFollow( const std::string& objectName, bool shouldFollow);
 	void drawTextures();
 	const Point defaultCardSize;
-	void putRandomCardAt(const Point& pt);
 	int latestPriority;
-	bool collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2);
+	void checkCollisions();
 	void handleDestroyObjects();
 
 	//simple rendering
@@ -107,6 +111,11 @@ public:
 private:
 	std::unordered_map<std::string, TTF_Font*> loadedFonts;
 	void loadFonts();
+
+
+	//physics handling
+private:
+	std::shared_ptr<PhysicsEngine> engine;
 
 
 	//debug

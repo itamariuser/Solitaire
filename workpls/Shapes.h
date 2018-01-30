@@ -27,5 +27,10 @@ namespace Shapes
 			return ((p.x <= x1 && p.x >= x2)
 					&& (p.y <= y1 && p.y >= y2));
 		}
+		bool collides(const Rect& other) const
+		{
+			return (center.x <= other.center.x + other.w && center.x + w >= other.center.x &&
+				center.y <= other.center.y + other.h && center.y + h >= other.center.y);
+		}
 	};
 }//

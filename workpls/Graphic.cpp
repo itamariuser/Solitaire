@@ -101,36 +101,28 @@ void Texture::next()
 	Graphic::next();
 
 	if (center.x + renderRect.w > gView->window.getDimensions().x)
-	{
 		center.x = gView->window.getDimensions().x - 1 - renderRect.w;
-		//flipSpeedX();
-		//stopSizeSpeedBoth();
-	}
 
 	else if (center.x < 0)
-	{
 		center.x = 1;
-		/*flipSpeedX();
-		stopSizeSpeedBoth();*/
-	}
 
 	if (center.y + renderRect.h > gView->window.getDimensions().y)
-	{
 		center.y = gView->window.getDimensions().y - 1 - renderRect.h;
-		/*flipSpeedY();
-		stopSizeSpeedBoth();*/
-	}
 
 	else if (center.y < 0)
-	{
 		center.y = 1;
-		/*flipSpeedY();
-		stopSizeSpeedBoth();*/
-	}
 
 	renderRect.w += sizeSpeed.x;
 	renderRect.h += sizeSpeed.y;
 	renderRect.center = center;
+}
+
+Text::Text(std::string name, Point center, Point speed, GameView* gView, const char* const fontPath, Color color, Point sizeSpeed, char* text, int width /*= -1*/, int height /*= -1*/) :Texture(name, center, speed, gView, nullptr, sizeSpeed, width, height), text(text)
+{
+	this->color = color;
+	font = const_cast<TTF_Font*>(gView->getFont(fontPath));
+	sdlSurface = TTF_RenderText_Solid(const_cast<TTF_Font*>(font), text, color);
+	sdlTexture = SDL_CreateTextureFromSurface(gView->ren.renderer, sdlSurface);
 }
 
 void Text::draw(Color c)
@@ -219,4 +211,14 @@ void ClickAnimation::draw(Color c)
 		if (timesLeft-- <= 0)
 			stop_upper_right = true;
 	}
+}
+
+SizeChanger::~SizeChanger()
+{
+
+}
+
+Mover::~Mover()
+{
+
 }

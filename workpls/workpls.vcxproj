@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CardGenerator.h" />
+    <ClInclude Include="Physical.h" />
+    <ClInclude Include="PhysicsEngine.h" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Shapes.h" />
@@ -28,17 +29,20 @@
     <ClInclude Include="GameView.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="point.h" />
+    <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CardGenerator.cpp" />
     <ClCompile Include="classRenderer.cpp" />
     <ClCompile Include="GameView.cpp" />
     <ClCompile Include="Graphic.cpp" />
+    <ClCompile Include="Physical.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="point.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6ADF23C1-127A-47AB-BD23-105FF48EDB02}</ProjectGuid>

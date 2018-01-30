@@ -28,7 +28,6 @@ public:
 				auto name = const_cast<char*>(sub.c_str());
 				auto entry = const_cast<char*>(s.c_str());
 				imagesMap[name] = ResourcePtr(loadFunction(entry));
-				int i = 0;
 			}
 		}
 	}

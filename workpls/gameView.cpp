@@ -9,16 +9,17 @@
 #include <filesystem>
 #include <vcruntime_exception.h>
 #include "ResourceLoader.h"
-#include "CardsRendering.h"
-
+#include "Physical.h"
 void GameView::mainLoop()
 {
+	//TODO: MINESWEEPER
 	//init_objects();
 	while (loopCondition())
 	{
 		handleDestroyObjects();
 		ren.clear();
 		handleInput();
+		checkCollisions();
 		sortDrawPriorities();
 		drawTextures();
 		ren.present();
@@ -50,30 +51,13 @@ void GameView::loadAssets()
 
 void GameView::init_objects()
 {
-	auto card0 = std::shared_ptr<Card>(new Card(std::string("king_of_spades"), { 30,280 }, { 0,0 }, this, getTexture("king_of_spades.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
-	auto card1 = std::shared_ptr<Card>(new Card(std::string("queen_of_hearts"), {}, { 0,0 }, this, getTexture("queen_of_hearts.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
-	
-	auto card2 = std::shared_ptr<Card>(new Card(std::string("jack_of_clubs"), {}, { 0,0 }, this, getTexture("jack_of_clubs.png").get(), { 0,0 }, defaultCardSize.x, defaultCardSize.y));
-	card0->addCard(card1);
-	card0->addCard(card2);
-	
-	
-	std::vector<std::shared_ptr<Card>> cards{ card0, card1, card2 };
-	addTexture(card0, 12, true);
-	addTexture(card1, 11, true);
-	addTexture(card2, 10, true);
-	debugText = std::shared_ptr<Text>(new Text("debugText", { 700,100 }, { 0,0 }, this, "arial.ttf", { 0,200,0,0 }, { 0,0 }, "DEBUG TEXT", 160, 100));
+	Physical p0("circle0",{100,100},{1,0},this,getTexture("king_of_clubs.png").get(),{}, getDefaultCardSize().x, getDefaultCardSize().y,1);
+	Physical p1("circle1", { 499,100 }, { -1,0 }, this, getTexture("king_of_clubs.png").get(), {}, getDefaultCardSize().x, getDefaultCardSize().y);
+	addPhysical(std::make_shared<Physical>(p0),10,true);
+	addPhysical(std::make_shared<Physical>(p1),10,true);
+	debugText = std::make_shared<Text>(Text("debugText", { 700,100 }, { 0,0 }, this, "arial.ttf", { 0,200,0,0 }, { 0,0 }, "DEBUG TEXT", 160, 100));
 	addTexture(debugText, 0);
 
-	CardGenerator generator(*this);
-	addTexture(std::shared_ptr<Deck>(new Deck("deck", { 150,60 }, this, getTexture("king_of_spades.png").get(), defaultCardSize.x, defaultCardSize.y, generator, 10)), 12);
-	auto stack = new Stack("stack0", { 30,280 }, this, nullptr, defaultCardSize.x, defaultCardSize.y);
-	//stack->addCards(cards);
-	addTexture(std::shared_ptr<Stack>(stack),20);
-
-	/*putRandomCardAt({ 500,500 }); putRandomCardAt({ 500,500 });
-	putRandomCardAt({ 100,500 });*/
-	//addTexture("helloText1", new ColorSwitchText(Text({ window.getDimensions().x - 160,1 }, { -6,2 }, this, "arial.ttf", { 255,0,0,255 }, { 2,2 }, "Solitaire!", 160, 100, "helloText1"), { 1, 3, 6, 0 }),11, false);
 }
 
 
@@ -91,11 +75,7 @@ void GameView::drawTextures()
 	}
 }
 
-void GameView::putRandomCardAt(const Point& pt)
-{
-	auto deck = std::dynamic_pointer_cast<Deck>(getObject("deck"));
-	addTexture(deck->genCard(),latestPriority,true);
-}
+
 
 GameView::GameView(Window& window, ClassRenderer& renderer) :
 	backgroundColor(0, 0, 0, 0), brushColor(0, 0, 0, 0),
@@ -160,6 +140,19 @@ auto GameView::removeTexture(const std::string& name)
 	return textures.erase(textrItr);
 }
 
+void GameView::addPhysical(const std::shared_ptr<Physical> const gp, int priority, bool shouldFollowMs)
+{
+	physicals[gp->name] = gp;
+	addTexture(gp,priority,shouldFollowMs);
+}
+
+auto GameView::removePhysical(const std::string& name)
+{
+	auto itr = physicals.find(name);
+	removeTexture(name);
+	return physicals.erase(itr);
+}
+
 void GameView::handleDestroyObjects()
 {
 	for (auto itr = objects.begin(); itr != objects.end();)
@@ -211,7 +204,11 @@ void GameView::shutdown(int retVal)
 
 void GameView::updateLastMousePos()
 {
-	SDL_GetMouseState(&lastMousePos.x, &lastMousePos.y);
+	auto *x = new int(-1), *y = new int(-1);
+	SDL_GetMouseState(x, y);
+	if(*y >= -1 && *x >= -1)
+		lastMousePos = Point(*x, *y);
+		
 }
 
 void GameView::handleInput()
@@ -297,7 +294,7 @@ void GameView::handleMouseUp(Point clickPos)
 
 void GameView::handleMouseMove()
 {
-	std::string info = "X: " + std::to_string(lastMousePos.x) + ", Y: " + std::to_string(lastMousePos.y);
+	std::string info = "X: " + std::to_string(int(lastMousePos.x)) + ", Y: " + std::to_string(int(lastMousePos.y));
 	std::dynamic_pointer_cast<Text>(getObject("debugText"))->setText(info);
 }
 
@@ -395,9 +392,27 @@ void GameView::renderImage(const std::string& imagePath, const Shapes::Rect* con
 	renderImage(texture.get(), rect);
 }
 
-bool GameView::collide(std::shared_ptr<Texture> g1, std::shared_ptr<Texture> g2)
+void GameView::checkCollisions()//std::shared_ptr<Physical> t1, std::shared_ptr<Physical> t2
 {
-	return g1->getRenderRect().contains(g2->center) || g2->getRenderRect().contains(g1->center);
+	static int i = 0;
+	if (i++ % 2 != 0)
+		return;
+	for (auto itr1 = physicals.begin(); itr1 != physicals.end(); ++itr1)
+	{
+		auto t1 = itr1->second;
+		++itr1;
+		for (auto itr2 = itr1; itr2 != physicals.end(); ++itr2)
+		{
+			auto t2 = itr2->second;
+			//auto isCollision = t1->getRenderRect().contains(t2->center) || t2->getRenderRect().contains(t1->center);
+			const auto isCollision = t1->getRenderRect().collides(t2->getRenderRect());
+			if (isCollision)
+			{
+				engine->collide(t1, t2);
+			}
+		}
+		--itr1;
+	}
 }
 
 void GameView::playClickAnimation(const Point& atPoint)

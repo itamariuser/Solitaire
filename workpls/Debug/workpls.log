@@ -1,39 +1,24 @@
-﻿  main.cpp
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(16): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(17): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
+﻿  GameView.cpp
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\window.h(10): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\shapes.h(18): warning C4244: '=': conversion from 'const float' to 'int', possible loss of data
 c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(13): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(14): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(15): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(16): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-  classRenderer.cpp
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(16): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(17): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-  MainGame.cpp
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(16): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(17): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(13): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(14): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(15): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.h(16): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.cpp(16): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.cpp(25): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.cpp(33): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.cpp(43): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.cpp(44): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\maingame.cpp(52): warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
-  GameView.cpp
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(16): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(17): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(131): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(136): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(43): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(45): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\graphic.h(75): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\graphic.h(76): warning C4244: 'argument': conversion from 'float' to 'Uint8', possible loss of data
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\graphic.h(171): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(54): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(111): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(116): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(143): warning C4114: same type qualifier used more than once
+c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(9): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  c:\users\itama\source\repos\solitaire3\solitaire\workpls\shapes.h(16): note: see reference to function template instantiation 'Point::Point<int,int>(ConvertibleToFloat0,ConvertibleToFloat1)' being compiled
+          with
+          [
+              ConvertibleToFloat0=int,
+              ConvertibleToFloat1=int
+          ]
 c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(655): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
   c:\users\itama\source\repos\solitaire3\solitaire\workpls\sdl2-2.0.7\include\sdl_render.h(128): note: see declaration of 'SDL_Texture'
   c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(451): note: see reference to function template instantiation 'void std::shared_ptr<SDL_Texture>::_Resetp<_Ux>(_Ux *)' being compiled
@@ -56,7 +41,7 @@ c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(655): warn
           [
               _Ux=SDL_Texture
           ]
-  c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(35): note: see reference to function template instantiation 'void ResourceLoader::load<SDL_Texture,std::shared_ptr<SDL_Texture>>(const std::string &,std::unordered_map<std::string,std::shared_ptr<SDL_Texture>,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &,std::function<SDL_Texture *(std::string)>)' being compiled
+  c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.cpp(36): note: see reference to function template instantiation 'void ResourceLoader::load<SDL_Texture,std::shared_ptr<SDL_Texture>>(const std::string &,std::unordered_map<std::string,std::shared_ptr<SDL_Texture>,std::hash<_Kty>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &,std::function<SDL_Texture *(std::string)>)' being compiled
           with
           [
               _Kty=std::string,
@@ -84,29 +69,5 @@ c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(153): warn
           [
               _Ux=SDL_Texture
           ]
-  CardGenerator.cpp
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(16): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(17): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\cardgenerator.cpp(26): warning C4244: '=': conversion from 'std::chrono::system_clock::rep' to 'unsigned int', possible loss of data
-  Generating Code...
-  Compiling...
-  Graphic.cpp
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(16): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(17): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\graphic.cpp(175): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  CardsRendering.cpp
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(16): warning C4244: '*=': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\point.h(17): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(39): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\gameview.h(41): warning C4114: same type qualifier used more than once
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\cardsrendering.cpp(5): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(453): note: see declaration of 'strtok'
-c:\users\itama\source\repos\solitaire3\solitaire\workpls\cardsrendering.cpp(11): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(453): note: see declaration of 'strtok'
-  Generating Code...
   workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire3\Solitaire\Debug\Solitaire.exe
   workpls.vcxproj -> C:\Users\itama\Source\Repos\Solitaire3\Solitaire\Debug\Solitaire.pdb (Full PDB)
